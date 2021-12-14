@@ -4,8 +4,7 @@ namespace SqlServer.Metrics.Provider
 {
     public class PlanCacheItem
     {
-        
-
         public ProcedureExecutionStatistics ExecutionStatistics { get; set; }
+        public string SpName { get; set; }
     }
 }

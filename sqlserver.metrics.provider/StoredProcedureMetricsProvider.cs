@@ -1,16 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SqlServer.Metrics.Provider
 {
     public class StoredProcedureMetricsProvider
     {
+        private readonly IPlanCacheRepository planCacherepository;
+
         public StoredProcedureMetricsProvider(IPlanCacheRepository planCacherepository)
         {
+            this.planCacherepository = planCacherepository;
         }
 
-        public System.Collections.Generic.List<MetricItem> Collect(DateTime dateTime, DateTime dateTime1)
+        public IEnumerable<MetricItem> Collect(DateTime from, DateTime to)
         {
-            throw new NotImplementedException();
+            var items = this.planCacherepository.GetPlanCache(from, to);
+            return items.Select(
+                p => new MetricItem()
+                {
+                    Name = $"{p.SpName}_ExecutionCount",
+                    Value = p.ExecutionStatistics.GeneralStats.ExecutionCount
+                });
         }
     }
 }
