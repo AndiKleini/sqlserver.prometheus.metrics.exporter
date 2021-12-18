@@ -19,7 +19,7 @@ namespace SqlServer.Metrics.Provider
         {
             var items = this.planCacherepository.GetPlanCache(from, to);
             return items.GroupBy(p => p.SpName)
-                .SelectMany(g => this.metricsBuilder != null ? this.metricsBuilder.Build(g) : ElapsedTimeMetrics.GetElapsedTimeMetrics(g));
+                .SelectMany(this.metricsBuilder.Build);
         }
     }
 }
