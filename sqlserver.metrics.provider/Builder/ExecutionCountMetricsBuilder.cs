@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider
+namespace Sqlserver.Metrics.Provider.Builder
 {
     public class ExecutionCountMetricsBuilder
     {

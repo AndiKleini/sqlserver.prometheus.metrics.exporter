@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Sqlserver.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;

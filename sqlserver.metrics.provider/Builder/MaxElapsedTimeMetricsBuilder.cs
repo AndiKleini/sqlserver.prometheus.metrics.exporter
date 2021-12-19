@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SqlServer.Metrics.Provider
+namespace SqlServer.Metrics.Provider.Builder
 {
     public class MaxElapsedTimeMetricsBuilder
     {

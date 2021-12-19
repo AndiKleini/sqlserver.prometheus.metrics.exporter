@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using FluentAssertions;
 using System;
 using Moq;
-using Sqlserver.Metrics.Provider;
 using System.Linq;
+using Sqlserver.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 
 namespace sqlserver.metrics.exporter.engine.tests
 {
