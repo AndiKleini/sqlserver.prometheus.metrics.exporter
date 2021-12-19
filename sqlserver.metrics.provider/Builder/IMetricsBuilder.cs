@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using SqlServer.Metrics.Provider;
 using System.Linq;
+using System.Collections.Generic;
 
-namespace SqlServer.Metrics.Provider.Builder
+namespace Sqlserver.Metrics.Provider
 {
     public interface IMetricsBuilder
     {
