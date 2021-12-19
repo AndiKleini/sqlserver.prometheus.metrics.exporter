@@ -6,7 +6,7 @@ using System;
 using Moq;
 using System.Linq;
 using Sqlserver.Metrics.Provider;
-using SqlServer.Metrics.Provider.Builder;
+using Sqlserver.Metrics.Provider.Builder;
 
 namespace sqlserver.metrics.exporter.engine.tests
 {

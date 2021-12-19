@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Sqlserver.Metrics.Provider.Builder;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SqlServer.Metrics.Provider.Builder
 {
-    public class MaxElapsedTimeMetricsBuilder
+    public class MaxElapsedTimeMetricsBuilder : IMetricsBuilder
     {
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
         {

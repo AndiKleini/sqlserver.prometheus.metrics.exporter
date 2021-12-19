@@ -1,4 +1,5 @@
 ﻿using Sqlserver.Metrics.Provider;
+using Sqlserver.Metrics.Provider.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class MinElapsedTimeMetricsBuilder
+    public class MinElapsedTimeMetricsBuilder : IMetricsBuilder
     {
         public MinElapsedTimeMetricsBuilder()
         {
