@@ -18,18 +18,14 @@ namespace SqlServer.Metrics.Provider
 
         public IEnumerable<MetricItem> Collect(DateTime from, DateTime to)
         {
-            var items = this.planCacheRepository.GetPlanCache(from, to);
-            IEnumerable<IGrouping<string, PlanCacheItem>> groupedBySpName = items.GroupBy(p => p.SpName);
-            IEnumerable<MetricItem> commonMetrics = groupedBySpName.SelectMany(metricsBuilder.Build);
-            IEnumerable<MetricItem> deltaMetrics = groupedBySpName
+            var groupedBySpName = this.planCacheRepository.GetPlanCache(from, to).GroupBy(p => p.SpName);
+            return groupedBySpName.SelectMany(metricsBuilder.Build).Concat(groupedBySpName
                             .Join(
                                 this.planCacheRepository.GetPreviousPlanCacheItems(),
                                 p => p.Key,
                                 p => p.SpName,
                                 metricsBuilder.BuildDeltas)
-                            .SelectMany(s => s);
-            return commonMetrics.Concat(deltaMetrics);
-
+                            .SelectMany(s => s));
         }
     }
 }
