@@ -65,28 +65,29 @@ namespace sqlserver.metrics.exporter.engine.tests
                         }
                     }
                 });
+            PlanCacheItem previousPlanCacheItem = new PlanCacheItem()
+            {
+                RemovedFromCacheAt = null,
+                SpName = storedProcedureName,
+                ExecutionStatistics = new ProcedureExecutionStatistics()
+                {
+                    ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime, Last = lastElapsedTime },
+                    GeneralStats = new GeneralStats() { ExecutionCount = previousExecutionCount }
+                }
+            };
             mockeryPlanCache
                 .Setup(s => s.GetPreviousPlanCacheItems())
                 .Returns(new List<PlanCacheItem>()
                 {
-                    new PlanCacheItem()
-                    {
-                        RemovedFromCacheAt =  null,
-                        SpName = storedProcedureName,
-                        ExecutionStatistics = new ProcedureExecutionStatistics()
-                        {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime, Last = lastElapsedTime },
-                            GeneralStats = new GeneralStats() { ExecutionCount = previousExecutionCount }
-                        }
-                    }
-                }); ;
+                    previousPlanCacheItem
+                });
             IPlanCacheRepository planCacherepository = mockeryPlanCache.Object;
             var mockeryCombinedMetricsBuilder = new Mock<ICombinedMetricsBuilder>();
             mockeryCombinedMetricsBuilder
                 .Setup(b => b.Build(It.IsAny<IGrouping<string, PlanCacheItem>>()))
                 .Returns(expectedItemsFromBuildMethod);
             mockeryCombinedMetricsBuilder
-                .Setup(s => s.BuildDeltas(It.IsAny<IGrouping<string, PlanCacheItem>>(), It.IsAny<PlanCacheItem>()))
+                .Setup(s => s.BuildDeltas(It.IsAny<IGrouping<string, PlanCacheItem>>(), previousPlanCacheItem))
                 .Returns(expectedItemsFromBuildDeltaMethod);
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 

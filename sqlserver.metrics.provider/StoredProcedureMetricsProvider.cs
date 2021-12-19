@@ -19,7 +19,6 @@ namespace SqlServer.Metrics.Provider
         public IEnumerable<MetricItem> Collect(DateTime from, DateTime to)
         {
             var items = this.planCacheRepository.GetPlanCache(from, to);
-
             IEnumerable<IGrouping<string, PlanCacheItem>> groupedBySpName = items.GroupBy(p => p.SpName);
             IEnumerable<MetricItem> commonMetrics = groupedBySpName.SelectMany(metricsBuilder.Build);
             IEnumerable<MetricItem> deltaMetrics = groupedBySpName
