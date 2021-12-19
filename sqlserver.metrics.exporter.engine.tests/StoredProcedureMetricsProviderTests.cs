@@ -20,7 +20,9 @@ namespace sqlserver.metrics.exporter.engine.tests
             const int maxElapsedTime = 12;
             const int minElapsedTime = 2;
             const int lastElapsedTime = 6;
-            List<MetricItem> expectedItems = 
+            const int executionCount = 37;
+            const int previousExecutionCount = 27;
+            List<MetricItem> expectedItemsFromBuildMethod = 
                 new List<MetricItem>() 
                 { 
                     new MetricItem() 
@@ -35,6 +37,16 @@ namespace sqlserver.metrics.exporter.engine.tests
                     }
 
                 };
+            List<MetricItem> expectedItemsFromBuildDeltaMethod = 
+                new List<MetricItem>()
+                {  
+                    new MetricItem() 
+                    { 
+                        Name = $"{storedProcedureName}_ExecutionCount", 
+                        Value = executionCount - previousExecutionCount 
+                    }
+                };
+
             DateTime from = DateTime.Parse("2021-12-12 13:00");
             DateTime to = DateTime.Parse("2021-12-12 13:05");
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
@@ -48,21 +60,39 @@ namespace sqlserver.metrics.exporter.engine.tests
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime, Last = lastElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime, Last = lastElapsedTime }, 
+                            GeneralStats = new GeneralStats() { ExecutionCount = executionCount }
                         }
                     }
                 });
+            mockeryPlanCache
+                .Setup(s => s.GetPreviousPlanCacheItems())
+                .Returns(new List<PlanCacheItem>()
+                {
+                    new PlanCacheItem()
+                    {
+                        RemovedFromCacheAt =  null,
+                        SpName = storedProcedureName,
+                        ExecutionStatistics = new ProcedureExecutionStatistics()
+                        {
+                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime, Last = lastElapsedTime },
+                            GeneralStats = new GeneralStats() { ExecutionCount = previousExecutionCount }
+                        }
+                    }
+                }); ;
             IPlanCacheRepository planCacherepository = mockeryPlanCache.Object;
-            var mockeryMetricsBuilder = new Mock<IMetricsBuilder>();
-            mockeryMetricsBuilder
+            var mockeryCombinedMetricsBuilder = new Mock<ICombinedMetricsBuilder>();
+            mockeryCombinedMetricsBuilder
                 .Setup(b => b.Build(It.IsAny<IGrouping<string, PlanCacheItem>>()))
-                .Returns(expectedItems);
-            var metricsBuilder = mockeryMetricsBuilder.Object;
-            var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, metricsBuilder);
+                .Returns(expectedItemsFromBuildMethod);
+            mockeryCombinedMetricsBuilder
+                .Setup(s => s.BuildDeltas(It.IsAny<IGrouping<string, PlanCacheItem>>(), It.IsAny<PlanCacheItem>()))
+                .Returns(expectedItemsFromBuildDeltaMethod);
+            var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
             var items = instanceUnderTest.Collect(from, to);
 
-            items.Should().BeEquivalentTo(expectedItems);
+            items.Should().BeEquivalentTo(expectedItemsFromBuildMethod.Concat(expectedItemsFromBuildDeltaMethod));
         }
     }
 }
