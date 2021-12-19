@@ -8,8 +8,8 @@ namespace Sqlserver.Metrics.Provider
     {
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
         {
-            return ElapsedTimeMetrics.GetMaxElapsedTimeMetrics(groupedPlanCacheItems).Concat(
-                   ElapsedTimeMetrics.GetMinElapsedTimeMetrics(groupedPlanCacheItems));
+            return new MaxElapsedTimeMetricsBuilder().Build(groupedPlanCacheItems).Concat(
+                   new MinElapsedTimeMetricsBuilder().Build(groupedPlanCacheItems));
         }
     }
 }
