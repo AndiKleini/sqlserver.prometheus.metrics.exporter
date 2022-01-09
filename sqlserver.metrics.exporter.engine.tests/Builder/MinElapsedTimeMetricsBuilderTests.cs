@@ -1,29 +1,28 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Sqlserver.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
-using SqlServer.Metrics.Provider.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests
+namespace Sqlserver.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
-    public class MaxElapsedTimeMetricsBuilderTests
+    public class MinElapsedTimeMetricsBuilderTests
     {
         [Test]
         public void Build_SingleFiguresForElapsedTimeSupplied_ReturnsElapsedMetricItems()
         {
             string storedProcedureName = "MySp";
-            int maxElapsedTime = 150;
             int minElapsedTime = 10;
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
                     new MetricItem()
                     {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
+                        Name = $"{storedProcedureName}_ElapsedTimeMin",
+                        Value = minElapsedTime
                     }
               };
             var groupedPlanCacheItems =
@@ -34,11 +33,11 @@ namespace Sqlserver.Metrics.Provider.Tests
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Min = minElapsedTime }
                         }
                     }}).GroupBy(p => p.SpName).First();
 
-            MaxElapsedTimeMetricsBuilder instanceUnderTest = new MaxElapsedTimeMetricsBuilder();
+            MinElapsedTimeMetricsBuilder instanceUnderTest = new MinElapsedTimeMetricsBuilder();
 
             var result = instanceUnderTest.Build(groupedPlanCacheItems);
 
@@ -49,8 +48,8 @@ namespace Sqlserver.Metrics.Provider.Tests
         public void Build_MultipleFiguresForElapsedTimeSupplied_ReturnsElapsedMetricItems()
         {
             string storedProcedureName = "MySp";
-            int maxElapsedTime = 150;
-            int betweenMaxElapsedTime = 70;
+            int minElapsedTime = 15;
+            int aboveMinElapsedTime = 70;
             DateTime removedFromCacheAt1 = DateTime.Parse("2021-12-12 17:34:04");
             DateTime removedFormCacheAt2 = DateTime.Parse("2021-12-12 17:30:04");
             List<MetricItem> expectedItems =
@@ -58,8 +57,8 @@ namespace Sqlserver.Metrics.Provider.Tests
               {
                     new MetricItem()
                     {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
+                        Name = $"{storedProcedureName}_ElapsedTimeMin",
+                        Value = minElapsedTime
                     }
               };
             var groupedPlanCacheItems =
@@ -70,7 +69,7 @@ namespace Sqlserver.Metrics.Provider.Tests
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Min = minElapsedTime }
                         }
                     },
                     new PlanCacheItem()
@@ -79,7 +78,7 @@ namespace Sqlserver.Metrics.Provider.Tests
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = betweenMaxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Min = aboveMinElapsedTime }
                         }
                     },
                     new PlanCacheItem()
@@ -88,12 +87,12 @@ namespace Sqlserver.Metrics.Provider.Tests
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = betweenMaxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Min = aboveMinElapsedTime }
                         }
                     }
                 }).GroupBy(p => p.SpName).First();
 
-            MaxElapsedTimeMetricsBuilder instanceUnderTest = new MaxElapsedTimeMetricsBuilder();
+            MinElapsedTimeMetricsBuilder instanceUnderTest = new MinElapsedTimeMetricsBuilder();
 
             var result = instanceUnderTest.Build(groupedPlanCacheItems);
 

@@ -10,9 +10,9 @@ namespace SqlServer.Metrics.Provider
         private readonly IPlanCacheRepository planCacheRepository;
         private readonly ICombinedMetricsBuilder metricsBuilder;
 
-        public StoredProcedureMetricsProvider(IPlanCacheRepository planCacherepository, ICombinedMetricsBuilder metricsBuilder = null)
+        public StoredProcedureMetricsProvider(IPlanCacheRepository planCacheRepository, ICombinedMetricsBuilder metricsBuilder = null)
         {
-            this.planCacheRepository = planCacherepository;
+            this.planCacheRepository = planCacheRepository;
             this.metricsBuilder = metricsBuilder;
         }
 

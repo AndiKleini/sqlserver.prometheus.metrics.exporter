@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests
+namespace Sqlserver.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
     public class ExecutionCountMetricsBuilderTests
