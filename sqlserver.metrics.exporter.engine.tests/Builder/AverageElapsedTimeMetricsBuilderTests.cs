@@ -9,28 +9,34 @@ using System.Linq;
 namespace Sqlserver.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
-    public class ExecutionCountMetricsBuilderTests
+    public class AverageElapsedTimeMetricsBuilderTests
     {
         [Test]
-        public void BuildDeltas_HistoricalAndCachedFiguresForExecutionCountSupplied_ReturnsExecutionCountMetricItems()
+        public void Build_HistoricalAndCachedFiguresForElapsedTimeSupplied_ReturnsAverageElapsedTimeMetricItems()
         {
             string storedProcedureName = "MySp";
             const int executionCountOfCache = 5;
             const int executionCountHistorical1 = 3;
             const int executionCountHistorical2 = 7;
-            const int previousExecutionCount = 2;
             DateTime removedFromCacheAt1 = DateTime.Parse("2021-12-12 17:34:04");
             DateTime removedFormCacheAt2 = DateTime.Parse("2021-12-12 17:30:04");
-            int overallExecutions = executionCountOfCache + executionCountHistorical1 + executionCountHistorical2 - previousExecutionCount;
+            const int elapsedTimeOfItemInCache = 400;
+            const int elapsedTimeOfHistoricalItem1 = 600;
+            const int elapsedTimeOfHistoricalItem2 = 300;
+            int averageElapsed = 
+                elapsedTimeOfHistoricalItem1 / executionCountHistorical1 + 
+                elapsedTimeOfHistoricalItem2 / executionCountHistorical2 +
+                elapsedTimeOfItemInCache / executionCountOfCache;
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
                     new MetricItem()
                     {
-                        Name = $"{storedProcedureName}_ExecutionCount",
-                        Value = overallExecutions
+                        Name = $"{storedProcedureName}_AverageElapsedTime",
+                        Value = averageElapsed
                     }
               };
+
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {
                     new PlanCacheItem()
@@ -39,7 +45,8 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountOfCache }
+                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountOfCache },
+                            ElapsedTime = new ElapsedTime() { Total = elapsedTimeOfItemInCache }
                         }
                     },
                     new PlanCacheItem()
@@ -48,7 +55,8 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountHistorical1 }
+                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountHistorical1 },
+                            ElapsedTime = new ElapsedTime() { Total = elapsedTimeOfHistoricalItem1 }
                         }
                     },
                     new PlanCacheItem()
@@ -57,24 +65,15 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountHistorical2 }
+                            GeneralStats = new GeneralStats() { ExecutionCount = executionCountHistorical2 },
+                            ElapsedTime = new ElapsedTime() { Total = elapsedTimeOfHistoricalItem2 }
                         }
                     }
                 }).GroupBy(p => p.SpName).First();
-            var previousPlanCachItem = 
-                new PlanCacheItem()
-                {
-                    RemovedFromCacheAt = null,
-                    SpName = storedProcedureName,
-                    ExecutionStatistics = new ProcedureExecutionStatistics()
-                    {
-                        GeneralStats = new GeneralStats() { ExecutionCount = previousExecutionCount }
-                    }
-                };
 
-            ExecutionCountMetricsBuilder instanceUnderTest = new ExecutionCountMetricsBuilder();
+            var instanceUnderTest = new AverageElapsedTimeMetricsBuilder();
 
-            var result = instanceUnderTest.BuildDeltas(groupedPlanCacheItems, previousPlanCachItem);
+            var result = instanceUnderTest.Build(groupedPlanCacheItems);
 
             result.Should().BeEquivalentTo(expectedItems);
         }

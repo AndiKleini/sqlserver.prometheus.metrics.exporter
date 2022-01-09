@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class ExecutionCountMetricsBuilder
+    public class ExecutionCountMetricsBuilder : IDeltaMetricsBuilder
     {
-        public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems, PlanCacheItem previousPlanCacheItem)
+        public IEnumerable<MetricItem> BuildDeltas(IGrouping<string, PlanCacheItem> groupedPlanCacheItems, PlanCacheItem previousPlanCacheItem)
         {
             yield return new MetricItem()
             {
