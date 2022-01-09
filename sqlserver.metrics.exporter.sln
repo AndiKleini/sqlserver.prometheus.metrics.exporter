@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BEC1146F-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Provider.Tests", "sqlserver.metrics.exporter.engine.tests\Sqlserver.Metrics.Provider.Tests.csproj", "{5D7D838C-E09C-4963-8FB6-C251CCA5D35F}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "sqlserver.monitoring", "sqlserver.monitoring\sqlserver.monitoring.sqlproj", "{2C509483-22B4-46DD-A5C3-C01BAB0662E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,12 @@ Global
 		{5D7D838C-E09C-4963-8FB6-C251CCA5D35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D7D838C-E09C-4963-8FB6-C251CCA5D35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D7D838C-E09C-4963-8FB6-C251CCA5D35F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C509483-22B4-46DD-A5C3-C01BAB0662E5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
