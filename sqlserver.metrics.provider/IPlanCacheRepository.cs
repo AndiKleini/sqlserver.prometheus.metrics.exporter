@@ -5,7 +5,7 @@ namespace SqlServer.Metrics.Provider
 {
     public interface IPlanCacheRepository
     {
-        List<PlanCacheItem> GetPlanCache(DateTime from, DateTime to);
+        List<PlanCacheItem> GetPlanCache(DateTime from);
         List<PlanCacheItem> GetPreviousPlanCacheItems();
     }
 }

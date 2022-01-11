@@ -48,10 +48,9 @@ namespace sqlserver.metrics.exporter.engine.tests
                 };
 
             DateTime from = DateTime.Parse("2021-12-12 13:00");
-            DateTime to = DateTime.Parse("2021-12-12 13:05");
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
             mockeryPlanCache
-                .Setup(s => s.GetPlanCache(from, to))
+                .Setup(s => s.GetPlanCache(from))
                 .Returns(new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -91,7 +90,7 @@ namespace sqlserver.metrics.exporter.engine.tests
                 .Returns(expectedItemsFromBuildDeltaMethod);
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
-            var items = instanceUnderTest.Collect(from, to);
+            var items = instanceUnderTest.Collect(from);
 
             items.Should().BeEquivalentTo(expectedItemsFromBuildMethod.Concat(expectedItemsFromBuildDeltaMethod));
         }

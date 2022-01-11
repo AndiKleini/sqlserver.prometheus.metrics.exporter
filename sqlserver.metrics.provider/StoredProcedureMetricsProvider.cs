@@ -16,9 +16,9 @@ namespace SqlServer.Metrics.Provider
             this.metricsBuilder = metricsBuilder;
         }
 
-        public IEnumerable<MetricItem> Collect(DateTime from, DateTime to)
+        public IEnumerable<MetricItem> Collect(DateTime from)
         {
-            var groupedBySpName = this.planCacheRepository.GetPlanCache(from, to).GroupBy(p => p.SpName);
+            var groupedBySpName = this.planCacheRepository.GetPlanCache(from).GroupBy(p => p.SpName);
             return groupedBySpName.SelectMany(metricsBuilder.Build).Concat(groupedBySpName
                             .Join(
                                 this.planCacheRepository.GetPreviousPlanCacheItems(),
