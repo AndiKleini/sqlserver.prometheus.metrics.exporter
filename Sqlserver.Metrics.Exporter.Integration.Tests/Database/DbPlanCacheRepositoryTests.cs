@@ -12,18 +12,32 @@ using System.Threading.Tasks;
 namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
 {
     [TestFixture]
-    public class PlanCacheRepositoryTests
+    public class DbPlanCacheRepositoryTests
     {
         private const string ConnectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";
 
         [Test]
-        public async Task GetPlanCache_DatabaseAvaliable()
+        public async Task GetCurrentPlanCache()
         {
-            var instanceUnderTest = new PlanCacheRepository(ConnectionString);
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
             DateTime from = DateTime.Now;
             this.ExecuteStoredProceduresToFillUpCache();
             
-            List<PlanCacheItem> items = await instanceUnderTest.GetPlanCache(from);
+            List<PlanCacheItem> items = await instanceUnderTest.GetCurrentPlanCache(from);
+
+            items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
+        }
+
+        [Test]
+        [Ignore("Not yet implemented")]
+        public async Task GetHistoricalPlanCache()
+        {
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
+            DateTime from = DateTime.Now;
+            this.ExecuteStoredProceduresToFillUpCache();
+            await Task.Delay(TimeSpan.FromMinutes(1));
+
+            List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
             items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
         }
@@ -37,5 +51,7 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
             connection.Open();
             var affectedRows = connection.Execute("monitoring.getStoredProcedureMetricsFromCache", parameter, commandType: CommandType.StoredProcedure);
         }
+
+
     }
 }

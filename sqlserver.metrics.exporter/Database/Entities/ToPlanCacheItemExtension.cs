@@ -1,8 +1,9 @@
 ﻿using SqlServer.Metrics.Provider;
+using System;
 
 namespace Sqlserver.Metrics.Exporter.Database.Entities
 {
-    public static class ToPlancCacheItemExtension
+    public static class ToPlanCacheItemExtension
     {
         public static PlanCacheItem ToPlanCacheItem(this DbCacheItem dbCacheItem)
         {
@@ -62,5 +63,10 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
 				}
 			};
 		}
+
+        public static PlanCacheItem ToPlanCacheItem(DbHistoricalCacheItem dbHistoricalCacheItem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

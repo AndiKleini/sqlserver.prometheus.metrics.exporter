@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace Sqlserver.Metrics.Exporter.Database
 {
-    public class PlanCacheRepository
+    public class DbPlanCacheRepository
     {
         private readonly string connectionString;
 
-        public PlanCacheRepository(string connectionString)
+        public DbPlanCacheRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public async Task<List<PlanCacheItem>> GetPlanCache(DateTime from)
+        public async Task<List<PlanCacheItem>> GetCurrentPlanCache(DateTime from)
         {
             using var connection = new SqlConnection(this.connectionString);
             connection.Open();
@@ -29,6 +29,18 @@ namespace Sqlserver.Metrics.Exporter.Database
                 new { fromUtc = from }, 
                 commandType: CommandType.StoredProcedure);
             return result.Select(r => r.ToPlanCacheItem()).ToList();
+        }
+
+        public async Task<List<PlanCacheItem>> GetHistoricalPlanCache(DateTime from)
+        {
+            throw new NotImplementedException();
+            using var connection = new SqlConnection(this.connectionString);
+            connection.Open();
+            var result = await connection.QueryAsync<DbHistoricalCacheItem>(
+                "monitoring.getStoredProcedureMetricsHistorical",
+                new { fromUtc = from },
+                commandType: CommandType.StoredProcedure);
+            return null; //  result.Select(r => r.ToPlanCacheItem()).ToList();
         }
     }
 }
