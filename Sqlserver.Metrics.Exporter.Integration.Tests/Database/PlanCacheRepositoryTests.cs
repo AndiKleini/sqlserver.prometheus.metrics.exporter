@@ -14,10 +14,12 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
     [TestFixture]
     public class PlanCacheRepositoryTests
     {
+        private const string ConnectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";
+
         [Test]
         public async Task GetPlanCache_DatabaseAvaliable()
         {
-            var instanceUnderTest = new PlanCacheRepository();
+            var instanceUnderTest = new PlanCacheRepository(ConnectionString);
             DateTime from = DateTime.Now;
             this.ExecuteStoredProceduresToFillUpCache();
             
@@ -31,7 +33,7 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@fromUtc", DateTime.Now, DbType.DateTime2, ParameterDirection.Input);
 
-            using var connection = new SqlConnection("Data Source=.;Initial Catalog=restifysp;Integrated Security=True;");
+            using var connection = new SqlConnection(ConnectionString);
             connection.Open();
             var affectedRows = connection.Execute("monitoring.getStoredProcedureMetricsFromCache", parameter, commandType: CommandType.StoredProcedure);
         }
