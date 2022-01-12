@@ -11,7 +11,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
     {
 		const string spName = "MySP";
 
-		private const string historicalItemXml = 
+		private const string historicalItemXml_old = 
 			"<event name=\"query_cache_removal_statistics\" package=\"sqlserver\" timestamp=\"2022 - 01 - 12T05:28:42.992Z\">"+
 			"<data name=\"recompile_count\"><value>0</value></data><data name=\"compiled_object_type\"><value>2</value><text>"+"" +
 			"<![CDATA[Stored Procedure]]></text></data><data name=\"compiled_object_id\"><value>-524454186</value></data><data name=\"begin_offset\">"+"" +
@@ -25,7 +25,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 			"<PhysicalReads Total=\"0\" Last=\"0\" Min=\"0\" Max=\"0\"/><LogicalReads Total=\"88\" Last=\"44\" Min=\"44\" Max=\"44\"/>"+"" +
 			"</ProcedureExecutionStats>]]></value></data></event>";
 
-        [Test]
+		[Test]
         public void ToPlancCacheItem_GivenDbCacheItem_ReturnsCorrepondingPlanCacheItem()
         {
             DateTime cachedTime = DateTime.Now;
@@ -56,7 +56,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 			const int minWorkerTime = 23;
 			const int lastWorkerTime = 231;
             const int objecId = 1234;
-            DbCacheItem dbCacheItem = 
+			DbCacheItem dbCacheItem = 
                 new DbCacheItem()
                 {
 					object_Id = objecId,
@@ -186,6 +186,16 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 			const int minWorkerTime = 23;
 			const int lastWorkerTime = 231;
             DateTime timestampOfEnCache = DateTime.Now;
+			string historicalItemXml =
+				"<ProcedureExecutionStats>" +
+				$"<GeneralStats ExecutionCount=\"{executionCount}\" LastExecutionTime=\"{lastExecutionTime}\" CachedTime=\"{cachedTime}\"/>" +
+				$"<WorkerTime Total =\"{totalWorkerTime}\" Last=\"{lastWorkerTime}\" Min=\"{minWorkerTime}\" Max=\"{maxWorkerTime}\"/>" +
+				$"<ElapsedTime Total =\"{totalElapsed}\" Last=\"{lastElapsed}\" Min=\"{minElapsed}\" Max=\"{maxElapsed}\"/>" +
+				$"<LogicalWrites Total =\"{totalLogicalWrites}\" Last=\"{lastLogicalWrites}\" Min=\"{minLogicalWrites}\" Max=\"{maxLogicalWrites}\"/>" +
+				$"<PageServerReads Total =\"{totalPageReads}\" Last=\"{lastPageReads}\" Min=\"{minPageReads}\" Max=\"{maxPageReads}\"/>" +
+				$"<PhysicalReads Total =\"{totalPhysicalReads}\" Last=\"{lastPhysicalReads}\" Min=\"{minPhysicalReads}\" Max=\"{maxPhysicalReads}\"/>" +
+				$"<LogicalReads Total =\"{totalLogicalReads}\" Last=\"{lastLogicalReads}\" Min=\"{minLogicalReads}\" Max=\"{maxLogicalReads}\"/>" +
+				"</ProcedureExecutionStats>";
 			DbHistoricalCacheItem dbHistoricalCacheItem = new DbHistoricalCacheItem()
 			{
 				timestamp_utc = timestampOfEnCache,
