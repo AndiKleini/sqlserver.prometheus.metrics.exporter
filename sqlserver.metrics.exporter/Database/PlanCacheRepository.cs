@@ -13,7 +13,7 @@ namespace Sqlserver.Metrics.Exporter.Database
 {
     public class PlanCacheRepository
     {
-        private string connectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";
+        private readonly string connectionString;
 
         public PlanCacheRepository(string connectionString)
         {
