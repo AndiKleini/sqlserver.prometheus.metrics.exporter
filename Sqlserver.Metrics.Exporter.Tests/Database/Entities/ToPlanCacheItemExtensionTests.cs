@@ -28,7 +28,6 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
         [Test]
         public void ToPlancCacheItem_GivenDbCacheItem_ReturnsCorrepondingPlanCacheItem()
         {
-           
             DateTime cachedTime = DateTime.Now;
             const int executionCount = 12;
             DateTime lastExecutionTime = DateTime.Now;
@@ -56,10 +55,11 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 			const int maxWorkerTime = 56;
 			const int minWorkerTime = 23;
 			const int lastWorkerTime = 231;
-			DbCacheItem dbCacheItem = 
+            const int objecId = 1234;
+            DbCacheItem dbCacheItem = 
                 new DbCacheItem()
                 {
-					name= spName,
+					object_Id = objecId,
 					cached_time= cachedTime,
 					last_execution_time= lastExecutionTime,
 					execution_count= executionCount,
@@ -94,7 +94,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 				};
 			PlanCacheItem expectedResult = new PlanCacheItem()
 			{
-				SpName = spName,
+				ObjectId = objecId,
 				ExecutionStatistics = new Provider.ProcedureExecutionStatistics()
 				{
 					GeneralStats = new Provider.GeneralStats()

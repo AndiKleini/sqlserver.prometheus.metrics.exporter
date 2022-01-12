@@ -4,7 +4,6 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
 {
     public class DbCacheItem
     {
-		public string name;
 		public DateTime cached_time;
 		public DateTime last_execution_time;
 		public int execution_count;
@@ -36,5 +35,6 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
 		public int last_page_server_reads;
 		public int min_page_server_reads;
 		public int max_page_server_reads;
-	}
+        public int object_Id;
+    }
 }

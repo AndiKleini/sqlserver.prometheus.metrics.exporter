@@ -25,7 +25,9 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
             
             List<PlanCacheItem> items = await instanceUnderTest.GetCurrentPlanCache(from);
 
-            items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
+            // TODO: make better integration tests here
+            // the object_id should be extracted automatically
+            items.Should().Contain(p => p.ObjectId == 978102525);
         }
 
         [Test]
@@ -39,6 +41,7 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
+            // TODO create dedciated stored procedure for this kind of test
             items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
         }
 

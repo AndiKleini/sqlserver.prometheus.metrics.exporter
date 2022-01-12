@@ -2,9 +2,9 @@
    @fromUtc datetime2
 AS 
 Begin
-	select 
-	    obj.name,
-		cached_time,
+	select
+		object_Id,
+	  	cached_time,
 		last_execution_time,
 		execution_count,
 		total_elapsed_time,
@@ -36,8 +36,6 @@ Begin
 		min_page_server_reads,
 		max_page_server_reads
 	from sys.dm_exec_procedure_stats stats
-	inner join sys.objects obj
-		on obj.object_id = stats.object_id
 	where stats.last_execution_time >= @fromUtc 
 	and stats.type = 'P';
 End

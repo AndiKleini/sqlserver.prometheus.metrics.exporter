@@ -9,7 +9,7 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
         {
 			return new PlanCacheItem()
 			{
-				SpName = dbCacheItem.name,
+				ObjectId = dbCacheItem.object_Id,
 				ExecutionStatistics = new Provider.ProcedureExecutionStatistics()
 				{
 					GeneralStats = new Provider.GeneralStats()

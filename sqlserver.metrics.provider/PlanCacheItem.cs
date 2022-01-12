@@ -8,5 +8,6 @@ namespace SqlServer.Metrics.Provider
         public ProcedureExecutionStatistics ExecutionStatistics { get; set; }
         public string SpName { get; set; }
         public DateTime? RemovedFromCacheAt { get; set; }
+        public int ObjectId { get; set; }
     }
 }
