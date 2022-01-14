@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Sqlserver.Metrics.Exporter.Database
 {
-    public class DbPlanCacheRepository
+    public class DbPlanCacheRepository : IDbPlanCacheRepository
     {
         private readonly string connectionString;
 
@@ -25,8 +25,8 @@ namespace Sqlserver.Metrics.Exporter.Database
             using var connection = new SqlConnection(this.connectionString);
             connection.Open();
             var result = await connection.QueryAsync<DbCacheItem>(
-                "monitoring.getStoredProcedureMetricsFromCache", 
-                new { fromUtc = from }, 
+                "monitoring.getStoredProcedureMetricsFromCache",
+                new { fromUtc = from },
                 commandType: CommandType.StoredProcedure);
             return result.Select(r => r.ToPlanCacheItem()).ToList();
         }
@@ -41,6 +41,11 @@ namespace Sqlserver.Metrics.Exporter.Database
                 new { fromUtc = from },
                 commandType: CommandType.StoredProcedure);
             return null; //  result.Select(r => r.ToPlanCacheItem()).ToList();
+        }
+
+        public Task<Dictionary<int, string>> GetObjectIdAndProcedureNames()
+        {
+            throw new NotImplementedException();
         }
     }
 }
