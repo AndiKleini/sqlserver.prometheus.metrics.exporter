@@ -17,6 +17,31 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
         private const int ObjectID_B = 123434567;
         private const string ProcedureName_A = "MySp_A";
         private const string procedureName_B = "MySp_B";
+        const int executionCount = 12;
+        const int totalElapsed = 7867;
+        const int lastElapsed = 71;
+        const int minElapsed = 11;
+        const int maxElapsed = 781;
+        const int totalLogicalReads = 1132;
+        const int minLogicalReads = 11;
+        const int maxLogicalReads = 112;
+        const int lastLogicalReads = 78;
+        const int totalPageReads = 3423;
+        const int minPageReads = 34;
+        const int maxPageReads = 342;
+        const int lastPageReads = 234;
+        const int totalLogicalWrites = 2345;
+        const int minLogicalWrites = 12;
+        const int maxLogicalWrites = 234;
+        const int lastLogicalWrites = 123;
+        const int totalPhysicalReads = 34456;
+        const int lastPhysicalReads = 34;
+        const int minPhysicalReads = 20;
+        const int maxPhysicalReads = 341;
+        const int totalWorkerTime = 2314;
+        const int maxWorkerTime = 56;
+        const int minWorkerTime = 23;
+        const int lastWorkerTime = 231;
         private DateTime CachedTime_Procedure_A = DateTime.Parse("14/01/22 12:00:34");
         private DateTime CachedTime_Procedure_B = DateTime.Parse("14/01/22 12:01:34");
         private DateTime CachedTime_Historical_Procedure_A = DateTime.Parse("14/01/22 12:03:34");
@@ -53,31 +78,6 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
 
         private List<PlanCacheItem> GetCurrentPlanCacheItems()
         {
-            const int executionCount = 12;
-            const int totalElapsed = 7867;
-            const int lastElapsed = 71;
-            const int minElapsed = 11;
-            const int maxElapsed = 781;
-            const int totalLogicalReads = 1132;
-            const int minLogicalReads = 11;
-            const int maxLogicalReads = 112;
-            const int lastLogicalReads = 78;
-            const int totalPageReads = 3423;
-            const int minPageReads = 34;
-            const int maxPageReads = 342;
-            const int lastPageReads = 234;
-            const int totalLogicalWrites = 2345;
-            const int minLogicalWrites = 12;
-            const int maxLogicalWrites = 234;
-            const int lastLogicalWrites = 123;
-            const int totalPhysicalReads = 34456;
-            const int lastPhysicalReads = 34;
-            const int minPhysicalReads = 20;
-            const int maxPhysicalReads = 341;
-            const int totalWorkerTime = 2314;
-            const int maxWorkerTime = 56;
-            const int minWorkerTime = 23;
-            const int lastWorkerTime = 231;
             return new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -197,33 +197,6 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
 
         private List<PlanCacheItem> GetCurrentPlanCacheItemsWithResolvedName()
         {
-            DateTime cachedTime = DateTime.Now;
-            const int executionCount = 12;
-            DateTime lastExecutionTime = DateTime.Now;
-            const int totalElapsed = 7867;
-            const int lastElapsed = 71;
-            const int minElapsed = 11;
-            const int maxElapsed = 781;
-            const int totalLogicalReads = 1132;
-            const int minLogicalReads = 11;
-            const int maxLogicalReads = 112;
-            const int lastLogicalReads = 78;
-            const int totalPageReads = 3423;
-            const int minPageReads = 34;
-            const int maxPageReads = 342;
-            const int lastPageReads = 234;
-            const int totalLogicalWrites = 2345;
-            const int minLogicalWrites = 12;
-            const int maxLogicalWrites = 234;
-            const int lastLogicalWrites = 123;
-            const int totalPhysicalReads = 34456;
-            const int lastPhysicalReads = 34;
-            const int minPhysicalReads = 20;
-            const int maxPhysicalReads = 341;
-            const int totalWorkerTime = 2314;
-            const int maxWorkerTime = 56;
-            const int minWorkerTime = 23;
-            const int lastWorkerTime = 231;
             return new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -343,33 +316,6 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
 
         private List<PlanCacheItem> GetHistoricalPlanCacheItems()
         {
-            DateTime cachedTime = DateTime.Now;
-            const int executionCount = 12;
-            DateTime lastExecutionTime = DateTime.Now;
-            const int totalElapsed = 7867;
-            const int lastElapsed = 71;
-            const int minElapsed = 11;
-            const int maxElapsed = 781;
-            const int totalLogicalReads = 1132;
-            const int minLogicalReads = 11;
-            const int maxLogicalReads = 112;
-            const int lastLogicalReads = 78;
-            const int totalPageReads = 3423;
-            const int minPageReads = 34;
-            const int maxPageReads = 342;
-            const int lastPageReads = 234;
-            const int totalLogicalWrites = 2345;
-            const int minLogicalWrites = 12;
-            const int maxLogicalWrites = 234;
-            const int lastLogicalWrites = 123;
-            const int totalPhysicalReads = 34456;
-            const int lastPhysicalReads = 34;
-            const int minPhysicalReads = 20;
-            const int maxPhysicalReads = 341;
-            const int totalWorkerTime = 2314;
-            const int maxWorkerTime = 56;
-            const int minWorkerTime = 23;
-            const int lastWorkerTime = 231;
             return new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -487,33 +433,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
 
         private List<PlanCacheItem> GetHistoricalPlanCacheItemsWithResolvedName()
         {
-            DateTime cachedTime = DateTime.Now;
-            const int executionCount = 12;
-            DateTime lastExecutionTime = DateTime.Now;
-            const int totalElapsed = 7867;
-            const int lastElapsed = 71;
-            const int minElapsed = 11;
-            const int maxElapsed = 781;
-            const int totalLogicalReads = 1132;
-            const int minLogicalReads = 11;
-            const int maxLogicalReads = 112;
-            const int lastLogicalReads = 78;
-            const int totalPageReads = 3423;
-            const int minPageReads = 34;
-            const int maxPageReads = 342;
-            const int lastPageReads = 234;
-            const int totalLogicalWrites = 2345;
-            const int minLogicalWrites = 12;
-            const int maxLogicalWrites = 234;
-            const int lastLogicalWrites = 123;
-            const int totalPhysicalReads = 34456;
-            const int lastPhysicalReads = 34;
-            const int minPhysicalReads = 20;
-            const int maxPhysicalReads = 341;
-            const int totalWorkerTime = 2314;
-            const int maxWorkerTime = 56;
-            const int minWorkerTime = 23;
-            const int lastWorkerTime = 231;
+           
             return new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
