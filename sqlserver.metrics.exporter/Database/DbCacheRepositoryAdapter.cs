@@ -22,7 +22,7 @@ namespace Sqlserver.Metrics.Exporter.Database
             return
                 (await this.planCacheRepository.GetCurrentPlanCache(from))
                 .Concat(await this.planCacheRepository.GetHistoricalPlanCache(from))
-                .Select(p => { p.SpName = lookUp[p.ObjectId]; return p; });
+                .Select(p => { p.SpName = lookUp[p.ObjectId] /* TODO: ignore if no value is emitted an write proper warning */; return p; });
         }
     }
 }

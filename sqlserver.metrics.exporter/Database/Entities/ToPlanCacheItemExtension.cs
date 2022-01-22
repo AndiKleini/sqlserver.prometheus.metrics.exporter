@@ -1,5 +1,8 @@
-﻿using SqlServer.Metrics.Provider;
+﻿using Sqlserver.Metrics.Provider;
+using SqlServer.Metrics.Provider;
 using System;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Sqlserver.Metrics.Exporter.Database.Entities
 {
@@ -64,9 +67,38 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
 			};
 		}
 
-        public static PlanCacheItem ToPlanCacheItem(DbHistoricalCacheItem dbHistoricalCacheItem)
+        public static PlanCacheItem ToPlanCacheItem(this DbHistoricalCacheItem dbHistoricalCacheItem)
         {
-            throw new NotImplementedException();
+			var attributes = new XmlAttributes();
+			attributes.Xmlns = false;
+			var attributesOverrides = new XmlAttributeOverrides();
+			attributesOverrides.Add(typeof(QueryCacheRemovalStatistics), attributes);
+			var serializerRemovalStats = 
+				new XmlSerializer(
+					typeof(QueryCacheRemovalStatistics),
+					attributesOverrides,
+					null,
+					new XmlRootAttribute("event"),
+					null);
+			using var textReaderRemovalStats = new StringReader(dbHistoricalCacheItem.event_data);
+			var removalStatistics = (QueryCacheRemovalStatistics)serializerRemovalStats.Deserialize(textReaderRemovalStats);
+			var attributesOverridesExecutionStats = new XmlAttributeOverrides();
+			attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatistics), attributes);
+			var serializerExecutionStats = 
+				new XmlSerializer(
+					typeof(ProcedureExecutionStatistics),
+					attributesOverridesExecutionStats,
+					null,
+					new XmlRootAttribute("ProcedureExecutionStats"),
+					null);
+			using var textReaderExecutionStats = new StringReader(removalStatistics.Data[7].Value);
+			var executionStatistics = (ProcedureExecutionStatistics)serializerExecutionStats.Deserialize(textReaderExecutionStats);
+			return new PlanCacheItem()
+			{
+				ExecutionStatistics = executionStatistics,
+				ObjectId = int.Parse(removalStatistics.Data[2].Value),
+				RemovedFromCacheAt = dbHistoricalCacheItem.timestamp_utc
+			};
         }
     }
 }

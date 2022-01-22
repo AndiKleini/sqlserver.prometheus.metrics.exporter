@@ -54,7 +54,5 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
             connection.Open();
             var affectedRows = connection.Execute("monitoring.getStoredProcedureMetricsFromCache", parameter, commandType: CommandType.StoredProcedure);
         }
-
-
     }
 }
