@@ -4,10 +4,8 @@ using Sqlserver.Metrics.Exporter.Database.Entities;
 using Sqlserver.Metrics.Provider;
 using SqlServer.Metrics.Provider;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using static Sqlserver.Metrics.Exporter.QueryCacheRemovalStatistics;
 
 namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 {

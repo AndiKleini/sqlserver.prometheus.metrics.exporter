@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Sqlserver.Metrics.Exporter
+namespace Sqlserver.Metrics.Exporter.Datebase.Entities
 {
 	[XmlRoot(Namespace = "some")]
-    public class QueryCacheRemovalStatistics
-    {
+    public class QueryCacheRemovalStatisticsXmlItem
+	{
         [XmlAttribute(AttributeName = "timestamp")]
 		public string Timestamp { get; set; }
 		[XmlElement(ElementName = "data")]

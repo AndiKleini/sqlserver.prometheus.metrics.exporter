@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sqlserver.Metrics.Exporter.Database
 {
-    public class DbCacheRepositoryAdapter
+    public class DbCacheRepositoryAdapter : IPlanCacheRepository
     {
         private IDbPlanCacheRepository planCacheRepository;
 
@@ -23,6 +23,11 @@ namespace Sqlserver.Metrics.Exporter.Database
                 (await this.planCacheRepository.GetCurrentPlanCache(from))
                 .Concat(await this.planCacheRepository.GetHistoricalPlanCache(from))
                 .Select(p => { p.SpName = lookUp[p.ObjectId] /* TODO: ignore if no value is emitted an write proper warning */; return p; });
+        }
+
+        public Task<IEnumerable<PlanCacheItem>> GetPreviousPlanCacheItems()
+        {
+            throw new NotImplementedException();
         }
     }
 }

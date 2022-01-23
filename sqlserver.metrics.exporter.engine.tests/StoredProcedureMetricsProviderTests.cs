@@ -52,7 +52,7 @@ namespace sqlserver.metrics.exporter.engine.tests
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
             mockeryPlanCache
                 .Setup(s => s.GetPlanCache(from))
-                .Returns(new List<PlanCacheItem>()
+                .ReturnsAsync(new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
                     {
@@ -77,7 +77,7 @@ namespace sqlserver.metrics.exporter.engine.tests
             };
             mockeryPlanCache
                 .Setup(s => s.GetPreviousPlanCacheItems())
-                .Returns(new List<PlanCacheItem>()
+                .ReturnsAsync(new List<PlanCacheItem>()
                 {
                     previousPlanCacheItem
                 });

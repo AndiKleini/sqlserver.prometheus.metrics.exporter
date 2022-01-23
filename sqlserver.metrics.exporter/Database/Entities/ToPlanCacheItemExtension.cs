@@ -1,8 +1,8 @@
 ﻿using Sqlserver.Metrics.Provider;
-using SqlServer.Metrics.Provider;
-using System;
+using Sqlserver.Metrics.Exporter.Datebase.Entities;
 using System.IO;
 using System.Xml.Serialization;
+using SqlServer.Metrics.Provider;
 
 namespace Sqlserver.Metrics.Exporter.Database.Entities
 {
@@ -72,16 +72,16 @@ namespace Sqlserver.Metrics.Exporter.Database.Entities
 			var attributes = new XmlAttributes();
 			attributes.Xmlns = false;
 			var attributesOverrides = new XmlAttributeOverrides();
-			attributesOverrides.Add(typeof(QueryCacheRemovalStatistics), attributes);
+			attributesOverrides.Add(typeof(QueryCacheRemovalStatisticsXmlItem), attributes);
 			var serializerRemovalStats = 
 				new XmlSerializer(
-					typeof(QueryCacheRemovalStatistics),
+					typeof(QueryCacheRemovalStatisticsXmlItem),
 					attributesOverrides,
 					null,
 					new XmlRootAttribute("event"),
 					null);
 			using var textReaderRemovalStats = new StringReader(dbHistoricalCacheItem.event_data);
-			var removalStatistics = (QueryCacheRemovalStatistics)serializerRemovalStats.Deserialize(textReaderRemovalStats);
+			var removalStatistics = (QueryCacheRemovalStatisticsXmlItem)serializerRemovalStats.Deserialize(textReaderRemovalStats);
 			var attributesOverridesExecutionStats = new XmlAttributeOverrides();
 			attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatistics), attributes);
 			var serializerExecutionStats = 

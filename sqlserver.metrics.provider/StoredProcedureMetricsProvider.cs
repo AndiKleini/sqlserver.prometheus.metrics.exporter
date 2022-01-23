@@ -19,10 +19,10 @@ namespace SqlServer.Metrics.Provider
 
         public async Task<IEnumerable<MetricItem>> Collect(DateTime from)
         {
-            var groupedBySpName = this.planCacheRepository.GetPlanCache(from).GroupBy(p => p.SpName);
+            var groupedBySpName = (await this.planCacheRepository.GetPlanCache(from)).GroupBy(p => p.SpName);
             return groupedBySpName.SelectMany(metricsBuilder.Build).Concat(groupedBySpName
                             .Join(
-                                this.planCacheRepository.GetPreviousPlanCacheItems(),
+                                await this.planCacheRepository.GetPreviousPlanCacheItems(),
                                 p => p.Key,
                                 p => p.SpName,
                                 metricsBuilder.BuildDeltas)

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SqlServer.Metrics.Provider
 {
     public interface IPlanCacheRepository
     {
-        List<PlanCacheItem> GetPlanCache(DateTime from);
-        List<PlanCacheItem> GetPreviousPlanCacheItems();
+        Task<IEnumerable<PlanCacheItem>> GetPlanCache(DateTime from);
+        Task<IEnumerable<PlanCacheItem>> GetPreviousPlanCacheItems();
     }
 }
