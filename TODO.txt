@@ -1,3 +1,6 @@
 Next Step: 
-	Creation of DbPlanCacheItemRepositoryAdapter
-	Make path of Collect in ProcedureMetricsProvider async
+	Handle Last execution Count in provider
+	Complete GetHistoricalItems From Cache (XML Deserailiation is missing)
+	Integrate objectId/Name mappings call 
+	(Done) Creation of DbPlanCacheItemRepositoryAdapter
+	(Done) Make path of Collect in ProcedureMetricsProvider async
