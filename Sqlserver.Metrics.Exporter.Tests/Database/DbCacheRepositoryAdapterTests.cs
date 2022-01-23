@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Sqlserver.Metrics.Exporter.Adapters;
 using Sqlserver.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
@@ -59,7 +60,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database
             planCacheRepositoryMock.Setup(s => s.GetHistoricalPlanCache(It.IsAny<DateTime>())).ReturnsAsync(this.GetHistoricalPlanCacheItems());
             planCacheRepositoryMock.Setup(s => s.GetObjectIdAndProcedureNames()).ReturnsAsync(GetObjectIds());
 
-            var instanceUnderTest = new DbCacheRepositoryAdapter(planCacheRepositoryMock.Object);
+            var instanceUnderTest = new PlanCacheRepositoryAdapter(planCacheRepositoryMock.Object);
 
             IEnumerable<PlanCacheItem> combinedPlanCacheItems = await instanceUnderTest.GetPlanCache(DateTime.Now);
 

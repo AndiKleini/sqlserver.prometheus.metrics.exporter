@@ -1,16 +1,17 @@
-﻿using SqlServer.Metrics.Provider;
+﻿using Sqlserver.Metrics.Exporter.Database;
+using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Database
+namespace Sqlserver.Metrics.Exporter.Adapters
 {
-    public class DbCacheRepositoryAdapter : IPlanCacheRepository
+    public class PlanCacheRepositoryAdapter : IPlanCacheRepository
     {
         private IDbPlanCacheRepository planCacheRepository;
 
-        public DbCacheRepositoryAdapter(IDbPlanCacheRepository planCacheRepository)
+        public PlanCacheRepositoryAdapter(IDbPlanCacheRepository planCacheRepository)
         {
             this.planCacheRepository = planCacheRepository;
         }

@@ -25,10 +25,5 @@ namespace Sqlserver.Metrics.Exporter.Controllers
                 new StringBuilder(), 
                 (aggregate, current) => aggregate.AppendLine($"{current.Name} {current.Value}")).ToString();
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }
