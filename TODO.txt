@@ -1,1 +1,3 @@
-Next Step: Creation of DbPlanCacheItemRepositoryAdapter
+Next Step: 
+	Creation of DbPlanCacheItemRepositoryAdapter
+	Make path of Collect in ProcedureMetricsProvider async

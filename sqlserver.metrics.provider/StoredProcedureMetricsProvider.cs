@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SqlServer.Metrics.Provider
 {
-    public class StoredProcedureMetricsProvider
+    public class StoredProcedureMetricsProvider : IStoredProcedureMetricsProvider
     {
         private readonly IPlanCacheRepository planCacheRepository;
         private readonly ICombinedMetricsBuilder metricsBuilder;
@@ -16,7 +17,7 @@ namespace SqlServer.Metrics.Provider
             this.metricsBuilder = metricsBuilder;
         }
 
-        public IEnumerable<MetricItem> Collect(DateTime from)
+        public async Task<IEnumerable<MetricItem>> Collect(DateTime from)
         {
             var groupedBySpName = this.planCacheRepository.GetPlanCache(from).GroupBy(p => p.SpName);
             return groupedBySpName.SelectMany(metricsBuilder.Build).Concat(groupedBySpName

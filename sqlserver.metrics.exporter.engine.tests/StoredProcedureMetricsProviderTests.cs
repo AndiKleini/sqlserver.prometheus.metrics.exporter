@@ -7,6 +7,7 @@ using Moq;
 using System.Linq;
 using Sqlserver.Metrics.Provider;
 using Sqlserver.Metrics.Provider.Builder;
+using System.Threading.Tasks;
 
 namespace sqlserver.metrics.exporter.engine.tests
 {
@@ -14,7 +15,7 @@ namespace sqlserver.metrics.exporter.engine.tests
     public class StoredProcedureMetricsProviderTest
     {
         [Test]
-        public void Export_RetrieveStatisticsOnlyFromCache_ReturnsMetrics()
+        public async Task Export_RetrieveStatisticsOnlyFromCache_ReturnsMetrics()
         {
             const string storedProcedureName = "MySp";
             const int maxElapsedTime = 12;
@@ -90,7 +91,7 @@ namespace sqlserver.metrics.exporter.engine.tests
                 .Returns(expectedItemsFromBuildDeltaMethod);
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
-            var items = instanceUnderTest.Collect(from);
+            var items = await instanceUnderTest.Collect(from);
 
             items.Should().BeEquivalentTo(expectedItemsFromBuildMethod.Concat(expectedItemsFromBuildDeltaMethod));
         }
