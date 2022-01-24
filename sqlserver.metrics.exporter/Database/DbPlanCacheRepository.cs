@@ -43,9 +43,14 @@ namespace Sqlserver.Metrics.Exporter.Database
             return null; //  result.Select(r => r.ToPlanCacheItem()).ToList();
         }
 
-        public Task<Dictionary<int, string>> GetObjectIdAndProcedureNames()
+        public async Task<Dictionary<int, string>> GetObjectIdAndProcedureNames()
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(this.connectionString);
+            connection.Open();
+            var procedures = await connection.QueryAsync(
+                "monitoring.getProcedures",
+                commandType: CommandType.StoredProcedure);
+            return procedures.ToDictionary(item => (int)item.object_id, item => (string)item.Name);
         }
     }
 }

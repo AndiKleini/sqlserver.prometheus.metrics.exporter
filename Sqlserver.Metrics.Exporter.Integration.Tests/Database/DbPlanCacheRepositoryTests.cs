@@ -45,6 +45,16 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
             items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
         }
 
+        [Test]
+        public async Task GetObjectIdAndProcedureNames()
+        {
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
+
+            var items = await instanceUnderTest.GetObjectIdAndProcedureNames();
+
+            items.Should().ContainValue("getProcedures");
+        }
+
         private void ExecuteStoredProceduresToFillUpCache()
         {
             DynamicParameters parameter = new DynamicParameters();
