@@ -23,7 +23,6 @@ namespace Sqlserver.Metrics.Exporter.Database
         public async Task<List<PlanCacheItem>> GetCurrentPlanCache(DateTime from)
         {
             using var connection = new SqlConnection(this.connectionString);
-            connection.Open();
             var result = await connection.QueryAsync<DbCacheItem>(
                 "monitoring.getStoredProcedureMetricsFromCache",
                 new { fromUtc = from },
@@ -33,20 +32,18 @@ namespace Sqlserver.Metrics.Exporter.Database
 
         public async Task<List<PlanCacheItem>> GetHistoricalPlanCache(DateTime from)
         {
-            throw new NotImplementedException();
             using var connection = new SqlConnection(this.connectionString);
             connection.Open();
             var result = await connection.QueryAsync<DbHistoricalCacheItem>(
                 "monitoring.getStoredProcedureMetricsHistorical",
                 new { fromUtc = from },
                 commandType: CommandType.StoredProcedure);
-            return null; //  result.Select(r => r.ToPlanCacheItem()).ToList();
+            return result.Select(r => r.ToPlanCacheItem()).ToList();
         }
 
         public async Task<Dictionary<int, string>> GetObjectIdAndProcedureNames()
         {
             using var connection = new SqlConnection(this.connectionString);
-            connection.Open();
             var procedures = await connection.QueryAsync(
                 "monitoring.getProcedures",
                 commandType: CommandType.StoredProcedure);

@@ -31,18 +31,17 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
         }
 
         [Test]
-        [Ignore("Not yet implemented")]
         public async Task GetHistoricalPlanCache()
         {
             var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
-            DateTime from = DateTime.Now;
+            DateTime from = DateTime.Now.AddDays(-1);
             this.ExecuteStoredProceduresToFillUpCache();
-            await Task.Delay(TimeSpan.FromMinutes(1));
+            //await Task.Delay(TimeSpan.FromMinutes(1));
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
             // TODO create dedciated stored procedure for this kind of test
-            items.Should().Contain(p => p.SpName == "getStoredProcedureMetricsFromCache");
+            items.Should().Contain(p => p.ObjectId == 978102525);
         }
 
         [Test]

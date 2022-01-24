@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace Sqlserver.Metrics.Provider
 {
-    public class ProcedureExecutionStatistics
+	
+
+	public class ProcedureExecutionStatistics
 	{ 
 		[XmlElement(ElementName = "GeneralStats")]
 		public GeneralStats GeneralStats { get; set; }
@@ -30,15 +33,43 @@ namespace Sqlserver.Metrics.Provider
 	[XmlRoot(ElementName = "GeneralStats")]
 	public class GeneralStats
 	{
+		const string procedureExecutionStatisticsDateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
 
 		[XmlAttribute(AttributeName = "ExecutionCount")]
 		public int ExecutionCount { get; set; }
 
-		[XmlAttribute(AttributeName = "LastExecutionTime")]
-		public DateTime LastExecutionTime { get; set; }
+		[XmlIgnore]
+        public DateTime LastExecutionTime { get; set; }
+
+        [XmlAttribute(AttributeName = "LastExecutionTime")]
+		public string LastExecutionTimeStringified 
+		{
+			get
+            {
+				return LastExecutionTime.ToString(procedureExecutionStatisticsDateTimeFormat);
+            }
+			set
+            {
+				LastExecutionTime = DateTime.ParseExact(value, procedureExecutionStatisticsDateTimeFormat, CultureInfo.InvariantCulture);
+
+			}
+		}
+
+		[XmlIgnore]
+		public DateTime CachedTime { get; set; }
 
 		[XmlAttribute(AttributeName = "CachedTime")]
-		public DateTime CachedTime { get; set; }
+		public string CachedTimeStringified 
+		{
+			get
+			{
+				return CachedTime.ToString(procedureExecutionStatisticsDateTimeFormat);
+			}
+			set
+			{
+				CachedTime = DateTime.ParseExact(value, procedureExecutionStatisticsDateTimeFormat, CultureInfo.InvariantCulture);
+			}
+		}
 	}
 
 	[XmlRoot(ElementName = "WorkerTime")]

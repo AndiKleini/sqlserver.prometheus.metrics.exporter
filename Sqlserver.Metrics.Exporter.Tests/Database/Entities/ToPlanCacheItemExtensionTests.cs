@@ -173,10 +173,11 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 			const int minWorkerTime = 23;
 			const int lastWorkerTime = 231;
             DateTime timestampOfEnCache = DateTime.Now;
-            const string dateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
+            const string queryCacheRemoveStatisticsDateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fff";
+            const string procedureExecutionStatisticsDateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
             string executionStatisticsXml =
 				"<ProcedureExecutionStats>" +
-				$"<GeneralStats ExecutionCount=\"{executionCount}\" LastExecutionTime=\"{lastExecutionTime.ToString(dateTimeFormat)}\" CachedTime=\"{cachedTime.ToString(dateTimeFormat)}\"/>" +
+				$"<GeneralStats ExecutionCount=\"{executionCount}\" LastExecutionTime=\"{lastExecutionTime.ToString(procedureExecutionStatisticsDateTimeFormat)}\" CachedTime=\"{cachedTime.ToString(procedureExecutionStatisticsDateTimeFormat)}\"/>" +
 				$"<WorkerTime Total =\"{totalWorkerTime}\" Last=\"{lastWorkerTime}\" Min=\"{minWorkerTime}\" Max=\"{maxWorkerTime}\"/>" +
 				$"<ElapsedTime Total =\"{totalElapsed}\" Last=\"{lastElapsed}\" Min=\"{minElapsed}\" Max=\"{maxElapsed}\"/>" +
 				$"<LogicalWrites Total =\"{totalLogicalWrites}\" Last=\"{lastLogicalWrites}\" Min=\"{minLogicalWrites}\" Max=\"{maxLogicalWrites}\"/>" +
@@ -185,7 +186,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 				$"<LogicalReads Total =\"{totalLogicalReads}\" Last=\"{lastLogicalReads}\" Min=\"{minLogicalReads}\" Max=\"{maxLogicalReads}\"/>" +
 				"</ProcedureExecutionStats>";
 			string queryCacheRemovalStatisticsXml =
-				$"<event name=\"query_cache_removal_statistics\" package=\"sqlserver\" timestamp=\"{removedFromCacheTime.ToString(dateTimeFormat)}\">" +
+				$"<event name=\"query_cache_removal_statistics\" package=\"sqlserver\" timestamp=\"{removedFromCacheTime.ToString(queryCacheRemoveStatisticsDateTimeFormat)}\">" +
                     "<data name=\"recompile_count\">" +
                         "<value>0</value>" +
 					"</data>" +
@@ -276,7 +277,13 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 
 			PlanCacheItem result = ToPlanCacheItemExtension.ToPlanCacheItem(dbHistoricalCacheItem);
 
-			result.Should().BeEquivalentTo(expectedResult);
+			result.Should().BeEquivalentTo(
+				expectedResult,
+				options => options.Using<DateTime>(ctx =>
+                {
+                    TimeSpan precisionBelowOnEMillisecond = TimeSpan.FromTicks(9999);
+                    ctx.Subject.Should().BeCloseTo(ctx.Expectation, precisionBelowOnEMillisecond);
+                }).WhenTypeIs<DateTime>());
         }
 
 		[Test]

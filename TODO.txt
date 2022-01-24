@@ -1,6 +1,7 @@
 Next Step: 
+	Clone and move XMl Classes for deserialization.
 	Handle Last execution Count in provider
-	Complete GetHistoricalItems From Cache (XML Deserailiation is missing)
-	Integrate objectId/Name mappings call 
+	(Done) Complete GetHistoricalItems From Cache (XML Deserailiation is missing)
+	(Done) Integrate objectId/Name mappings call 
 	(Done) Creation of DbPlanCacheItemRepositoryAdapter
 	(Done) Make path of Collect in ProcedureMetricsProvider async
