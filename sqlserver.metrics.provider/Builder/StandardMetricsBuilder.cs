@@ -5,10 +5,13 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class StandardMetricsBuilder : IMetricsBuilder, IDeltaMetricsBuilder
+    public class StandardMetricsBuilder : ICombinedMetricsBuilder
     {
-        List<IMetricsBuilder> metricItems = new List<IMetricsBuilder>();
+        private List<IMetricsBuilder> metricItems = new List<IMetricsBuilder>();
+        public List<IMetricsBuilder> MetricItems { get => metricItems; }
         List<IDeltaMetricsBuilder> deltaMetricsBuilders = new List<IDeltaMetricsBuilder>();
+        public List<IDeltaMetricsBuilder> DeltaMetricItems { get => this.deltaMetricsBuilders; }
+
 
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
         {

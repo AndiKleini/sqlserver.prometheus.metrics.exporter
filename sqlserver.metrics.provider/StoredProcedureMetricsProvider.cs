@@ -28,5 +28,15 @@ namespace SqlServer.Metrics.Provider
                                 metricsBuilder.BuildDeltas)
                             .SelectMany(s => s));
         }
+
+        public List<IDeltaMetricsBuilder> GetDeltaMetricBuilders()
+        {
+            return this.metricsBuilder.DeltaMetricItems;
+        }
+
+        public List<IMetricsBuilder> GetMetricBuilders()
+        {
+            return this.metricsBuilder.MetricItems;
+        }
     }
 }
