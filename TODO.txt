@@ -1,4 +1,5 @@
 Next Step: 
+	Clean Up NameSpaces SqlServer <=> Sqlserver
 	Clone and move XMl Classes for deserialization.
 	Handle Last execution Count in provider
 	(Done) Complete GetHistoricalItems From Cache (XML Deserailiation is missing)

@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Sqlserver.Metrics.Exporter.Adapters;
+using Sqlserver.Metrics.Exporter.Database;
+using Sqlserver.Metrics.Provider;
 using Sqlserver.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
@@ -28,7 +31,19 @@ namespace sqlserver.metrics.exporter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddSingleton(Configuration);
+            services.AddSingleton<IDbPlanCacheRepository>(s => new DbPlanCacheRepository(s.GetService<IConfiguration>().GetConnectionString("SqlServerToMonitor")));
+            services.AddSingleton<IPlanCacheRepository>(s => new PlanCacheRepositoryAdapter(s.GetService<IDbPlanCacheRepository>()));
+            services.AddSingleton(
+                s => StoredProcedureMetricsProviderFactoryMethod.Create(
+                    s.GetService<IPlanCacheRepository>(),
+                    new BuilderTypes[]
+                    {
+                        BuilderTypes.AverageElapsedTimeMetricsBuilder,
+                        BuilderTypes.ExecutionCountMetricsBuilder,
+                        BuilderTypes.MaxElapsedTimeMetricsBuilder,
+                        BuilderTypes.MinElapsedTimeMetricsBuilder
+                     }));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
