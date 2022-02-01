@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class ExecutionCountMetricsBuilder : IDeltaMetricsBuilder
+    public class ExecutionCountMetricsDeltaBuilder : IDeltaMetricsBuilder
     {
         public IEnumerable<MetricItem> BuildDeltas(IGrouping<string, PlanCacheItem> groupedPlanCacheItems, PlanCacheItem previousPlanCacheItem)
         {

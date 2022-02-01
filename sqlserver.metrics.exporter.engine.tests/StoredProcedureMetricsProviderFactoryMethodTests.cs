@@ -24,7 +24,7 @@ namespace Sqlserver.Metrics.Provider.Tests
             List<IDeltaMetricsBuilder> expectedDeltaBuilders = 
                 new List<IDeltaMetricsBuilder>()
                     {
-                        new ExecutionCountMetricsBuilder()
+                        new ExecutionCountMetricsDeltaBuilder()
                     };
             BuilderTypes[] builderInUse =
                 new BuilderTypes[]
@@ -46,7 +46,7 @@ namespace Sqlserver.Metrics.Provider.Tests
                     And.Contain(s => s.GetType() == typeof(MaxElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(MinElapsedTimeMetricsBuilder));
                 List<IDeltaMetricsBuilder> deltaBuilders = createdInstance.GetDeltaMetricBuilders();
-                deltaBuilders.Should().Contain(s => s.GetType() == typeof(ExecutionCountMetricsBuilder));
+                deltaBuilders.Should().Contain(s => s.GetType() == typeof(ExecutionCountMetricsDeltaBuilder));
             }
         }
     }

@@ -30,7 +30,7 @@ namespace Sqlserver.Metrics.Provider
                     }
                     case BuilderTypes.ExecutionCountMetricsBuilder:
                     {
-                            metricsBuilder.Include(new ExecutionCountMetricsBuilder());
+                            metricsBuilder.Include(new ExecutionCountMetricsDeltaBuilder());
                             break;
                     }
                 }

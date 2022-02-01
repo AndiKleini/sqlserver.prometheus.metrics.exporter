@@ -9,7 +9,7 @@ using System.Linq;
 namespace Sqlserver.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
-    public class ExecutionCountMetricsBuilderTests
+    public class ExecutionCountMetricsDeltaBuilderTests
     {
         [Test]
         public void BuildDeltas_HistoricalAndCachedFiguresForExecutionCountSupplied_ReturnsExecutionCountMetricItems()
@@ -72,7 +72,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
                     }
                 };
 
-            ExecutionCountMetricsBuilder instanceUnderTest = new ExecutionCountMetricsBuilder();
+            ExecutionCountMetricsDeltaBuilder instanceUnderTest = new ExecutionCountMetricsDeltaBuilder();
 
             var result = instanceUnderTest.BuildDeltas(groupedPlanCacheItems, previousPlanCachItem);
 
