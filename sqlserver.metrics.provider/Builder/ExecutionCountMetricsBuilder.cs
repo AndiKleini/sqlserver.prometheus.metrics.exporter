@@ -26,7 +26,11 @@ namespace Sqlserver.Metrics.Provider.Builder
                 yield break;
             }
 
-            int currentExecutionCount = groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount) - previousPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount;
+            int currentExecutionCount =
+               groupedPlanCacheItems.
+               Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount)
+               - previousPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount;
+
             yield return new MetricItem()
             {
                 Name = $"{groupedPlanCacheItems.Key}_ExecutionCount",
