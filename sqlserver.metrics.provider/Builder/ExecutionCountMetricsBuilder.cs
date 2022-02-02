@@ -22,7 +22,7 @@ namespace Sqlserver.Metrics.Provider.Builder
                 var currentPlanCacheItem = groupedPlanCacheItems.SingleOrDefault(i => i.RemovedFromCacheAt == null);
                 previousItemCache.StorePreviousCacheItem(
                     groupedPlanCacheItems.Key,
-                    currentPlanCacheItem /* ?? new PlanCacheItem() { ExecutionStatistics = new ProcedureExecutionStatistics() { GeneralStats = new GeneralStats() { ExecutionCount = 0 } } } */);
+                    currentPlanCacheItem ?? new PlanCacheItem() { ExecutionStatistics = new ProcedureExecutionStatistics() { GeneralStats = new GeneralStats() { ExecutionCount = 0 } } } );
                 return null;
             }
 

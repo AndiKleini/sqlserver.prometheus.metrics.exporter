@@ -20,6 +20,34 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
         }
 
         [Test]
+        public void Build_HistoricalItemAndNoPreviousPlanCacheItemAndNoCurrentPlacnCacheItemAvailable_ReturnsNoMetricResultStoresZeroItemAsPrevious()
+        {
+            const string storedProcedureName = "SpName";
+            const int executionCountOfCache = 5;
+            DateTime removedFromCacheAt = DateTime.Parse("2021-12-12 17:34:04");
+            var historicalPlanCacheItem = new PlanCacheItem()
+            {
+                RemovedFromCacheAt = removedFromCacheAt,
+                SpName = storedProcedureName,
+                ExecutionStatistics = new ProcedureExecutionStatistics()
+                {
+                    GeneralStats = new GeneralStats() { ExecutionCount = executionCountOfCache }
+                }
+            };
+            var zeroPlanCacheItem = new PlanCacheItem() { ExecutionStatistics = new ProcedureExecutionStatistics() { GeneralStats = new GeneralStats() { ExecutionCount = 0 } } };
+            var previousItemCache = new Mock<IPreviousItemCache>();
+            previousItemCache.Setup(s => s.StorePreviousCacheItem(storedProcedureName, It.Is<PlanCacheItem>(item => item.ExecutionStatistics.GeneralStats.ExecutionCount == 0)));
+            previousItemCache.Setup(s => s.GetPreviousCacheItem(storedProcedureName)).Returns(default(PlanCacheItem));
+            var instanceUnderTest = new ExecutionCountMetricsBuilder(previousItemCache.Object);
+            var groupedPlanCacheItems = (new List<PlanCacheItem>() { historicalPlanCacheItem }).GroupBy(p => p.SpName).First();
+
+            IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
+
+            result.Should().BeNull();
+            previousItemCache.VerifyAll();
+        }
+
+        [Test]
         public void Build_NoHistoricalItemAndNoPreviousPlanCacheItemButCurrentPlacnCacheItemAvailable_ReturnsNoMetricResultStoresCurrentItemAsPrevious()
         {
             const string storedProcedureName = "SpName";
@@ -40,16 +68,6 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
 
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() { currentPlanCacheItem }).GroupBy(p => p.SpName).First();
-            int overallExecutions = executionCountOfCache;
-            List<MetricItem> expectedItems =
-              new List<MetricItem>()
-              {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ExecutionCount",
-                        Value = overallExecutions
-                    }
-              };
 
             IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
 
