@@ -23,18 +23,17 @@ namespace Sqlserver.Metrics.Provider.Builder
                 previousItemCache.StorePreviousCacheItem(
                     groupedPlanCacheItems.Key,
                     currentPlanCacheItem ?? new PlanCacheItem() { ExecutionStatistics = new ProcedureExecutionStatistics() { GeneralStats = new GeneralStats() { ExecutionCount = 0 } } } );
-                return null;
+                yield break;
             }
 
-            throw new NotImplementedException();
-
-            /*
+            int currentExecutionCount = groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount) - previousPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount;
             yield return new MetricItem()
             {
                 Name = $"{groupedPlanCacheItems.Key}_ExecutionCount",
-                Value = groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount) //  - previousPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount
+                Value = currentExecutionCount
             };
-            */
+            previousItemCache.StorePreviousCacheItem(
+                 groupedPlanCacheItems.Key, new PlanCacheItem() { ExecutionStatistics = new ProcedureExecutionStatistics() { GeneralStats = new GeneralStats() { ExecutionCount = currentExecutionCount } } });
         }
     }
 }

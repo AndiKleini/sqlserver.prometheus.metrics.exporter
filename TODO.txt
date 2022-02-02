@@ -2,6 +2,7 @@ Next Step:
 	Clean Up NameSpaces SqlServer <=> Sqlserver
 	Clone and move XMl Classes for deserialization.
 	Implement ZeroItem FactoryMethod for PlanCacheItem.
+	Verify the benefit of yield as there is only one occurance in a method.
 	Handle Last execution Count in provider
 	(Done) Complete GetHistoricalItems From Cache (XML Deserailiation is missing)
 	(Done) Integrate objectId/Name mappings call 

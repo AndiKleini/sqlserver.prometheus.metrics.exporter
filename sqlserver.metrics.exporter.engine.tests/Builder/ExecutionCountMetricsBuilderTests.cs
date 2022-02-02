@@ -12,11 +12,51 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
     [TestFixture]
     public class ExecutionCountMetricsBuilderTests
     {
-     
-
-        public void Build_NoHistoricalItemButPlanCacheItemAvailable_ReturnDiffToPreviousItem()
+        [Test]
+        public void Build_NoHistoricalItemButPlanCacheItemButPreviousPlanCacheItemAvailable_ReturnsDiffBetweenCurrentAndPreviousItem()
         {
+            const string storedProcedureName = "SpName";
+            const int executionCountOfCache = 5;
+            const int previousExecutionCount = 2;
+            int overallExecutions = executionCountOfCache - previousExecutionCount;
+            PlanCacheItem currentPlanCacheItem = new PlanCacheItem()
+            {
+                RemovedFromCacheAt = null,
+                SpName = storedProcedureName,
+                ExecutionStatistics = new ProcedureExecutionStatistics()
+                {
+                    GeneralStats = new GeneralStats() { ExecutionCount = executionCountOfCache }
+                }
+            };
+            PlanCacheItem previousPlanCacheItem =
+                new PlanCacheItem()
+                {
+                    RemovedFromCacheAt = null,
+                    SpName = storedProcedureName,
+                    ExecutionStatistics = new ProcedureExecutionStatistics()
+                    {
+                        GeneralStats = new GeneralStats() { ExecutionCount = previousExecutionCount }
+                    }
+                };
+            var previousItemCache = new Mock<IPreviousItemCache>();
+            previousItemCache.Setup(s => s.StorePreviousCacheItem(storedProcedureName, It.Is<PlanCacheItem>(item => item.ExecutionStatistics.GeneralStats.ExecutionCount == overallExecutions)));
+            previousItemCache.Setup(s => s.GetPreviousCacheItem(storedProcedureName)).Returns(previousPlanCacheItem);
+            var instanceUnderTest = new ExecutionCountMetricsBuilder(previousItemCache.Object);
+            var groupedPlanCacheItems = (new List<PlanCacheItem>() { currentPlanCacheItem }).GroupBy(p => p.SpName).First();
+            List<MetricItem> expectedItems =
+              new List<MetricItem>()
+              {
+                    new MetricItem()
+                    {
+                        Name = $"{storedProcedureName}_ExecutionCount",
+                        Value = overallExecutions
+                    }
+              };
 
+            IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
+
+            result.Should().BeEquivalentTo(expectedItems);
+            previousItemCache.VerifyAll();
         }
 
         [Test]
@@ -43,7 +83,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
 
             IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
 
-            result.Should().BeNull();
+            result.Should().BeEmpty();
             previousItemCache.VerifyAll();
         }
 
@@ -71,7 +111,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
 
             IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
 
-            result.Should().BeNull();
+            result.Should().BeEmpty();
             previousItemCache.VerifyAll();
         }
 
