@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class ExecutionCountMetricsBuilder
+    public class ExecutionCountMetricsBuilder : IMetricsBuilder
     {
         private IPreviousItemCache previousItemCache;
 

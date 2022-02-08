@@ -37,6 +37,7 @@ namespace sqlserver.metrics.exporter
             services.AddSingleton(
                 s => StoredProcedureMetricsProviderFactoryMethod.Create(
                     s.GetService<IPlanCacheRepository>(),
+                    s.GetService<IPreviousItemCache>(),
                     new BuilderTypes[]
                     {
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,

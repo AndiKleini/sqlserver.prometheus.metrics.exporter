@@ -30,16 +30,18 @@ namespace Sqlserver.Metrics.Provider.Tests
                     BuilderTypes.MinElapsedTimeMetricsBuilder
                 };
             var repositoryCache = new Mock<IPlanCacheRepository>();
+            var previousItemCache = new Mock<IPreviousItemCache>();
 
             IStoredProcedureMetricsProvider createdInstance = 
-                StoredProcedureMetricsProviderFactoryMethod.Create(repositoryCache.Object, builderInUse);
+                StoredProcedureMetricsProviderFactoryMethod.Create(repositoryCache.Object, previousItemCache.Object, builderInUse);
 
             using (new AssertionScope())
             {
                 List<IMetricsBuilder> builders = createdInstance.GetMetricBuilders();
                 builders.Should().Contain(s => s.GetType() == typeof(AverageElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(MaxElapsedTimeMetricsBuilder)).
-                    And.Contain(s => s.GetType() == typeof(MinElapsedTimeMetricsBuilder));
+                    And.Contain(s => s.GetType() == typeof(MinElapsedTimeMetricsBuilder)).
+                    And.Contain(s => s.GetType() == typeof(ExecutionCountMetricsBuilder));
             }
         }
     }

@@ -6,7 +6,7 @@ namespace Sqlserver.Metrics.Provider
 {
     public class StoredProcedureMetricsProviderFactoryMethod
     {
-        public static IStoredProcedureMetricsProvider Create(IPlanCacheRepository planCacheRepository, params BuilderTypes[] buildersInUse)
+        public static IStoredProcedureMetricsProvider Create(IPlanCacheRepository planCacheRepository, IPreviousItemCache @object, params BuilderTypes[] buildersInUse)
         {
             var metricsBuilder = new StandardMetricsBuilder();
             Array.ForEach(buildersInUse, b =>
@@ -26,6 +26,11 @@ namespace Sqlserver.Metrics.Provider
                     case BuilderTypes.MinElapsedTimeMetricsBuilder:
                     {
                             metricsBuilder.Include(new MinElapsedTimeMetricsBuilder());
+                            break;
+                    }
+                    case BuilderTypes.ExecutionCountMetricsBuilder:
+                    {
+                            metricsBuilder.Include(new ExecutionCountMetricsBuilder(@object));
                             break;
                     }
                 }
