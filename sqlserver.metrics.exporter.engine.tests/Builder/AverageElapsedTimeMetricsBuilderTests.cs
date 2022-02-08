@@ -23,10 +23,18 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
             const int elapsedTimeOfItemInCache = 400;
             const int elapsedTimeOfHistoricalItem1 = 600;
             const int elapsedTimeOfHistoricalItem2 = 300;
-            int averageElapsed = 
-                elapsedTimeOfHistoricalItem1 / executionCountHistorical1 + 
-                elapsedTimeOfHistoricalItem2 / executionCountHistorical2 +
-                elapsedTimeOfItemInCache / executionCountOfCache;
+            int averageElapsed =
+                (
+                    elapsedTimeOfHistoricalItem1 +
+                    elapsedTimeOfItemInCache +
+                    elapsedTimeOfHistoricalItem2
+                ) 
+                /
+                (
+                    executionCountHistorical1 +
+                    executionCountHistorical2 +
+                    executionCountOfCache
+                );
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {

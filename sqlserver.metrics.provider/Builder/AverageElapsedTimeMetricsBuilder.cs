@@ -11,7 +11,9 @@ namespace Sqlserver.Metrics.Provider.Builder
             yield return new MetricItem()
             {
                 Name = $"{groupedPlanCacheItems.Key}_AverageElapsedTime",
-                Value = groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.ElapsedTime.Total / p.ExecutionStatistics.GeneralStats.ExecutionCount)
+                Value = groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.ElapsedTime.Total)
+                        /
+                        groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount)
             };
         }
     }
