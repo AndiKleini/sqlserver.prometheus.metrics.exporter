@@ -28,11 +28,6 @@ namespace Sqlserver.Metrics.Provider
                             metricsBuilder.Include(new MinElapsedTimeMetricsBuilder());
                             break;
                     }
-                    case BuilderTypes.ExecutionCountMetricsBuilder:
-                    {
-                            metricsBuilder.Include(new ExecutionCountMetricsDeltaBuilder());
-                            break;
-                    }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);

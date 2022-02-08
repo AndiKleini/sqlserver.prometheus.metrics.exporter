@@ -21,10 +21,11 @@ namespace Sqlserver.Metrics.Exporter.Tests.Controller
             const int logicalReadsMaxValue = 2;
             const string maxSpillsName = "MySP_SpillsMax";
             const int maxSpillsValue = 3;
+            const string prometheusFormatLineSeperator = "\n";
             var expectedMetricItems =
-                $"{elapedTimeMaxName} {elapsedTimeMaxValue}" + "\r\n" +
-                $"{logiocalReadsMaxName} {logicalReadsMaxValue}" + "\r\n" +
-                $"{maxSpillsName} {maxSpillsValue}" + "\r\n";
+                $"{elapedTimeMaxName} {elapsedTimeMaxValue}" + prometheusFormatLineSeperator +
+                $"{logiocalReadsMaxName} {logicalReadsMaxValue}" + prometheusFormatLineSeperator +
+                $"{maxSpillsName} {maxSpillsValue}" + prometheusFormatLineSeperator;
             var providerMock = new Mock<IStoredProcedureMetricsProvider>();
             List<MetricItem> yieldMetricItems = new List<MetricItem>()
                 {

@@ -38,16 +38,6 @@ namespace sqlserver.metrics.exporter.engine.tests
                     }
 
                 };
-            List<MetricItem> expectedItemsFromBuildDeltaMethod = 
-                new List<MetricItem>()
-                {  
-                    new MetricItem() 
-                    { 
-                        Name = $"{storedProcedureName}_ExecutionCount", 
-                        Value = executionCount - previousExecutionCount 
-                    }
-                };
-
             DateTime from = DateTime.Parse("2021-12-12 13:00");
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
             mockeryPlanCache
@@ -86,14 +76,11 @@ namespace sqlserver.metrics.exporter.engine.tests
             mockeryCombinedMetricsBuilder
                 .Setup(b => b.Build(It.IsAny<IGrouping<string, PlanCacheItem>>()))
                 .Returns(expectedItemsFromBuildMethod);
-            mockeryCombinedMetricsBuilder
-                .Setup(s => s.BuildDeltas(It.IsAny<IGrouping<string, PlanCacheItem>>(), previousPlanCacheItem))
-                .Returns(expectedItemsFromBuildDeltaMethod);
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
             var items = await instanceUnderTest.Collect(from);
 
-            items.Should().BeEquivalentTo(expectedItemsFromBuildMethod.Concat(expectedItemsFromBuildDeltaMethod));
+            items.Should().BeEquivalentTo(expectedItemsFromBuildMethod);
         }
     }
 }

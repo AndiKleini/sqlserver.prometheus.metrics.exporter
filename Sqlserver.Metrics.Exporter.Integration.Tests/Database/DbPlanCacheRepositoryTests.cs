@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
 {
     [TestFixture]
+    [Ignore("Only runnable with proper Database in place.")]
     public class DbPlanCacheRepositoryTests
     {
         private const string ConnectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";

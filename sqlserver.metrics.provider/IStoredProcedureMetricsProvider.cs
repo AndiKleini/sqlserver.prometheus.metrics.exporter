@@ -9,6 +9,5 @@ namespace SqlServer.Metrics.Provider
     {
         Task<IEnumerable<MetricItem>> Collect(DateTime from);
         List<IMetricsBuilder> GetMetricBuilders();
-        List<IDeltaMetricsBuilder> GetDeltaMetricBuilders();
     }
 }

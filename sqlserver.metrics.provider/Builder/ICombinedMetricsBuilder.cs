@@ -2,10 +2,8 @@
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public interface ICombinedMetricsBuilder : IDeltaMetricsBuilder, IMetricsBuilder
+    public interface ICombinedMetricsBuilder : IMetricsBuilder
     {
         List<IMetricsBuilder> MetricItems { get; }
-
-        List<IDeltaMetricsBuilder> DeltaMetricItems { get; }
     }
 }

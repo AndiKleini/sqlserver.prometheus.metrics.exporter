@@ -20,19 +20,7 @@ namespace SqlServer.Metrics.Provider
         public async Task<IEnumerable<MetricItem>> Collect(DateTime from)
         {
             var groupedBySpName = (await this.planCacheRepository.GetPlanCache(from)).GroupBy(p => p.SpName);
-            return groupedBySpName.SelectMany(metricsBuilder.Build)
-                .Concat(groupedBySpName
-                            .Join(
-                                await this.planCacheRepository.GetPreviousPlanCacheItems(),
-                                p => p.Key,
-                                p => p.SpName,
-                                metricsBuilder.BuildDeltas) 
-                            .SelectMany(s => s));
-        }
-
-        public List<IDeltaMetricsBuilder> GetDeltaMetricBuilders()
-        {
-            return this.metricsBuilder.DeltaMetricItems;
+            return groupedBySpName.SelectMany(metricsBuilder.Build);
         }
 
         public List<IMetricsBuilder> GetMetricBuilders()
