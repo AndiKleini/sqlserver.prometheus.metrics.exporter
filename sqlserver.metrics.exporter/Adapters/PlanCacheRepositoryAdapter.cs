@@ -23,6 +23,7 @@ namespace Sqlserver.Metrics.Exporter.Adapters
             return
                 (await this.planCacheRepository.GetCurrentPlanCache(from))
                 .Concat(await this.planCacheRepository.GetHistoricalPlanCache(from))
+                .Where(p => p.ObjectId > 0) // we have to ignore the internal objectIds 
                 .Select(p => { p.SpName = lookUp[p.ObjectId] /* TODO: ignore if no value is emitted an write proper warning */; return p; });
         }
 

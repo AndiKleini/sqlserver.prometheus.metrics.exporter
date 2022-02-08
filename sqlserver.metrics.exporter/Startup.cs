@@ -40,7 +40,7 @@ namespace sqlserver.metrics.exporter
                     new BuilderTypes[]
                     {
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,
-                        BuilderTypes.ExecutionCountMetricsBuilder,
+                        // BuilderTypes.ExecutionCountMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder
                      }));
@@ -61,11 +61,11 @@ namespace sqlserver.metrics.exporter
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "sqlserver.metrics.exporter v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
