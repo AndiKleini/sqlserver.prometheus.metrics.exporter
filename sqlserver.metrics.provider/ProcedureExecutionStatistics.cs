@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Xml.Serialization;
 
-namespace Sqlserver.Metrics.Provider
+namespace SqlServer.Metrics.Provider
 {
 	
 

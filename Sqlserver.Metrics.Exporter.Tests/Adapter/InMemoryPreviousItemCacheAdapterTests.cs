@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter.Adapters;
-using Sqlserver.Metrics.Provider;
+using SqlServer.Metrics.Exporter.Adapters;
+using SqlServer.Metrics.Provider;
 using SqlServer.Metrics.Provider;
 
-namespace Sqlserver.Metrics.Exporter.Tests.Adapter
+namespace SqlServer.Metrics.Exporter.Tests.Adapter
 {
     [TestFixture]
     public class InMemoryPreviousItemCacheAdapterTests

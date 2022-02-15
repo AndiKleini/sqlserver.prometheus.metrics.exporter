@@ -5,11 +5,11 @@ using FluentAssertions;
 using System;
 using Moq;
 using System.Linq;
-using Sqlserver.Metrics.Provider;
-using Sqlserver.Metrics.Provider.Builder;
+using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 using System.Threading.Tasks;
 
-namespace sqlserver.metrics.exporter.engine.tests
+namespace SqlServer.metrics.exporter.engine.tests
 {
     [TestFixture]
     public class StoredProcedureMetricsProviderTest

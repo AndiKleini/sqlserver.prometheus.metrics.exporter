@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter.Database.Entities;
-using Sqlserver.Metrics.Provider;
+using SqlServer.Metrics.Exporter.Database.Entities;
+using SqlServer.Metrics.Provider;
 using SqlServer.Metrics.Provider;
 using System;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
+namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
 {
     [TestFixture]
     public class ToPlanCacheItemExtensionTests
@@ -186,7 +186,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Database.Entities
 				$"<LogicalReads Total =\"{totalLogicalReads}\" Last=\"{lastLogicalReads}\" Min=\"{minLogicalReads}\" Max=\"{maxLogicalReads}\"/>" +
 				"</ProcedureExecutionStats>";
 			string queryCacheRemovalStatisticsXml =
-				$"<event name=\"query_cache_removal_statistics\" package=\"sqlserver\" timestamp=\"{removedFromCacheTime.ToString(queryCacheRemoveStatisticsDateTimeFormat)}\">" +
+				$"<event name=\"query_cache_removal_statistics\" package=\"SqlServer\" timestamp=\"{removedFromCacheTime.ToString(queryCacheRemoveStatisticsDateTimeFormat)}\">" +
                     "<data name=\"recompile_count\">" +
                         "<value>0</value>" +
 					"</data>" +

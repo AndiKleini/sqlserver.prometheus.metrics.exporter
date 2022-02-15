@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sqlserver.metrics.exporter
+namespace SqlServer.metrics.exporter
 {
     public class Program
     {

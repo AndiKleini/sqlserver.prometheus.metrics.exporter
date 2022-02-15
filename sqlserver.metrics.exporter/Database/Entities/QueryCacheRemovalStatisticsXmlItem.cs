@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Sqlserver.Metrics.Exporter.Datebase.Entities
+namespace SqlServer.Metrics.Exporter.Datebase.Entities
 {
 	[XmlRoot(Namespace = "some")]
     public class QueryCacheRemovalStatisticsXmlItem

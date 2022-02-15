@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Sqlserver.Metrics.Provider.Builder
+namespace SqlServer.Metrics.Provider.Builder
 {
     public interface IMetricsBuilder
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Controllers
+namespace SqlServer.Metrics.Exporter.Controllers
 {
     [ApiController]
     [Route("metrics")]

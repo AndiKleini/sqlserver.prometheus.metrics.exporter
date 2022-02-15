@@ -1,8 +1,8 @@
-﻿using Sqlserver.Metrics.Provider.Builder;
+﻿using SqlServer.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
 
-namespace Sqlserver.Metrics.Provider
+namespace SqlServer.Metrics.Provider
 {
     public class StoredProcedureMetricsProviderFactoryMethod
     {

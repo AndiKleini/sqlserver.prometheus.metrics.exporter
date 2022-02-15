@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sqlserver.Metrics.Provider.Builder;
+using SqlServer.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests.Builder
+namespace SqlServer.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
     public class ExecutionCountMetricsBuilderTests

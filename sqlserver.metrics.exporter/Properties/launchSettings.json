@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "sqlserver.metrics.exporter": {
+    "SqlServer.metrics.exporter": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

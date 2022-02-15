@@ -1,4 +1,4 @@
-﻿namespace Sqlserver.Metrics.Provider
+﻿namespace SqlServer.Metrics.Provider
 {
     public enum BuilderTypes
     {

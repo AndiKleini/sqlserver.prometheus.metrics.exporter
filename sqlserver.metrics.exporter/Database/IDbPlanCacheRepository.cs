@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Database
+namespace SqlServer.Metrics.Exporter.Database
 {
     public interface IDbPlanCacheRepository
     {

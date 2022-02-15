@@ -1,10 +1,10 @@
-﻿using Sqlserver.Metrics.Provider;
-using Sqlserver.Metrics.Exporter.Datebase.Entities;
+﻿using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Exporter.Datebase.Entities;
 using System.IO;
 using System.Xml.Serialization;
 using SqlServer.Metrics.Provider;
 
-namespace Sqlserver.Metrics.Exporter.Database.Entities
+namespace SqlServer.Metrics.Exporter.Database.Entities
 {
     public static class ToPlanCacheItemExtension
     {

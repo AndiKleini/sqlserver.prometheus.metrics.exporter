@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter.Database;
+using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
+namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
 {
     [TestFixture]
     [Ignore("Only runnable with proper Database in place.")]

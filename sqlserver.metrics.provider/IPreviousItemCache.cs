@@ -1,6 +1,6 @@
 ﻿using SqlServer.Metrics.Provider;
 
-namespace Sqlserver.Metrics.Provider
+namespace SqlServer.Metrics.Provider
 {
     public interface IPreviousItemCache
     {

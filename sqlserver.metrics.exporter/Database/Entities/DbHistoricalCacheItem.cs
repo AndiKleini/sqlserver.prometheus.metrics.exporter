@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sqlserver.Metrics.Exporter.Database.Entities
+namespace SqlServer.Metrics.Exporter.Database.Entities
 {
     public class DbHistoricalCacheItem
     {

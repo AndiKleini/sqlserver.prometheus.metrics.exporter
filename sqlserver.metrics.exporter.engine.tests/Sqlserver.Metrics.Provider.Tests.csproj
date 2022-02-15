@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sqlserver.metrics.provider\Sqlserver.Metrics.Provider.csproj" />
+    <ProjectReference Include="..\SqlServer.metrics.provider\SqlServer.Metrics.Provider.csproj" />
   </ItemGroup>
 
 </Project>

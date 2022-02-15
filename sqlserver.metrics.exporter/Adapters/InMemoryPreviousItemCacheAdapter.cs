@@ -1,8 +1,8 @@
-﻿using Sqlserver.Metrics.Provider;
+﻿using SqlServer.Metrics.Provider;
 using SqlServer.Metrics.Provider;
 using System.Collections.Generic;
 
-namespace Sqlserver.Metrics.Exporter.Adapters
+namespace SqlServer.Metrics.Exporter.Adapters
 {
     public class InMemoryPreviousItemCacheAdapter : IPreviousItemCache
     {

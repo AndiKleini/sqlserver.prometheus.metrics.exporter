@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Sqlserver.Metrics.Provider
+namespace SqlServer.Metrics.Provider
 {
     public class QueryCacheRemovalStatistics
     {

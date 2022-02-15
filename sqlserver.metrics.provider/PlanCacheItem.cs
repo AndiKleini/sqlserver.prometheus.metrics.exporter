@@ -1,4 +1,4 @@
-﻿using Sqlserver.Metrics.Provider;
+﻿using SqlServer.Metrics.Provider;
 using System;
 
 namespace SqlServer.Metrics.Provider

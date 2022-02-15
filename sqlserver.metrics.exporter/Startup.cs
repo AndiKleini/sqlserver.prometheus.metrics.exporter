@@ -7,17 +7,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Sqlserver.Metrics.Exporter.Adapters;
-using Sqlserver.Metrics.Exporter.Database;
-using Sqlserver.Metrics.Provider;
-using Sqlserver.Metrics.Provider.Builder;
+using SqlServer.Metrics.Exporter.Adapters;
+using SqlServer.Metrics.Exporter.Database;
+using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sqlserver.metrics.exporter
+namespace SqlServer.metrics.exporter
 {
     public class Startup
     {
@@ -48,7 +48,7 @@ namespace sqlserver.metrics.exporter
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "sqlserver.metrics.exporter", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SqlServer.metrics.exporter", Version = "v1" });
             });
         }
 
@@ -59,7 +59,7 @@ namespace sqlserver.metrics.exporter
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "sqlserver.metrics.exporter v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SqlServer.metrics.exporter v1"));
             }
 
             // app.UseHttpsRedirection();

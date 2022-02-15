@@ -1,15 +1,15 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter.Adapters;
-using Sqlserver.Metrics.Exporter.Database;
+using SqlServer.Metrics.Exporter.Adapters;
+using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Tests.Database
+namespace SqlServer.Metrics.Exporter.Tests.Database
 {
     [TestFixture]
     public class DbCacheRepositoryAdapterTests

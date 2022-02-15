@@ -1,6 +1,6 @@
 ﻿
 using Dapper;
-using Sqlserver.Metrics.Exporter.Database.Entities;
+using SqlServer.Metrics.Exporter.Database.Entities;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Database
+namespace SqlServer.Metrics.Exporter.Database
 {
     public class DbPlanCacheRepository : IDbPlanCacheRepository
     {

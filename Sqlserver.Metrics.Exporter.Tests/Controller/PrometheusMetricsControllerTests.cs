@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter.Controllers;
+using SqlServer.Metrics.Exporter.Controllers;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Tests.Controller
+namespace SqlServer.Metrics.Exporter.Tests.Controller
 {
     [TestFixture]
     public class PrometheusMetricsControllerTests

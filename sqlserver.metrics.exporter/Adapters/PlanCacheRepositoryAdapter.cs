@@ -1,11 +1,11 @@
-﻿using Sqlserver.Metrics.Exporter.Database;
+﻿using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sqlserver.Metrics.Exporter.Adapters
+namespace SqlServer.Metrics.Exporter.Adapters
 {
     public class PlanCacheRepositoryAdapter : IPlanCacheRepository
     {
