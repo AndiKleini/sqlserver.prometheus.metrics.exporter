@@ -83,22 +83,77 @@ namespace SqlServer.Metrics.Exporter.Database.Entities
 			using var textReaderRemovalStats = new StringReader(dbHistoricalCacheItem.event_data);
 			var removalStatistics = (QueryCacheRemovalStatisticsXmlItem)serializerRemovalStats.Deserialize(textReaderRemovalStats);
 			var attributesOverridesExecutionStats = new XmlAttributeOverrides();
-			attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatistics), attributes);
+			attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatisticsXmlItem), attributes);
 			var serializerExecutionStats = 
 				new XmlSerializer(
-					typeof(ProcedureExecutionStatistics),
+					typeof(ProcedureExecutionStatisticsXmlItem),
 					attributesOverridesExecutionStats,
 					null,
 					new XmlRootAttribute("ProcedureExecutionStats"),
 					null);
 			using var textReaderExecutionStats = new StringReader(removalStatistics.Data[7].Value);
-			var executionStatistics = (ProcedureExecutionStatistics)serializerExecutionStats.Deserialize(textReaderExecutionStats);
+			var executionStatisticsXml = (ProcedureExecutionStatisticsXmlItem)serializerExecutionStats.Deserialize(textReaderExecutionStats);
 			return new PlanCacheItem()
 			{
-				ExecutionStatistics = executionStatistics,
+				ExecutionStatistics = executionStatisticsXml.ToExecutionStatistics(),
 				ObjectId = int.Parse(removalStatistics.Data[2].Value),
 				RemovedFromCacheAt = dbHistoricalCacheItem.timestamp_utc
 			};
         }
-    }
+
+		private static ProcedureExecutionStatistics ToExecutionStatistics(this ProcedureExecutionStatisticsXmlItem executionStatisticsXml)
+        {
+			return new Provider.ProcedureExecutionStatistics()
+			{
+				GeneralStats = new Provider.GeneralStats()
+				{
+					CachedTime = executionStatisticsXml.GeneralStats.CachedTime,
+					ExecutionCount = executionStatisticsXml.GeneralStats.ExecutionCount,
+					LastExecutionTime = executionStatisticsXml.GeneralStats.LastExecutionTime
+				},
+				ElapsedTime = new Provider.ElapsedTime()
+				{
+					Last = executionStatisticsXml.ElapsedTime.Last,
+					Max = executionStatisticsXml.ElapsedTime.Max,
+					Min = executionStatisticsXml.ElapsedTime.Min,
+					Total = executionStatisticsXml.ElapsedTime.Total
+				},
+				LogicalReads = new Provider.LogicalReads()
+				{
+					Last = executionStatisticsXml.LogicalReads.Last,
+					Max = executionStatisticsXml.LogicalReads.Max,
+					Min = executionStatisticsXml.LogicalReads.Min,
+					Total = executionStatisticsXml.LogicalReads.Total
+				},
+				PageServerReads = new Provider.PageServerReads()
+				{
+					Last = executionStatisticsXml.PageServerReads.Last,
+					Max = executionStatisticsXml.PageServerReads.Max,
+					Min = executionStatisticsXml.PageServerReads.Min,
+					Total = executionStatisticsXml.PageServerReads.Total
+				},
+				LogicalWrites = new Provider.LogicalWrites()
+				{
+					Last = executionStatisticsXml.LogicalWrites.Last,
+					Max = executionStatisticsXml.LogicalWrites.Max,
+					Min = executionStatisticsXml.LogicalWrites.Min,
+					Total = executionStatisticsXml.LogicalWrites.Total
+				},
+				PhysicalReads = new Provider.PhysicalReads()
+				{
+					Last = executionStatisticsXml.PhysicalReads.Last,
+					Max = executionStatisticsXml.PhysicalReads.Max,
+					Min = executionStatisticsXml.PhysicalReads.Min,
+					Total = executionStatisticsXml.PhysicalReads.Total
+				},
+				WorkerTime = new Provider.WorkerTime()
+				{
+					Last = executionStatisticsXml.WorkerTime.Last,
+					Max = executionStatisticsXml.WorkerTime.Max,
+					Min = executionStatisticsXml.WorkerTime.Min,
+					Total = executionStatisticsXml.WorkerTime.Total
+				}
+			};
+		}
+	}
 }

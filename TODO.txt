@@ -1,11 +1,11 @@
 Next Step: 
-	
-	Clone and move XMl Classes for deserialization.
+
 	Implement ZeroItem FactoryMethod for PlanCacheItem.
 	Verify the benefit of yield as there is only one occurance in a method.
 	PreviousPlanCacheItemStore could only store the execution count.
 	Handle Last execution Count in provider
 
+	(Done) Clone and move XMl Classes for deserialization.
 	(Done) Clean Up NameSpaces SqlServer <=> SqlServer
 	(Done) Implement StandardPreviousItemCache.
 	(Done) Remove DeltatMetricsBuilder
