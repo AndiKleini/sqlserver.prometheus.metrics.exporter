@@ -2,3 +2,9 @@ InitialFetchInterval int Seconds -> determines the timespan reaching into the pa
 
 DeliverMetricsAtTheFirstFetch bool -> true: metrics will be deliverd at the first fetch, false -> no metrics will be delivered at the first fetch (maybe default)
 
+SqlServerConnectionString string
+
+Logger
+
+XEventPath settings
+

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Sqlserver.Metrics.Exporter;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Linq;
@@ -13,25 +14,24 @@ namespace SqlServer.Metrics.Exporter.Controllers
     {
         private static DateTime? lastCollect;
         private readonly IStoredProcedureMetricsProvider metricsProvider;
+        private readonly ILastFetchHistory history;
 
-        public PrometheusMetricsController(IStoredProcedureMetricsProvider metricsProvider)
+        public PrometheusMetricsController(IStoredProcedureMetricsProvider metricsProvider, ILastFetchHistory history)
         {
             this.metricsProvider = metricsProvider;
+            this.history = history;
         }
 
         [HttpGet]
         public async Task<string> GetMetrics()
         {
-            if (lastCollect == null)
-            {
-                lastCollect = DateTime.Now.AddMinutes(-5);
-            } 
-
-            var metricItems = await this.metricsProvider.Collect(lastCollect.Value);
-            lastCollect = DateTime.Now;
-            return metricItems.Aggregate(
-                new StringBuilder(), 
-                (aggregate, current) => aggregate.Append($"{current.Name} {current.Value}\n")).ToString();
+            lastCollect = history.GetPreviousFetchAndResetToNow();
+            var metricItems = await this.metricsProvider.Collect(lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
+            return lastCollect == null ? 
+                String.Empty : 
+                metricItems.Aggregate(
+                    new StringBuilder(), 
+                    (aggregate, current) => aggregate.Append($"{current.Name} {current.Value}\n")).ToString();
         }
     }
 }
