@@ -1,8 +1,12 @@
 Next Step: 
 
+	Deliver no metrics at the first fetch
+	Logging
+	ExceptionHandling
 	Verify the benefit of yield as there is only one occurance in a method.
 	PreviousPlanCacheItemStore could only store the execution count.
 	Handle Last execution Count in provider
+	Fix TODOs in PlanCacheRepositoryAdapter.
 
 	(Done) Implement ZeroItem FactoryMethod for PlanCacheItem.
 	(Done) Clone and move XMl Classes for deserialization.

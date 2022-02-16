@@ -1,0 +1,4 @@
+InitialFetchInterval int Seconds -> determines the timespan reaching into the past at the first fetch after restart. Only active when DeliverMetricsAtTheFirstFetch is set to true
+
+DeliverMetricsAtTheFirstFetch bool -> true: metrics will be deliverd at the first fetch, false -> no metrics will be delivered at the first fetch (maybe default)
+

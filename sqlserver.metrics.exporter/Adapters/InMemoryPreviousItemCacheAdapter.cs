@@ -1,5 +1,4 @@
 ﻿using SqlServer.Metrics.Provider;
-using SqlServer.Metrics.Provider;
 using System.Collections.Generic;
 
 namespace SqlServer.Metrics.Exporter.Adapters
@@ -8,14 +7,9 @@ namespace SqlServer.Metrics.Exporter.Adapters
     {
         private Dictionary<string, PlanCacheItem> cache = new Dictionary<string, PlanCacheItem>();
 
-        public PlanCacheItem GetPreviousCacheItem(string storedProcedureName)
-        {
-           return this.cache.GetValueOrDefault(storedProcedureName);
-        }
-
-        public void StorePreviousCacheItem(string storedProcedureName, PlanCacheItem previousPlanCacheItem)
-        {
-            this.cache[storedProcedureName] = previousPlanCacheItem;
-        }
+        public PlanCacheItem GetPreviousCacheItem(string storedProcedureName) => this.cache.GetValueOrDefault(storedProcedureName);
+       
+        public void StorePreviousCacheItem(string storedProcedureName, PlanCacheItem previousPlanCacheItem) 
+            => this.cache[storedProcedureName] = previousPlanCacheItem;
     }
 }
