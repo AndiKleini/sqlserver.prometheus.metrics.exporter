@@ -18,9 +18,9 @@ namespace SqlServer.Metrics.Provider
             this.metricsBuilder = metricsBuilder;
         }
 
-        public async Task<MetricsResult> Collect(DateTime from)
+        public async Task<MetricsResult> Collect(DateTime from, DateTime includeHistoricalItemsFrom)
         {
-            var planCacheItems = await this.planCacheRepository.GetPlanCache(from);
+            var planCacheItems = await this.planCacheRepository.GetPlanCache(from, includeHistoricalItemsFrom);
             var groupedBySpName = planCacheItems.GroupBy(p => p.SpName);
             var metricItems = groupedBySpName.SelectMany(metricsBuilder.Build);
             return 

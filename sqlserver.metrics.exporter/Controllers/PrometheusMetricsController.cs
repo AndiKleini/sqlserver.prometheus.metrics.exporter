@@ -26,7 +26,9 @@ namespace SqlServer.Metrics.Exporter.Controllers
         public async Task<string> GetMetrics()
         {
             lastCollect = history.GetPreviousFetchAndResetToNow();
-            var metricsResult = await this.metricsProvider.Collect(lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
+            var metricsResult = await this.metricsProvider.Collect(
+                lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)), 
+                lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
             return lastCollect == null ? 
                 String.Empty : 
                 metricsResult.Items.Aggregate(

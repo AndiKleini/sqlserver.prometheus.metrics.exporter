@@ -35,7 +35,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
                     new MetricItem() { Name = logiocalReadsMaxName , Value = logicalReadsMaxValue },
                     new MetricItem() { Name = maxSpillsName , Value = maxSpillsValue },
                 };
-            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
+            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
             var lastFetchHistory = new Mock<ILastFetchHistory>();
             lastFetchHistory.Setup(s => s.GetPreviousFetchAndResetToNow()).Returns(DateTime.Now.AddMinutes(-5));
             var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
@@ -62,7 +62,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
                     new MetricItem() { Name = logiocalReadsMaxName , Value = logicalReadsMaxValue },
                     new MetricItem() { Name = maxSpillsName , Value = maxSpillsValue },
                 };
-            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
+            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
             var lastFetchHistory = new Mock<ILastFetchHistory>();
             lastFetchHistory.Setup(s => s.GetPreviousFetchAndResetToNow()).Returns(default(DateTime?));
             var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);

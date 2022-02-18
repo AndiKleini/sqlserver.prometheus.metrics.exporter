@@ -16,13 +16,13 @@ namespace SqlServer.Metrics.Exporter.Adapters
             this.planCacheRepository = planCacheRepository;
         }
 
-        public async Task<IEnumerable<PlanCacheItem>> GetPlanCache(DateTime from)
+        public async Task<IEnumerable<PlanCacheItem>> GetPlanCache(DateTime collectMetricsFrom, DateTime includeHistoricalItemsFrom)
         {
             var lookUp = await this.planCacheRepository.GetObjectIdAndProcedureNames();
 
             return
-                (await this.planCacheRepository.GetCurrentPlanCache(from))
-                .Concat(await this.planCacheRepository.GetHistoricalPlanCache(from))
+                (await this.planCacheRepository.GetCurrentPlanCache(collectMetricsFrom))
+                .Concat(await this.planCacheRepository.GetHistoricalPlanCache(includeHistoricalItemsFrom))
                 .Where(p => p.ObjectId > 0) // we have to ignore the internal objectIds 
                 .Select(p => { p.SpName = lookUp[p.ObjectId] /* TODO: ignore if no value is emitted an write proper warning */; return p; });
         }

@@ -8,7 +8,7 @@ namespace SqlServer.Metrics.Provider
 {
     public interface IStoredProcedureMetricsProvider
     {
-        Task<MetricsResult> Collect(DateTime from);
+        Task<MetricsResult> Collect(DateTime from, DateTime includeHistoricalItemsFrom);
         List<IMetricsBuilder> GetMetricBuilders();
     }
 }

@@ -42,8 +42,9 @@ namespace SqlServer.metrics.exporter.engine.tests
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
             DateTime newestHistoricalItemRemovedAt = DateTime.Parse("2021-12-12 11:00");
             DateTime olderHistoricalItemRemovedAt = DateTime.Parse("2021-12-12 10:00");
+            DateTime includeHistoricalItemsFrom = DateTime.Parse("2021-12-12 9:00");
             mockeryPlanCache
-                .Setup(s => s.GetPlanCache(from))
+                .Setup(s => s.GetPlanCache(from, It.IsAny<DateTime>()))
                 .ReturnsAsync(new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -101,7 +102,7 @@ namespace SqlServer.metrics.exporter.engine.tests
             MetricsResult expectedResult = new MetricsResult() { Items = expectedItemsFromBuildMethod, NewestHistoricalItemConsidered = newestHistoricalItemRemovedAt };
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
-            MetricsResult yieldResult = await instanceUnderTest.Collect(from);
+            MetricsResult yieldResult = await instanceUnderTest.Collect(from, includeHistoricalItemsFrom);
 
             yieldResult.Should().BeEquivalentTo(expectedResult);
         }
@@ -131,9 +132,10 @@ namespace SqlServer.metrics.exporter.engine.tests
 
                 };
             DateTime from = DateTime.Parse("2021-12-12 13:00");
+            DateTime includeHistoricalItemsFrom = DateTime.Parse("2021-12-12 12:30");
             var mockeryPlanCache = new Mock<IPlanCacheRepository>();
             mockeryPlanCache
-                .Setup(s => s.GetPlanCache(from))
+                .Setup(s => s.GetPlanCache(from, It.IsAny<DateTime>()))
                 .ReturnsAsync(new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
@@ -171,7 +173,7 @@ namespace SqlServer.metrics.exporter.engine.tests
             MetricsResult expectedResult = new MetricsResult() { Items = expectedItemsFromBuildMethod, NewestHistoricalItemConsidered = null };
             var instanceUnderTest = new StoredProcedureMetricsProvider(planCacherepository, mockeryCombinedMetricsBuilder.Object);
 
-            MetricsResult yieldResult = await instanceUnderTest.Collect(from);
+            MetricsResult yieldResult = await instanceUnderTest.Collect(from, includeHistoricalItemsFrom);
 
             yieldResult.Should().BeEquivalentTo(expectedResult);
         }

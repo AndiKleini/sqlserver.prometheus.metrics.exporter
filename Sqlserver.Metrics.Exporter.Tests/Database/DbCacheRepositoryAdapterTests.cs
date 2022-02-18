@@ -55,17 +55,19 @@ namespace SqlServer.Metrics.Exporter.Tests.Database
         [Test]
         public async Task GetPlanCache_Returns_Historical_And_CurrentItems()
         {
+            DateTime startCollectPlanCacheFrom = DateTime.Now;
+            DateTime startCollectingHistoricalItemsFrom = DateTime.Now.AddSeconds(-30);
             var planCacheRepositoryMock = new Mock<IDbPlanCacheRepository>();
-            planCacheRepositoryMock.Setup(s => s.GetCurrentPlanCache(It.IsAny<DateTime>())).ReturnsAsync(this.GetCurrentPlanCacheItems());
-            planCacheRepositoryMock.Setup(s => s.GetHistoricalPlanCache(It.IsAny<DateTime>())).ReturnsAsync(this.GetHistoricalPlanCacheItems());
+            planCacheRepositoryMock.Setup(s => s.GetCurrentPlanCache(startCollectPlanCacheFrom)).ReturnsAsync(this.GetCurrentPlanCacheItems());
+            planCacheRepositoryMock.Setup(s => s.GetHistoricalPlanCache(startCollectingHistoricalItemsFrom)).ReturnsAsync(this.GetHistoricalPlanCacheItems());
             planCacheRepositoryMock.Setup(s => s.GetObjectIdAndProcedureNames()).ReturnsAsync(GetObjectIds());
-
             var instanceUnderTest = new PlanCacheRepositoryAdapter(planCacheRepositoryMock.Object);
 
-            IEnumerable<PlanCacheItem> combinedPlanCacheItems = await instanceUnderTest.GetPlanCache(DateTime.Now);
+            IEnumerable<PlanCacheItem> combinedPlanCacheItems = await instanceUnderTest.GetPlanCache(startCollectPlanCacheFrom, startCollectingHistoricalItemsFrom);
 
             combinedPlanCacheItems.Should().BeEquivalentTo(
                 this.GetCurrentPlanCacheItemsWithResolvedName().Concat(this.GetHistoricalPlanCacheItemsWithResolvedName()));
+            planCacheRepositoryMock.VerifyAll();
         }
 
         private static Dictionary<int, string> GetObjectIds()
