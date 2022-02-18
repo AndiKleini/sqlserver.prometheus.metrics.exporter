@@ -28,6 +28,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
                 $"{elapedTimeMaxName} {elapsedTimeMaxValue}" + prometheusFormatLineSeperator +
                 $"{logiocalReadsMaxName} {logicalReadsMaxValue}" + prometheusFormatLineSeperator +
                 $"{maxSpillsName} {maxSpillsValue}" + prometheusFormatLineSeperator;
+            HistoricalFetch previousFetch = new HistoricalFetch() { LastFetchTime = DateTime.Now.AddMinutes(-5), IncludedHistoricalItemsUntil = DateTime.Now.AddMinutes(-6) };
             var providerMock = new Mock<IStoredProcedureMetricsProvider>();
             List<MetricItem> yieldMetricItems = new List<MetricItem>()
                 {
@@ -35,14 +36,19 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
                     new MetricItem() { Name = logiocalReadsMaxName , Value = logicalReadsMaxValue },
                     new MetricItem() { Name = maxSpillsName , Value = maxSpillsValue },
                 };
-            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
+            DateTime includedHistoricalItemUntil = DateTime.Now.AddMinutes(-1);
+            providerMock.Setup(
+                s => s.Collect(previousFetch.LastFetchTime.Value, previousFetch.IncludedHistoricalItemsUntil.Value)).
+                ReturnsAsync(new MetricsResult() { Items = yieldMetricItems, NewestHistoricalItemConsidered = includedHistoricalItemUntil });
             var lastFetchHistory = new Mock<ILastFetchHistory>();
-            lastFetchHistory.Setup(s => s.GetPreviousFetchAndResetToNow()).Returns(DateTime.Now.AddMinutes(-5));
+            lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(previousFetch);
+            lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.Is<HistoricalFetch>(hist => hist.IncludedHistoricalItemsUntil == includedHistoricalItemUntil)));
             var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
 
             var metricsFormat = await instanceUnderTest.GetMetrics();
 
             metricsFormat.Should().Be(expectedMetricItems);
+            lastFetchHistory.VerifyAll();
         }
 
         [Test]
@@ -62,14 +68,17 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
                     new MetricItem() { Name = logiocalReadsMaxName , Value = logicalReadsMaxValue },
                     new MetricItem() { Name = maxSpillsName , Value = maxSpillsValue },
                 };
-            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems });
+            DateTime includedHistoricalItemUntil = DateTime.Now.AddMinutes(-1);
+            providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems, NewestHistoricalItemConsidered = includedHistoricalItemUntil });
             var lastFetchHistory = new Mock<ILastFetchHistory>();
-            lastFetchHistory.Setup(s => s.GetPreviousFetchAndResetToNow()).Returns(default(DateTime?));
+            lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(new HistoricalFetch());
+            lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.Is<HistoricalFetch>(hist => hist.IncludedHistoricalItemsUntil == includedHistoricalItemUntil)));
             var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
 
             var metricsFormat = await instanceUnderTest.GetMetrics();
 
             metricsFormat.Should().Be(expectedMetricItems);
+            lastFetchHistory.VerifyAll();
         }
     }
 }

@@ -12,7 +12,6 @@ namespace SqlServer.Metrics.Exporter.Controllers
     [Route("metrics")]
     public class PrometheusMetricsController : Controller
     {
-        private static DateTime? lastCollect;
         private readonly IStoredProcedureMetricsProvider metricsProvider;
         private readonly ILastFetchHistory history;
 
@@ -25,11 +24,18 @@ namespace SqlServer.Metrics.Exporter.Controllers
         [HttpGet]
         public async Task<string> GetMetrics()
         {
-            lastCollect = history.GetPreviousFetchAndResetToNow();
-            var metricsResult = await this.metricsProvider.Collect(
-                lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)), 
-                lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
-            return lastCollect == null ? 
+            var previousFetch = history.GetPreviousFetch();
+            var metricsResult = 
+                await this.metricsProvider.Collect(
+                    previousFetch.LastFetchTime.GetValueOrDefault(DateTime.Now.AddMinutes(-5)), 
+                    previousFetch.IncludedHistoricalItemsUntil.GetValueOrDefault(DateTime.Now.AddMinutes(-5).AddSeconds(-30)));
+            this.history.SetPreviousFetchTo(
+                new HistoricalFetch()
+                {
+                    LastFetchTime = DateTime.Now,
+                    IncludedHistoricalItemsUntil = metricsResult.NewestHistoricalItemConsidered
+                });
+            return previousFetch.LastFetchTime == null ? 
                 String.Empty : 
                 metricsResult.Items.Aggregate(
                     new StringBuilder(), 
