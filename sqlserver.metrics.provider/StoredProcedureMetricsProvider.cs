@@ -1,4 +1,5 @@
-﻿using SqlServer.Metrics.Provider.Builder;
+﻿using Sqlserver.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,17 @@ namespace SqlServer.Metrics.Provider
             this.metricsBuilder = metricsBuilder;
         }
 
-        public async Task<IEnumerable<MetricItem>> Collect(DateTime from)
+        public async Task<MetricsResult> Collect(DateTime from)
         {
-            var groupedBySpName = (await this.planCacheRepository.GetPlanCache(from)).GroupBy(p => p.SpName);
-            return groupedBySpName.SelectMany(metricsBuilder.Build);
+            var planCacheItems = await this.planCacheRepository.GetPlanCache(from);
+            var groupedBySpName = planCacheItems.GroupBy(p => p.SpName);
+            var metricItems = groupedBySpName.SelectMany(metricsBuilder.Build);
+            return 
+                new MetricsResult() 
+                { 
+                    Items = metricItems, 
+                    NewestHistoricalItemConsidered = planCacheItems.Max(item => item.RemovedFromCacheAt)
+                };
         }
 
         public List<IMetricsBuilder> GetMetricBuilders()

@@ -26,10 +26,10 @@ namespace SqlServer.Metrics.Exporter.Controllers
         public async Task<string> GetMetrics()
         {
             lastCollect = history.GetPreviousFetchAndResetToNow();
-            var metricItems = await this.metricsProvider.Collect(lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
+            var metricsResult = await this.metricsProvider.Collect(lastCollect.GetValueOrDefault(DateTime.Now.AddMinutes(-5)));
             return lastCollect == null ? 
                 String.Empty : 
-                metricItems.Aggregate(
+                metricsResult.Items.Aggregate(
                     new StringBuilder(), 
                     (aggregate, current) => aggregate.Append($"{current.Name} {current.Value}\n")).ToString();
         }
