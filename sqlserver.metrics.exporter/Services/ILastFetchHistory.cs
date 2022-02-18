@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sqlserver.Metrics.Exporter
+namespace Sqlserver.Metrics.Exporter.Services
 {
     public interface ILastFetchHistory
     {

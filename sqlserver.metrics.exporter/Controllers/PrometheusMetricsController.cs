@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sqlserver.Metrics.Exporter;
+using Sqlserver.Metrics.Exporter.Services;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Linq;

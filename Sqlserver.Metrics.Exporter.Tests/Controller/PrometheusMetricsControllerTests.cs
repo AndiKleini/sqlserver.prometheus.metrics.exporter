@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Sqlserver.Metrics.Exporter;
+using Sqlserver.Metrics.Exporter.Services;
 using SqlServer.Metrics.Exporter.Controllers;
 using SqlServer.Metrics.Provider;
 using System;
