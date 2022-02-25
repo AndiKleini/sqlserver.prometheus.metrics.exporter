@@ -71,7 +71,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
             DateTime includedHistoricalItemUntil = DateTime.Now.AddMinutes(-1);
             providerMock.Setup(s => s.Collect(It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(new MetricsResult() { Items = yieldMetricItems, NewestHistoricalItemConsidered = includedHistoricalItemUntil });
             var lastFetchHistory = new Mock<ILastFetchHistory>();
-            lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(new HistoricalFetch());
+            lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(default(HistoricalFetch));
             lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.Is<HistoricalFetch>(hist => hist.IncludedHistoricalItemsUntil == includedHistoricalItemUntil)));
             var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
 

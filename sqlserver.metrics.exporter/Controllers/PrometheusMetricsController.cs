@@ -25,17 +25,20 @@ namespace SqlServer.Metrics.Exporter.Controllers
         public async Task<string> GetMetrics()
         {
             var previousFetch = history.GetPreviousFetch();
-            var metricsResult = 
-                await this.metricsProvider.Collect(
-                    previousFetch.LastFetchTime.GetValueOrDefault(DateTime.Now.AddMinutes(-5)), 
-                    previousFetch.IncludedHistoricalItemsUntil.GetValueOrDefault(DateTime.Now.AddMinutes(-5).AddSeconds(-30)));
+            var collectRange = 
+                new 
+                { 
+                    LastFetchTime = previousFetch?.LastFetchTime ?? DateTime.Now.AddMinutes(-5), 
+                    IncludedHistoricalItemsUntil = previousFetch?.IncludedHistoricalItemsUntil ?? DateTime.Now.AddMinutes(-5).AddSeconds(-30)
+                }; 
+            var metricsResult = await this.metricsProvider.Collect(collectRange.LastFetchTime, collectRange.IncludedHistoricalItemsUntil);
             this.history.SetPreviousFetchTo(
                 new HistoricalFetch()
                 {
                     LastFetchTime = DateTime.Now,
                     IncludedHistoricalItemsUntil = metricsResult.NewestHistoricalItemConsidered
                 });
-            return previousFetch.LastFetchTime == null ? 
+            return previousFetch == null ? 
                 String.Empty : 
                 metricsResult.Items.Aggregate(
                     new StringBuilder(), 

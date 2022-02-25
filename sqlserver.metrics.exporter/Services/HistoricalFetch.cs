@@ -2,7 +2,7 @@
 
 namespace Sqlserver.Metrics.Exporter.Services
 {
-    public struct HistoricalFetch
+    public class HistoricalFetch
     {
         public DateTime? LastFetchTime { get; set; }
         public DateTime? IncludedHistoricalItemsUntil { get; set; }

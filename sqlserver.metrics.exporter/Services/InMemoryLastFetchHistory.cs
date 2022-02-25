@@ -5,23 +5,16 @@ namespace Sqlserver.Metrics.Exporter.Services
 {
     public class InMemoryLastFetchHistory : ILastFetchHistory
     {
-        private DateTime? callTimeStamp = null;
+        private HistoricalFetch previousFetch;
 
         public HistoricalFetch GetPreviousFetch()
         {
-            throw new NotImplementedException();
-        }
-
-        public DateTime? GetPreviousFetchAndResetToNow()
-        {
-            var previousTimeStamp = this.callTimeStamp;
-            this.callTimeStamp = DateTime.Now;
-            return previousTimeStamp;
+            return this.previousFetch;
         }
 
         public void SetPreviousFetchTo(HistoricalFetch historicalFetch)
         {
-            throw new NotImplementedException();
+            this.previousFetch = historicalFetch;
         }
     }
 }

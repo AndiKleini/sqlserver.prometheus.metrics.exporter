@@ -9,21 +9,21 @@ namespace Sqlserver.Metrics.Exporter.Tests.Services
     public class InMemoryLastFetchHistoryTests
     {
         [Test]
-        public void GetPreviousFetchAndResetToNow_CalledForTheFirstTime_ReturnsNull()
+        public void GetPreviousFetch_SetPreviousFetchToWasNotCalledBefore_ReturnsNull()
         {
-            Assert.IsNull(new InMemoryLastFetchHistory().GetPreviousFetchAndResetToNow());
+            Assert.IsNull(new InMemoryLastFetchHistory().GetPreviousFetch());
         }
 
         [Test]
-        public void GetPreviousFetchAndResetToNow_CalledForTheSecondTime_ReturnsTimeStampOfPreviousCall()
+        public void GetPreviousFetch_SetPreviousFetchToWasCalledBefore_ReturnsPreviousValues()
         {
+            HistoricalFetch previousFetch = new HistoricalFetch() { IncludedHistoricalItemsUntil = DateTime.Now, LastFetchTime = DateTime.Now };
             var instanceUnderTest = new InMemoryLastFetchHistory();
-            DateTime timeBeforeFirstFetch = DateTime.Now;
-            
-            _ = instanceUnderTest.GetPreviousFetchAndResetToNow();
-            DateTime? resultOfSecondCall = instanceUnderTest.GetPreviousFetchAndResetToNow();
 
-            resultOfSecondCall.Should().BeAfter(timeBeforeFirstFetch);
+            instanceUnderTest.SetPreviousFetchTo(previousFetch);
+            var yield = instanceUnderTest.GetPreviousFetch();
+
+            yield.Should().BeSameAs(previousFetch);
         }
     }
 }
