@@ -41,11 +41,22 @@ namespace SqlServer.Metrics.Exporter.Controllers
 
             CollectionRange From(HistoricalFetch previousFetch)
             {
-                return new CollectionRange()
+                if (previousFetch == null)
                 {
-                    LastFetchTime = previousFetch?.LastFetchTime ?? DateTime.Now.AddMinutes(-5),
-                    IncludedHistoricalItemsUntil = previousFetch?.IncludedHistoricalItemsUntil ?? DateTime.Now.AddMinutes(-5).AddSeconds(-30)
-                };
+                    return new CollectionRange()
+                    {
+                        LastFetchTime = DateTime.Now.AddMinutes(-5),
+                        IncludedHistoricalItemsUntil =DateTime.Now.AddMinutes(-5).AddSeconds(-30)
+                    };
+                } 
+                else
+                {
+                    return new CollectionRange()
+                    {
+                        LastFetchTime = previousFetch.LastFetchTime.Value,
+                        IncludedHistoricalItemsUntil = previousFetch.IncludedHistoricalItemsUntil.Value
+                    };
+                }
             }
         }
 
