@@ -16,11 +16,12 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
     public class DbPlanCacheRepositoryTests
     {
         private const string ConnectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";
+        private const string XEventPath = "C:\\temp\\ExtendedEvents*.xel";
 
         [Test]
         public async Task GetCurrentPlanCache()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
             DateTime from = DateTime.Now;
             this.ExecuteStoredProceduresToFillUpCache();
             
@@ -34,7 +35,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
         [Test]
         public async Task GetHistoricalPlanCache()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
             DateTime from = DateTime.Now.AddDays(-1);
             this.ExecuteStoredProceduresToFillUpCache();
             //await Task.Delay(TimeSpan.FromMinutes(1));
@@ -48,7 +49,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
         [Test]
         public async Task GetObjectIdAndProcedureNames()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString);
+            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
 
             var items = await instanceUnderTest.GetObjectIdAndProcedureNames();
 

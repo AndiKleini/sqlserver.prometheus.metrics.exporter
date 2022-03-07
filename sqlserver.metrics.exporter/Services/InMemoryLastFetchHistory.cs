@@ -1,7 +1,4 @@
-﻿using Sqlserver.Metrics.Exporter.Services;
-using System;
-
-namespace Sqlserver.Metrics.Exporter.Services
+﻿namespace Sqlserver.Metrics.Exporter.Services
 {
     public class InMemoryLastFetchHistory : ILastFetchHistory
     {

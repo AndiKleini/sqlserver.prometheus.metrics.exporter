@@ -14,10 +14,12 @@ namespace SqlServer.Metrics.Exporter.Database
     public class DbPlanCacheRepository : IDbPlanCacheRepository
     {
         private readonly string connectionString;
+        private readonly string xEventPath;
 
-        public DbPlanCacheRepository(string connectionString)
+        public DbPlanCacheRepository(string connectionString, string xEventPath)
         {
             this.connectionString = connectionString;
+            this.xEventPath = xEventPath;
         }
 
         public async Task<List<PlanCacheItem>> GetCurrentPlanCache(DateTime from)
@@ -36,7 +38,7 @@ namespace SqlServer.Metrics.Exporter.Database
             connection.Open();
             var result = await connection.QueryAsync<DbHistoricalCacheItem>(
                 "monitoring.getStoredProcedureMetricsHistorical",
-                new { fromUtc = from },
+                new { fromUtc = from, xEventPath = this.xEventPath },
                 commandType: CommandType.StoredProcedure);
             return result.Select(r => r.ToPlanCacheItem()).ToList();
         }

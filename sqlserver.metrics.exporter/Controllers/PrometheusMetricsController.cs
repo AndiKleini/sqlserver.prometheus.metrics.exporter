@@ -25,7 +25,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
         public async Task<string> GetMetrics()
         {
             var previousFetch = history.GetPreviousFetch();
-            CollectionRange collectRange = From(previousFetch);
+            var collectRange = From(previousFetch);
             var metricsResult = await this.metricsProvider.Collect(collectRange.LastFetchTime, collectRange.IncludedHistoricalItemsUntil);
             this.history.SetPreviousFetchTo(
                 new HistoricalFetch()
@@ -46,7 +46,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
                     return new CollectionRange()
                     {
                         LastFetchTime = DateTime.Now.AddMinutes(-5),
-                        IncludedHistoricalItemsUntil =DateTime.Now.AddMinutes(-5).AddSeconds(-30)
+                        IncludedHistoricalItemsUntil = DateTime.Now.AddMinutes(-5).AddSeconds(-30)
                     };
                 } 
                 else

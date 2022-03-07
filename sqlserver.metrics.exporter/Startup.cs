@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sqlserver.Metrics.Exporter.Services;
 
 namespace SqlServer.metrics.exporter
 {
@@ -32,7 +33,10 @@ namespace SqlServer.metrics.exporter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            services.AddSingleton<IDbPlanCacheRepository>(s => new DbPlanCacheRepository(s.GetService<IConfiguration>().GetConnectionString("SqlServerToMonitor")));
+            services.AddSingleton<ILastFetchHistory>(new InMemoryLastFetchHistory());
+            services.AddSingleton<IDbPlanCacheRepository>(s => new DbPlanCacheRepository(
+                s.GetService<IConfiguration>().GetConnectionString("SqlServerToMonitor"),
+                s.GetService<IConfiguration>().GetValue<string>("XEventPath")));
             services.AddSingleton<IPlanCacheRepository>(s => new PlanCacheRepositoryAdapter(s.GetService<IDbPlanCacheRepository>()));
             services.AddSingleton(
                 s => StoredProcedureMetricsProviderFactoryMethod.Create(

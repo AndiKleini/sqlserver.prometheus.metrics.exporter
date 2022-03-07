@@ -1,10 +1,12 @@
-InitialFetchInterval int Seconds -> determines the timespan reaching into the past at the first fetch after restart. Only active when DeliverMetricsAtTheFirstFetch is set to true
-
-DeliverMetricsAtTheFirstFetch bool -> true: metrics will be deliverd at the first fetch, false -> no metrics will be delivered at the first fetch (maybe default)
+InitialFetchInterval int Seconds -> determines the timespan reaching into the past at the first fetch after restart. 
 
 SqlServerConnectionString string
 
 Logger
 
-XEventPath settings
+XEventPath configuration
+
+Decisions for out of scope:
+DeliverMetricsAtTheFirstFetch bool -> true: metrics will be deliverd at the first fetch, false -> no metrics will be delivered at the first fetch (maybe default)
+Was decided to deliver no metrcis at the first grap
 
