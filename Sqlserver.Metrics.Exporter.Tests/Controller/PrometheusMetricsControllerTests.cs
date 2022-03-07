@@ -80,5 +80,31 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
             metricsFormat.Should().Be(expectedMetricItems);
             lastFetchHistory.VerifyAll();
         }
+
+        [Test]
+        public async Task GetMetrics_NewestHistoricalItemConsideredNull_SetsNewestHistoricalItemConsideredToMaxDispatchLatency()
+        {
+            HistoricalFetch previousFetch = new HistoricalFetch() { LastFetchTime = DateTime.Now.AddMinutes(-5), IncludedHistoricalItemsUntil = DateTime.Now.AddMinutes(-6) };
+            var providerMock = new Mock<IStoredProcedureMetricsProvider>();
+            List<MetricItem> yieldMetricItems = new List<MetricItem>();
+            DateTime? includedHistoricalItemUntilReturned = null;
+            const int maximumDispatchLatency = -30;
+            DateTime? includedHistoricalItemUntilCalculated = DateTime.Now.AddSeconds(maximumDispatchLatency);
+            HistoricalFetch historicalFetchSupplied = null;
+            providerMock.Setup(
+                s => s.Collect(previousFetch.LastFetchTime.Value, previousFetch.IncludedHistoricalItemsUntil.Value)).
+                ReturnsAsync(new MetricsResult() { Items = yieldMetricItems, NewestHistoricalItemConsidered = includedHistoricalItemUntilReturned });
+            var lastFetchHistory = new Mock<ILastFetchHistory>();
+            lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(previousFetch);
+
+            lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.IsAny<HistoricalFetch>())).Callback<HistoricalFetch>(h => historicalFetchSupplied = h);
+            var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
+
+            var metricsFormat = await instanceUnderTest.GetMetrics();
+
+            historicalFetchSupplied.Should().NotBeNull();
+            historicalFetchSupplied.IncludedHistoricalItemsUntil.Should().BeCloseTo(includedHistoricalItemUntilCalculated.Value, TimeSpan.FromSeconds(2));
+            lastFetchHistory.VerifyAll();
+        }
     }
 }

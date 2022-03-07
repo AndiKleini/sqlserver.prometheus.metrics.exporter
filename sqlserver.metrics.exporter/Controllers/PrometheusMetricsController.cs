@@ -31,7 +31,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
                 new HistoricalFetch()
                 {
                     LastFetchTime = DateTime.Now,
-                    IncludedHistoricalItemsUntil = metricsResult.NewestHistoricalItemConsidered
+                    IncludedHistoricalItemsUntil = metricsResult.NewestHistoricalItemConsidered.GetValueOrDefault(DateTime.Now.AddSeconds(-30))
                 });
             return previousFetch == null ?
                 String.Empty :
