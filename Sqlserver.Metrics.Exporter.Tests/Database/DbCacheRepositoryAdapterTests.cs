@@ -6,6 +6,7 @@ using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,14 +44,14 @@ namespace SqlServer.Metrics.Exporter.Tests.Database
         const int maxWorkerTime = 56;
         const int minWorkerTime = 23;
         const int lastWorkerTime = 231;
-        private DateTime CachedTime_Procedure_A = DateTime.Parse("14/01/22 12:00:34");
-        private DateTime CachedTime_Procedure_B = DateTime.Parse("14/01/22 12:01:34");
-        private DateTime CachedTime_Historical_Procedure_A = DateTime.Parse("14/01/22 12:03:34");
-        private DateTime CachedTime_Historical_Procedure_B = DateTime.Parse("14/01/22 12:04:34");
-        private DateTime LastExecutionTime_Procedure_A = DateTime.Parse("14/01/22 12:00:34");
-        private DateTime LastExecutionTime_Procedure_B = DateTime.Parse("14/01/22 12:01:34");
-        private DateTime LastExecutionTime_Historical_Procedure_A = DateTime.Parse("14/01/22 12:03:34");
-        private DateTime LastExecutionTime_Historical_Procedure_B = DateTime.Parse("14/01/22 12:04:34");
+        private DateTime CachedTime_Procedure_A = DateTime.Parse("01/14/22 12:00:34", CultureInfo.CreateSpecificCulture("en-US"));
+        private DateTime CachedTime_Procedure_B = DateTime.Parse("01/14/22 12:01:34", CultureInfo.CreateSpecificCulture("en-US"));
+        private DateTime CachedTime_Historical_Procedure_A = DateTime.Parse("01/14/22 12:03:34");
+        private DateTime CachedTime_Historical_Procedure_B = DateTime.Parse("01/14/22 12:04:34");
+        private DateTime LastExecutionTime_Procedure_A = DateTime.Parse("01/14/22 12:00:34");
+        private DateTime LastExecutionTime_Procedure_B = DateTime.Parse("01/14/22 12:01:34");
+        private DateTime LastExecutionTime_Historical_Procedure_A = DateTime.Parse("01/14/22 12:03:34");
+        private DateTime LastExecutionTime_Historical_Procedure_B = DateTime.Parse("01/14/22 12:04:34");
 
         [Test]
         public async Task GetPlanCache_Returns_Historical_And_CurrentItems()
