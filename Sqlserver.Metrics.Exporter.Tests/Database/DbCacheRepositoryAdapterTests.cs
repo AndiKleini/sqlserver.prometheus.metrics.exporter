@@ -44,14 +44,19 @@ namespace SqlServer.Metrics.Exporter.Tests.Database
         const int maxWorkerTime = 56;
         const int minWorkerTime = 23;
         const int lastWorkerTime = 231;
-        private DateTime CachedTime_Procedure_A = DateTime.Parse("01/14/22 12:00:34", CultureInfo.CreateSpecificCulture("en-US"));
-        private DateTime CachedTime_Procedure_B = DateTime.Parse("01/14/22 12:01:34", CultureInfo.CreateSpecificCulture("en-US"));
-        private DateTime CachedTime_Historical_Procedure_A = DateTime.Parse("01/14/22 12:03:34");
-        private DateTime CachedTime_Historical_Procedure_B = DateTime.Parse("01/14/22 12:04:34");
-        private DateTime LastExecutionTime_Procedure_A = DateTime.Parse("01/14/22 12:00:34");
-        private DateTime LastExecutionTime_Procedure_B = DateTime.Parse("01/14/22 12:01:34");
-        private DateTime LastExecutionTime_Historical_Procedure_A = DateTime.Parse("01/14/22 12:03:34");
-        private DateTime LastExecutionTime_Historical_Procedure_B = DateTime.Parse("01/14/22 12:04:34");
+        private DateTime CachedTime_Procedure_A = ToDateTime("01/14/22 12:00:34");
+        private DateTime CachedTime_Procedure_B = ToDateTime("01/14/22 12:01:34");
+        private DateTime CachedTime_Historical_Procedure_A = ToDateTime("01/14/22 12:03:34");
+        private DateTime CachedTime_Historical_Procedure_B = ToDateTime("01/14/22 12:04:34");
+        private DateTime LastExecutionTime_Procedure_A = ToDateTime("01/14/22 12:00:34");
+        private DateTime LastExecutionTime_Procedure_B = ToDateTime("01/14/22 12:01:34");
+        private DateTime LastExecutionTime_Historical_Procedure_A = ToDateTime("01/14/22 12:03:34");
+        private DateTime LastExecutionTime_Historical_Procedure_B = ToDateTime("01/14/22 12:04:34");
+
+        private static DateTime ToDateTime(string dateTimeToParse)
+        {
+            return DateTime.Parse(dateTimeToParse, CultureInfo.CreateSpecificCulture("en-US"));
+        }
 
         [Test]
         public async Task GetPlanCache_Returns_Historical_And_CurrentItems()
@@ -437,7 +442,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Database
 
         private List<PlanCacheItem> GetHistoricalPlanCacheItemsWithResolvedName()
         {
-           
+
             return new List<PlanCacheItem>()
                 {
                     new PlanCacheItem()
