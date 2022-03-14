@@ -60,6 +60,7 @@
   <ItemGroup>
     <None Include="getStoredProcedureMetricsFromCache.sql" />
     <None Include="getStoredProcedureMetricsHistorical.sql" />
+    <None Include="activateXEventSession.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monitoring.sql" />

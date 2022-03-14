@@ -1,0 +1,6 @@
+﻿CREATE EVENT SESSION [RemovedFromPlanCache] ON SERVER
+ADD EVENT sqlserver.query_cache_removal_statistics(
+    WHERE ([compiled_object_type]='Stored Procedure'))
+ADD TARGET package0.event_file(SET filename=N'C:\temp\ExtendedEvents.xel')
+WITH (MAX_MEMORY=4096 KB,EVENT_RETENTION_MODE=ALLOW_SINGLE_EVENT_LOSS,MAX_DISPATCH_LATENCY=30 SECONDS,MAX_EVENT_SIZE=0 KB,MEMORY_PARTITION_MODE=NONE,TRACK_CAUSALITY=OFF,STARTUP_STATE=OFF)
+GO
