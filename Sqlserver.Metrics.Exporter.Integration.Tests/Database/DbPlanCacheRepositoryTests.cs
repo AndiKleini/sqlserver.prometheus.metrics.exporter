@@ -1,69 +1,93 @@
 ﻿using Dapper;
 using FluentAssertions;
 using NUnit.Framework;
+using Sqlserver.Metrics.Exporter.Integration.Tests.Database;
 using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
 {
     [TestFixture]
-    [Ignore("Only runnable with proper Database in place.")]
     public class DbPlanCacheRepositoryTests
     {
-        private const string ConnectionString = "Data Source=.;Initial Catalog=restifysp;Integrated Security=True;";
-        private const string XEventPath = "C:\\temp\\ExtendedEvents*.xel";
+        private static int testProcedureObjectId;
+        private static SetupAndTearDown setupAndTearDown = new SetupAndTearDown();
+
+        [OneTimeSetUp]
+        public async Task OneTimeSetUp()
+        {
+            testProcedureObjectId = await setupAndTearDown.PrepareTestDatabase();
+        }
+
+        [OneTimeTearDown]
+        public async Task OneTimeTearDown()
+        {
+            await setupAndTearDown.CleanUpDataBase();
+        }
 
         [Test]
         public async Task GetCurrentPlanCache()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
+            var instanceUnderTest = new DbPlanCacheRepository(Configuration.ConnectionString, Configuration.XEventPath);
             DateTime from = DateTime.Now;
-            this.ExecuteStoredProceduresToFillUpCache();
-            
+            CancellationTokenSource cancelTestProcedureExecutions = new CancellationTokenSource();
+            var executeTestProcedureInBackground = 
+                new TaskFactory().StartNew(
+                    async () =>
+                    {
+                        while (!cancelTestProcedureExecutions.Token.IsCancellationRequested)
+                        {
+                            await this.ExecuteStoredProceduresToFillUpCache();
+                        };
+                    }, 
+                    cancelTestProcedureExecutions.Token);
+
             List<PlanCacheItem> items = await instanceUnderTest.GetCurrentPlanCache(from);
 
-            // TODO: make better integration tests here
-            // the object_id should be extracted automatically
-            items.Should().Contain(p => p.ObjectId == 978102525);
+            cancelTestProcedureExecutions.Cancel();
+            items.Should().Contain(p => p.ObjectId == testProcedureObjectId);
         }
 
         [Test]
         public async Task GetHistoricalPlanCache()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
+            var instanceUnderTest = new DbPlanCacheRepository(Configuration.ConnectionString, Configuration.XEventPath);
             DateTime from = DateTime.Now.AddDays(-1);
-            this.ExecuteStoredProceduresToFillUpCache();
-            //await Task.Delay(TimeSpan.FromMinutes(1));
+            await this.ExecuteStoredProceduresToFillUpCache();
+            // maybe we trigger cache clearance explicitly here
+            await WaitForXEventForCacheRemove();
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
-            // TODO create dedciated stored procedure for this kind of test
-            items.Should().Contain(p => p.ObjectId == 978102525);
+            items.Should().Contain(p => p.ObjectId == testProcedureObjectId);
         }
 
         [Test]
         public async Task GetObjectIdAndProcedureNames()
         {
-            var instanceUnderTest = new DbPlanCacheRepository(ConnectionString, XEventPath);
+            var instanceUnderTest = new DbPlanCacheRepository(Configuration.ConnectionString, Configuration.XEventPath);
 
             var items = await instanceUnderTest.GetObjectIdAndProcedureNames();
 
-            items.Should().ContainValue("getProcedures");
+            items.Should().ContainValue(Configuration.TestProcedureName);
         }
 
-        private void ExecuteStoredProceduresToFillUpCache()
+        private async Task ExecuteStoredProceduresToFillUpCache()
         {
-            DynamicParameters parameter = new DynamicParameters();
-            parameter.Add("@fromUtc", DateTime.Now, DbType.DateTime2, ParameterDirection.Input);
-
-            using var connection = new SqlConnection(ConnectionString);
+            using var connection = new SqlConnection(Configuration.ConnectionString);
             connection.Open();
-            var affectedRows = connection.Execute("monitoring.getStoredProcedureMetricsFromCache", parameter, commandType: CommandType.StoredProcedure);
+            var affectedRows = await connection.ExecuteAsync($"{Configuration.TestProcedureSchema}.{Configuration.TestProcedureName}", commandType: CommandType.StoredProcedure);
+        }
+
+        private async Task WaitForXEventForCacheRemove()
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿If (DB_ID('monitoringtesting')) IS NOT NULL
+begin
+	alter database monitoringtesting set single_user with rollback immediate
+	drop database monitoringtesting
+end
+go
+
+create database monitoringtesting
+go
+
+
+use monitoringtesting
+go
+
+create schema metrics
+go
+
+create table metrics.counter (
+	count INTEGER
+)
+go
+
+insert into metrics.counter values (1);
+go
+	
+
+create PROCEDURE [metrics].[doSomething1]  
+AS 
+Begin
+	update metrics.counter set count = count + 1;
+End
+go

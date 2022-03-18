@@ -1,0 +1,6 @@
+﻿If (DB_ID('monitoringtesting')) IS NOT NULL
+begin
+	alter database monitoringtesting set single_user with rollback immediate
+	drop database monitoringtesting
+end
+go
