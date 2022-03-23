@@ -30,3 +30,27 @@ Begin
 	update metrics.counter set count = count + 1;
 End
 go
+
+if exists (select 1 from sys.server_event_sessions where name = 'RemovedFromPlanCache')
+	drop event session RemovedFromPlanCache on server
+GO
+
+create event session [RemovedFromPlanCache] on server
+add event sqlserver.query_cache_removal_statistics(
+    where ([compiled_object_type]='Stored Procedure'))
+add target package0.event_file(SET filename=N'C:\temp\ExtendedEvents.xel, max_rollover_files=(0)')
+WITH 
+(
+	MAX_MEMORY=4096 KB,
+	EVENT_RETENTION_MODE=ALLOW_SINGLE_EVENT_LOSS,
+	MAX_DISPATCH_LATENCY=30 SECONDS,
+	MAX_EVENT_SIZE=4096 KB,
+	MEMORY_PARTITION_MODE=NONE,
+	TRACK_CAUSALITY=OFF,
+	STARTUP_STATE=ON)
+GO
+
+alter event session RemovedFromPlanCache
+	on server  
+	STATE = START
+GO  

@@ -3,7 +3,7 @@
     public static class Configuration
     {
         public const string ConnectionString = "Data Source=.;Initial Catalog=monitoringtesting;Integrated Security=True;";
-        public const string XEventPath = "C:\\temp\\ExtendedEvents*.xel";
+        public const string XEventPath = "C:\\temp\\*.xel";
         public const string TestProcedureSchema = "metrics";
         public const string TestProcedureName = "doSomething1";
         public const string ScriptPath = "./Database/Scripts/";

@@ -16,6 +16,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
     [TestFixture]
     public class DbPlanCacheRepositoryTests
     {
+        private const int MaxDispatchLatency = 30;
         private static int testProcedureObjectId;
         private static SetupAndTearDown setupAndTearDown = new SetupAndTearDown();
 
@@ -58,10 +59,10 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
         public async Task GetHistoricalPlanCache()
         {
             var instanceUnderTest = new DbPlanCacheRepository(Configuration.ConnectionString, Configuration.XEventPath);
-            DateTime from = DateTime.Now.AddDays(-1);
             await this.ExecuteStoredProceduresToFillUpCache();
-            // maybe we trigger cache clearance explicitly here
-            await WaitForXEventForCacheRemove();
+            await ClearAndWaitForCacheRemoveXEvent(MaxDispatchLatency);
+            const int DispatchLatencyOffset = 2;
+            DateTime from = DateTime.UtcNow.AddSeconds(- MaxDispatchLatency - DispatchLatencyOffset);
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
@@ -85,9 +86,12 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
             var affectedRows = await connection.ExecuteAsync($"{Configuration.TestProcedureSchema}.{Configuration.TestProcedureName}", commandType: CommandType.StoredProcedure);
         }
 
-        private async Task WaitForXEventForCacheRemove()
+        private async Task ClearAndWaitForCacheRemoveXEvent(int maxDispatchLatency)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            using var connection = new SqlConnection(Configuration.ConnectionString);
+            connection.Open();
+            var affectedRows = await connection.ExecuteAsync("DBCC FREEPROCCACHE", commandType: CommandType.Text);
+            await Task.Delay(TimeSpan.FromSeconds(maxDispatchLatency));
         }
     }
 }
