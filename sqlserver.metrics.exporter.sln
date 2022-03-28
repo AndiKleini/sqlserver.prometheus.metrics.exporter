@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE4D0501-6A8C-4FA3-9984-5EE7519DF6D6}"
 	ProjectSection(SolutionItems) = preProject
 		ConfigurationValues.txt = ConfigurationValues.txt
+		Dockerfile = Dockerfile
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
