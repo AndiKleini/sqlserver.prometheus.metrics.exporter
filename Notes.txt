@@ -1,0 +1,1 @@
+user needs execute permissions to stored procedures for querying their data in sys.objects
