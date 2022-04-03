@@ -8,6 +8,11 @@ Next Step:
 	Handle Last execution Count in provider
 	Fix TODOs in PlanCacheRepositoryAdapter.
 	Optimize script for extracting historical data so that DateAdd function is not calles in where clause
+	Fix issue:
+		An unhandled exception was thrown by the application.
+		System.Collections.Generic.KeyNotFoundException: The given key '597577167' was not present in the dictionary.
+		at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+		Reproduce: Add stored procedure where the metrics exporter has no rights.
 
 	(Done) Implement ZeroItem FactoryMethod for PlanCacheItem.
 	(Done) Clone and move XMl Classes for deserialization.

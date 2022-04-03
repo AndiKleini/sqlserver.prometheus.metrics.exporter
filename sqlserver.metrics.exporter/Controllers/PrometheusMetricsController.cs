@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Sqlserver.Metrics.Exporter.Services;
 using SqlServer.Metrics.Provider;
 using System;
@@ -10,22 +11,29 @@ namespace SqlServer.Metrics.Exporter.Controllers
 {
     [ApiController]
     [Route("metrics")]
-    public class PrometheusMetricsController : Controller
+    public partial class PrometheusMetricsController : Controller
     {
         private readonly IStoredProcedureMetricsProvider metricsProvider;
         private readonly ILastFetchHistory history;
+        private readonly ILogger logger;
 
-        public PrometheusMetricsController(IStoredProcedureMetricsProvider metricsProvider, ILastFetchHistory history)
+        public PrometheusMetricsController(
+            IStoredProcedureMetricsProvider metricsProvider, 
+            ILastFetchHistory history,
+            ILogger logger)
         {
             this.metricsProvider = metricsProvider;
             this.history = history;
+            this.logger = logger;
         }
 
         [HttpGet]
         public async Task<string> GetMetrics()
         {
+            this.logger.Information("metrics collected");
             var previousFetch = history.GetPreviousFetch();
-            var collectRange = From(previousFetch);
+            var collectRange = GetCollectionRangeFrom(previousFetch);
+            this.logger.Information(collectRange.ToString());
             var metricsResult = await this.metricsProvider.Collect(collectRange.LastFetchTime, collectRange.IncludedHistoricalItemsUntil);
             this.history.SetPreviousFetchTo(
                 new HistoricalFetch()
@@ -39,7 +47,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
                     new StringBuilder(),
                     (aggregate, current) => aggregate.Append($"{current.Name} {current.Value}\n")).ToString();
 
-            CollectionRange From(HistoricalFetch previousFetch)
+            CollectionRange GetCollectionRangeFrom(HistoricalFetch previousFetch)
             {
                 if (previousFetch == null)
                 {
@@ -58,12 +66,6 @@ namespace SqlServer.Metrics.Exporter.Controllers
                     };
                 }
             }
-        }
-
-        private class CollectionRange
-        {
-            public DateTime LastFetchTime { get; set; }
-            public DateTime IncludedHistoricalItemsUntil { get; set; }
         }
     }
 }

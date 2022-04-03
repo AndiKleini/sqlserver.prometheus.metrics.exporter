@@ -1,22 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SqlServer.Metrics.Exporter.Adapters;
 using SqlServer.Metrics.Exporter.Database;
 using SqlServer.Metrics.Provider;
-using SqlServer.Metrics.Provider.Builder;
-using SqlServer.Metrics.Provider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Sqlserver.Metrics.Exporter.Services;
+using Serilog;
 
 namespace SqlServer.metrics.exporter
 {
@@ -49,6 +41,7 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder
                      }));
+            services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -62,7 +62,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
             await this.ExecuteStoredProceduresToFillUpCache();
             await ClearAndWaitForCacheRemoveXEvent(MaxDispatchLatency);
             const int DispatchLatencyOffset = 2;
-            DateTime from = DateTime.UtcNow.AddSeconds(- MaxDispatchLatency - DispatchLatencyOffset);
+            DateTime from = DateTime.Now.AddSeconds(- MaxDispatchLatency - DispatchLatencyOffset);
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 

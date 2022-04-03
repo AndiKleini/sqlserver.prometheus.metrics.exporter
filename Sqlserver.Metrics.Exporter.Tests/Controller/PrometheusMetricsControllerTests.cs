@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using Serilog;
 using Sqlserver.Metrics.Exporter.Services;
 using Sqlserver.Metrics.Provider;
 using SqlServer.Metrics.Exporter.Controllers;
@@ -43,13 +44,15 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
             var lastFetchHistory = new Mock<ILastFetchHistory>();
             lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(previousFetch);
             lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.Is<HistoricalFetch>(hist => hist.IncludedHistoricalItemsUntil == includedHistoricalItemUntil)));
-            var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
+            PrometheusMetricsController instanceUnderTest = CreateInstanceUnderTest(providerMock.Object, lastFetchHistory.Object);
 
             var metricsFormat = await instanceUnderTest.GetMetrics();
 
             metricsFormat.Should().Be(expectedMetricItems);
             lastFetchHistory.VerifyAll();
         }
+
+       
 
         [Test]
         public async Task GetMetrics_FirstFetchAfterRestart_EmitsNoMetrics()
@@ -73,7 +76,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
             var lastFetchHistory = new Mock<ILastFetchHistory>();
             lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(default(HistoricalFetch));
             lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.Is<HistoricalFetch>(hist => hist.IncludedHistoricalItemsUntil == includedHistoricalItemUntil)));
-            var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
+            var instanceUnderTest = CreateInstanceUnderTest(providerMock.Object, lastFetchHistory.Object);
 
             var metricsFormat = await instanceUnderTest.GetMetrics();
 
@@ -98,13 +101,18 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
             lastFetchHistory.Setup(s => s.GetPreviousFetch()).Returns(previousFetch);
 
             lastFetchHistory.Setup(s => s.SetPreviousFetchTo(It.IsAny<HistoricalFetch>())).Callback<HistoricalFetch>(h => historicalFetchSupplied = h);
-            var instanceUnderTest = new PrometheusMetricsController(providerMock.Object, lastFetchHistory.Object);
+            var instanceUnderTest = CreateInstanceUnderTest(providerMock.Object, lastFetchHistory.Object);
 
             var metricsFormat = await instanceUnderTest.GetMetrics();
 
             historicalFetchSupplied.Should().NotBeNull();
             historicalFetchSupplied.IncludedHistoricalItemsUntil.Should().BeCloseTo(includedHistoricalItemUntilCalculated.Value, TimeSpan.FromSeconds(2));
             lastFetchHistory.VerifyAll();
+        }
+
+        private static PrometheusMetricsController CreateInstanceUnderTest(IStoredProcedureMetricsProvider providerMock, ILastFetchHistory lastFetchHistory)
+        {
+            return new PrometheusMetricsController(providerMock, lastFetchHistory, new Mock<ILogger>().Object);
         }
     }
 }
