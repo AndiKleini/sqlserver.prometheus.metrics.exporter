@@ -23,8 +23,13 @@ namespace SqlServer.Metrics.Exporter.Adapters
             return
                 (await this.planCacheRepository.GetCurrentPlanCache(collectMetricsFrom))
                 .Concat(await this.planCacheRepository.GetHistoricalPlanCache(includeHistoricalItemsFrom))
-                .Where(p => p.ObjectId > 0) // we have to ignore the internal objectIds 
-                .Select(p => { p.SpName = lookUp[p.ObjectId] /* TODO: ignore if no value is emitted an write proper warning */; return p; });
+                .Where(p => IsNotInternalObject(p))
+                .Where(p => ProcedureInSysObjects(p, lookUp))
+                .Select(p => { p.SpName = lookUp[p.ObjectId]; return p; });
+
+            bool IsNotInternalObject(PlanCacheItem p) => p.ObjectId > 0;
+
+            bool ProcedureInSysObjects(PlanCacheItem panCacheItem, Dictionary<int, string> lookUp) => lookUp.ContainsKey(panCacheItem.ObjectId);
         }
 
         public Task<IEnumerable<PlanCacheItem>> GetPreviousPlanCacheItems()

@@ -8,12 +8,18 @@ Next Step:
 	Handle Last execution Count in provider
 	Fix TODOs in PlanCacheRepositoryAdapter.
 	Optimize script for extracting historical data so that DateAdd function is not calles in where clause
-	Fix issue:
+	Fix issue: 
+		When app crashes the historical statistics are not reset to the newest values. Consequerntly all future calls are executed with the same collection range.
+		TODO: find a solution/strategy to handle this.
+
+	(Done) Fix issue:
 		An unhandled exception was thrown by the application.
 		System.Collections.Generic.KeyNotFoundException: The given key '597577167' was not present in the dictionary.
 		at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
 		Reproduce: Add stored procedure where the metrics exporter has no rights.
-
+		Reason: The stored procedure was available only for a short time (e.g.: created by integration tests and removed in tear down). The app craches because it is
+		        still emitted by the historical (maybe also by plan cache) query but not but query in sys objects, so that it can be loaded into the dictionary.
+		Suggest: Ignore non existing Stored procedures.
 	(Done) Implement ZeroItem FactoryMethod for PlanCacheItem.
 	(Done) Clone and move XMl Classes for deserialization.
 	(Done) Clean Up NameSpaces SqlServer <=> SqlServer
