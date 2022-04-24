@@ -21,7 +21,7 @@ namespace SqlServer.Metrics.Provider
 
 	public class GeneralStats
 	{
-		public int ExecutionCount { get; set; }
+		public long ExecutionCount { get; set; }
 
         public DateTime LastExecutionTime { get; set; }
 
@@ -30,67 +30,67 @@ namespace SqlServer.Metrics.Provider
 
 	public class WorkerTime
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 
 	public class ElapsedTime
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 
 	public class LogicalWrites
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 
 	public class PageServerReads
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 
 	public class PhysicalReads
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 
 	public class LogicalReads
 	{
-		public int Total { get; set; }
+		public long Total { get; set; }
 
-		public int Last { get; set; }
+		public long Last { get; set; }
 
-		public int Min { get; set; }
+		public long Min { get; set; }
 
-		public int Max { get; set; }
+		public long Max { get; set; }
 	}
 }

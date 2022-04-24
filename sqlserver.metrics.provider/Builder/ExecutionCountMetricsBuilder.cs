@@ -24,7 +24,7 @@ namespace SqlServer.Metrics.Provider.Builder
                 yield break;
             }
 
-            int currentExecutionCount =
+            long currentExecutionCount =
                groupedPlanCacheItems.
                Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount)
                - previousPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount;

@@ -2,7 +2,6 @@
 using SqlServer.Metrics.Exporter.Datebase.Entities;
 using System.IO;
 using System.Xml.Serialization;
-using SqlServer.Metrics.Provider;
 
 namespace SqlServer.Metrics.Exporter.Database.Entities
 {
