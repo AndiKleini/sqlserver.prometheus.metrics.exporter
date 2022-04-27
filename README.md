@@ -16,10 +16,13 @@ Supported metrics are:
 The system is open for customizations and adding new metrics.
 
 ### Max Elapsed Time
+The total elapsed time, in microseconds, for completed executions of this stored procedure.
 
 ### Min Elapsed Time
+The minimum elapsed time, in microseconds, for completed executions of this stored procedure.
 
 ### Average Elapsed Time
+The average elapsed time, in microseconds, for completed executions of this stored procedure.
 
 ### Execution Count
 
