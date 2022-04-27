@@ -39,9 +39,7 @@ The entry point of the application is a prometheus compatible https://myapipath/
 3. Format the retrieved response into the prometheus metrics and emit.
 
 ### State
-Please be aware that the application is not stateless. It has to store some characteristics (e.g.: timestamp, execution count) of the previous fetch avoiding unwanted multiple consideration of items. As a consequence you can not scale up the collector anyway.
-
-At the end, metrics are  exposed in prometheus compatible format by a Rest Endpoint.
+Please be aware that the application is not stateless. It has to store some characteristics (e.g.: timestamp, execution count) of the previous fetch avoiding unwanted multiple consideration of items. As a consequence you can not scale up the instance anyway. Additionally you have to avoid setting up any calls at the metrics endpoint except those comming from prometheus job.
 ## Repository structure
 
 ## Testing
@@ -49,7 +47,7 @@ At the end, metrics are  exposed in prometheus compatible format by a Rest Endpo
 ## Configuration
 
 ## Deployment
-
+Scalability
 ## Extensibility
 
 ### Add a new metric
