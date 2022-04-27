@@ -28,7 +28,8 @@ namespace SqlServer.Metrics.Provider.Tests
                     BuilderTypes.ExecutionCountMetricsBuilder,
                     BuilderTypes.MaxElapsedTimeMetricsBuilder,
                     BuilderTypes.MinElapsedTimeMetricsBuilder,
-                    BuilderTypes.LastElapsedTimeMetricsBuilder
+                    BuilderTypes.LastElapsedTimeMetricsBuilder,
+                    BuilderTypes.MaxPhysicalReadsMetricsBuilder
                 };
             var repositoryCache = new Mock<IPlanCacheRepository>();
             var previousItemCache = new Mock<IPreviousItemCache>();
@@ -43,7 +44,8 @@ namespace SqlServer.Metrics.Provider.Tests
                     And.Contain(s => s.GetType() == typeof(MaxElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(MinElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(ExecutionCountMetricsBuilder)).
-                    And.Contain(s => s.GetType() == typeof(LastElapsedTimeMetricsBuilder));
+                    And.Contain(s => s.GetType() == typeof(LastElapsedTimeMetricsBuilder)).
+                    And.Contain(s => s.GetType() == typeof(GenericMaxMetricsBuilder) && ((GenericMaxMetricsBuilder)s).MetricsName == "PhysicalReadsMax");
             }
         }
     }

@@ -6,6 +6,7 @@
         ExecutionCountMetricsBuilder,
         MaxElapsedTimeMetricsBuilder,
         MinElapsedTimeMetricsBuilder,
-        LastElapsedTimeMetricsBuilder
+        LastElapsedTimeMetricsBuilder,
+        MaxPhysicalReadsMetricsBuilder
     }
 }

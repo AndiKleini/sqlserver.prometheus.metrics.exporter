@@ -35,10 +35,15 @@ namespace SqlServer.Metrics.Provider
                             break;
                     }
                     case BuilderTypes.LastElapsedTimeMetricsBuilder:
-                        {
-                            metricsBuilder.Include(new LastElapsedTimeMetricsBuilder());
-                            break;
-                        }
+                    {
+                        metricsBuilder.Include(new LastElapsedTimeMetricsBuilder());
+                        break;
+                    }
+                    case BuilderTypes.MaxPhysicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsMax", s => s.ExecutionStatistics.PhysicalReads.Max));
+                        break;
+                    }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);
