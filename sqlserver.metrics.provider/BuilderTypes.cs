@@ -5,6 +5,7 @@
         AverageElapsedTimeMetricsBuilder,
         ExecutionCountMetricsBuilder,
         MaxElapsedTimeMetricsBuilder,
-        MinElapsedTimeMetricsBuilder
+        MinElapsedTimeMetricsBuilder,
+        LastElapsedTimeMetricsBuilder
     }
 }

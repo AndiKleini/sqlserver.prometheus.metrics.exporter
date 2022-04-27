@@ -39,7 +39,8 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,
                         // BuilderTypes.ExecutionCountMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
-                        BuilderTypes.MinElapsedTimeMetricsBuilder
+                        BuilderTypes.MinElapsedTimeMetricsBuilder,
+                        BuilderTypes.LastElapsedTimeMetricsBuilder
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();

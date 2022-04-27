@@ -1,6 +1,7 @@
 ﻿using SqlServer.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
 using System;
+using Sqlserver.Metrics.Provider.Builder;
 
 namespace SqlServer.Metrics.Provider
 {
@@ -33,6 +34,11 @@ namespace SqlServer.Metrics.Provider
                             metricsBuilder.Include(new ExecutionCountMetricsBuilder(@object));
                             break;
                     }
+                    case BuilderTypes.LastElapsedTimeMetricsBuilder:
+                        {
+                            metricsBuilder.Include(new LastElapsedTimeMetricsBuilder());
+                            break;
+                        }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);

@@ -1,28 +1,28 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using SqlServer.Metrics.Provider.Builder;
+using Sqlserver.Metrics.Provider.Builder;
+using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SqlServer.Metrics.Provider.Tests.Builder
+namespace Sqlserver.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
-    public class MaxElapsedTimeMetricsBuilderTests
+    public class LastElapsedTimeMetricsBuilderTests
     {
         [Test]
         public void Build_SingleFiguresForElapsedTimeSupplied_ReturnsElapsedMetricItems()
         {
             string storedProcedureName = "MySp";
-            int maxElapsedTime = 150;
-            int minElapsedTime = 10;
+            int lastElapsedTime = 10;
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
                     new MetricItem()
                     {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
+                        Name = $"{storedProcedureName}_ElapsedTimeLast",
+                        Value = lastElapsedTime
                     }
               };
             var groupedPlanCacheItems =
@@ -33,11 +33,11 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime, Min = minElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Last = lastElapsedTime }
                         }
                     }}).GroupBy(p => p.SpName).First();
 
-            MaxElapsedTimeMetricsBuilder instanceUnderTest = new MaxElapsedTimeMetricsBuilder();
+            LastElapsedTimeMetricsBuilder instanceUnderTest = new LastElapsedTimeMetricsBuilder();
 
             var result = instanceUnderTest.Build(groupedPlanCacheItems);
 
@@ -48,8 +48,8 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
         public void Build_MultipleFiguresForElapsedTimeSupplied_ReturnsElapsedMetricItems()
         {
             string storedProcedureName = "MySp";
-            int maxElapsedTime = 150;
-            int betweenMaxElapsedTime = 70;
+            int lastElapsedTime = 15;
+            int beforeLastMinElapsedTime = 70;
             DateTime removedFromCacheAt1 = DateTime.Parse("2021-12-12 17:34:04");
             DateTime removedFormCacheAt2 = DateTime.Parse("2021-12-12 17:30:04");
             List<MetricItem> expectedItems =
@@ -57,8 +57,8 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
               {
                     new MetricItem()
                     {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
+                        Name = $"{storedProcedureName}_ElapsedTimeLast",
+                        Value = lastElapsedTime
                     }
               };
             var groupedPlanCacheItems =
@@ -69,7 +69,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = maxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Last = lastElapsedTime }
                         }
                     },
                     new PlanCacheItem()
@@ -78,7 +78,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = betweenMaxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Last = beforeLastMinElapsedTime }
                         }
                     },
                     new PlanCacheItem()
@@ -87,12 +87,12 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
                         SpName = storedProcedureName,
                         ExecutionStatistics = new ProcedureExecutionStatistics()
                         {
-                            ElapsedTime = new ElapsedTime() { Max = betweenMaxElapsedTime }
+                            ElapsedTime = new ElapsedTime() { Last = beforeLastMinElapsedTime }
                         }
                     }
                 }).GroupBy(p => p.SpName).First();
 
-            MaxElapsedTimeMetricsBuilder instanceUnderTest = new MaxElapsedTimeMetricsBuilder();
+            LastElapsedTimeMetricsBuilder instanceUnderTest = new LastElapsedTimeMetricsBuilder();
 
             var result = instanceUnderTest.Build(groupedPlanCacheItems);
 

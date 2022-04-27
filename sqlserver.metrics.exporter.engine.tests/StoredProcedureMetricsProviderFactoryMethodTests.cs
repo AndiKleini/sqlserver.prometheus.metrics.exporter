@@ -3,8 +3,8 @@ using FluentAssertions.Execution;
 using Moq;
 using NUnit.Framework;
 using SqlServer.Metrics.Provider.Builder;
-using SqlServer.Metrics.Provider;
 using System.Collections.Generic;
+using Sqlserver.Metrics.Provider.Builder;
 
 namespace SqlServer.Metrics.Provider.Tests
 {
@@ -27,7 +27,8 @@ namespace SqlServer.Metrics.Provider.Tests
                     BuilderTypes.AverageElapsedTimeMetricsBuilder,
                     BuilderTypes.ExecutionCountMetricsBuilder,
                     BuilderTypes.MaxElapsedTimeMetricsBuilder,
-                    BuilderTypes.MinElapsedTimeMetricsBuilder
+                    BuilderTypes.MinElapsedTimeMetricsBuilder,
+                    BuilderTypes.LastElapsedTimeMetricsBuilder
                 };
             var repositoryCache = new Mock<IPlanCacheRepository>();
             var previousItemCache = new Mock<IPreviousItemCache>();
@@ -41,7 +42,8 @@ namespace SqlServer.Metrics.Provider.Tests
                 builders.Should().Contain(s => s.GetType() == typeof(AverageElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(MaxElapsedTimeMetricsBuilder)).
                     And.Contain(s => s.GetType() == typeof(MinElapsedTimeMetricsBuilder)).
-                    And.Contain(s => s.GetType() == typeof(ExecutionCountMetricsBuilder));
+                    And.Contain(s => s.GetType() == typeof(ExecutionCountMetricsBuilder)).
+                    And.Contain(s => s.GetType() == typeof(LastElapsedTimeMetricsBuilder));
             }
         }
     }
