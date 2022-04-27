@@ -8,7 +8,10 @@ Intention is in tracking and analyzing performance within the database, without 
 
 ## Features
 Supported metrics are:
-
+..* MaxElapsedTime 
+..* MinElapsedTime
+..* AverageElapsedTime
+..* ExecutionCount
 
 The system is open for adding or customizing new metrics.
 
@@ -16,7 +19,12 @@ The system is open for adding or customizing new metrics.
 
  by exploring execution statistics (managed view: sys.dm_exec_procedure_stats stats) nad sourcing particular extended events.
 
-
 ## Repository structure
 
 ## Testing
+
+## Configuration
+
+## Extensibility
+
+### Add a new metric
