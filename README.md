@@ -25,6 +25,10 @@ The minimum elapsed time, in microseconds, for completed executions of this stor
 The average elapsed time, in microseconds, for completed executions of this stored procedure.
 
 ### Execution Count
+Counts the number of executions between now an the last fetch.
+
+Please compare documentation about managed view sys.dm_exec_procedure_stats:
+https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql?view=sql-server-ver15
 
 ## Architecture
 
