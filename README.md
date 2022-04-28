@@ -7,13 +7,7 @@ Collects metrics from some SQL Server instance for stored procedures and exposes
 Intention is in tracking and analyzing performance within the database, without the necessisity any adaption in the client code.  
 
 ## Features
-Supported metrics are:
-* MaxElapsedTime 
-* MinElapsedTime
-* AverageElapsedTime
-* ExecutionCount
-
-The system is open for customizations and adding new metrics.
+Supported metrics are describes below.
 
 ### Max Elapsed Time
 The total elapsed time, in microseconds, for completed executions of this stored procedure.
@@ -90,8 +84,9 @@ CPU time, in microseconds, that was consumed the last time the stored procedure 
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
-Please compare documentation about managed view sys.dm_exec_procedure_stats:
-https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql?view=sql-server-ver15
+Please consider also documentation about managed view sys.dm_exec_procedure_stats
+https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql?view=sql-server-ver15.
+Some of the above mentioned metrics are similar to those provided by sys.dm_exec_procedure_stats, but there are slight differences one should be aware of. 
 
 ## Architecture
 
