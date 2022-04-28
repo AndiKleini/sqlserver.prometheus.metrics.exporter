@@ -234,6 +234,9 @@ alter event session RemovedFromPlanCache
 GO  
 ```
 
+### Security
+The SQL Server user needs  View Server State permissions. Apart from that, it will only retrieve required metadata of the stored procedures (e.g. name) if proper permissions to the stored procedures are in place.
+
 ## Extensibility
 
 ### Add a new metric
