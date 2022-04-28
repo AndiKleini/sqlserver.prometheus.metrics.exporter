@@ -158,9 +158,79 @@ By appsettings.json you can provide proper configuration settings:
 }
 ```
 
-
 ## Deployment
-Scalability
+
+### Scalability (number of instances)
+As the metrics are based on delta calucations, the app contains state regarding execution counts and timestamps of the previous fetch. Therefore it is not possible to run multiple instances in parallel. You might run 2 instances in a fail over cluster for sake of avaiability, but in case of switching you will get wrong metrics for the first fetch.
+
+### Scalability (amount of data)
+In general, the application will fetch data for all stored procedures in each database.
+
+You can reduce the amount of data by restricting the number of metrics, as each metric has to be enabled separatly by using StoredProcedureMetricsProviderFactoryMethod:
+``` C#
+ services.AddSingleton(
+                s => StoredProcedureMetricsProviderFactoryMethod.Create(
+                    s.GetService<IPlanCacheRepository>(),
+                    s.GetService<IPreviousItemCache>(),
+                    new BuilderTypes[]
+                    {
+                        BuilderTypes.AverageElapsedTimeMetricsBuilder,
+                        BuilderTypes.MaxElapsedTimeMetricsBuilder,
+                        BuilderTypes.MinElapsedTimeMetricsBuilder,
+                        BuilderTypes.LastElapsedTimeMetricsBuilder,
+                        BuilderTypes.MaxPhysicalReadsMetricsBuilder,
+                        BuilderTypes.MinPhysicalReadsMetricsBuilder,
+                        BuilderTypes.LastPhysicalReadsMetricsBuilder,
+                        BuilderTypes.AveragePhysicalRreadsMetricsBuilder,
+                        BuilderTypes.MaxLogicalReadsMetricsBuilder,
+                        BuilderTypes.MinLogicalReadsMetricsBuilder,
+                        BuilderTypes.LastLogicalReadsMetricsBuilder,
+                        BuilderTypes.AverageLogicalReadsMetricsBuilder,
+                        BuilderTypes.MaxPageServerReadsMetricsBuilder,
+                        BuilderTypes.MinPageServerReadsMetricsBuilder,
+                        BuilderTypes.LastPageServerReadsMetricsBuilder,
+                        BuilderTypes.AveragePageServerReadsMetricsBuilder,
+                        BuilderTypes.MaxLogicalWritesMetricsBuilder,
+                        BuilderTypes.MinLogicalWritesMetricsBuilder,
+                        BuilderTypes.LastLogicalWritesMetricsBuilder,
+                        BuilderTypes.AverageLogicalWritesMetricsBuilder,
+                        BuilderTypes.MaxWorkerTimeMetricsBuilder,
+                        BuilderTypes.MinWorkerTimeMetricsBuilder,
+                        BuilderTypes.LastWorkerTimeMetricsBuilder,
+                        BuilderTypes.AverageWorkerTimeMetricsBuilder
+                     }));
+```
+
+Additionally you can configure the scrape job interval, which leads to less data in prometheus database.
+
+The user, that is used for querying the statistics, will only emit metrics for stored procedures it has permissions. This was not intended as a feature, but could be utilized for restricting the set of procedures for monitoring. Nonetheless in upcoming versions, better possibilities will be implemted for including/excluding particular stored procedures.
+
+### Extended Event Session
+Following script deploys a proper event session to your SQL Server instance:
+
+```SQL
+create event session [RemovedFromPlanCache] on server
+add event sqlserver.query_cache_removal_statistics(
+    where ([compiled_object_type]='Stored Procedure'))
+add target package0.event_file(SET filename=N'MyXEventFilePath, max_rollover_files=(0)')
+WITH 
+(
+	MAX_MEMORY=4096 KB,
+	EVENT_RETENTION_MODE=ALLOW_SINGLE_EVENT_LOSS,
+	MAX_DISPATCH_LATENCY=30 SECONDS,
+	MAX_EVENT_SIZE=4096 KB,
+	MEMORY_PARTITION_MODE=NONE,
+	TRACK_CAUSALITY=OFF,
+	STARTUP_STATE=ON)
+GO
+
+alter event session RemovedFromPlanCache
+	on server  
+	STATE = START
+GO  
+```
+
 ## Extensibility
 
 ### Add a new metric
+
