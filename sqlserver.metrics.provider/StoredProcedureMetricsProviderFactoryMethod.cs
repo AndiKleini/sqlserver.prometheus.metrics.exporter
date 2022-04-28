@@ -54,6 +54,11 @@ namespace SqlServer.Metrics.Provider
                         metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsLast", s => s.ExecutionStatistics.PhysicalReads.Last));
                         break;
                     }
+                    case BuilderTypes.AveragePhysicalRreadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsAverage", s => s.ExecutionStatistics.PhysicalReads.Total));
+                        break;
+                    }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);

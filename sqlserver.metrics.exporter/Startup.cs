@@ -44,6 +44,7 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.MaxPhysicalReadsMetricsBuilder,
                         BuilderTypes.MinPhysicalReadsMetricsBuilder,
                         BuilderTypes.LastPhysicalReadsMetricsBuilder,
+                        BuilderTypes.AveragePhysicalRreadsMetricsBuilder
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();
