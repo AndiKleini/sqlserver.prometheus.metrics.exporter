@@ -75,6 +75,18 @@ The average number of page server reads that this stored procedure has performed
 ### Last Page Server Reads
 The number of buffer pool pages dirtied the last time the plan was executed. If a page is already dirty (modified) no writes are counted.
 
+### Max Worker Time
+The maximum CPU time, in microseconds, that this stored procedure has ever consumed during a single execution.
+
+### Min Worker Time
+The minimum CPU time, in microseconds, that this stored procedure has ever consumed during a single execution.
+
+### Average Worker Time
+The minimum CPU time, in microseconds, that this stored procedure has ever consumed during a single execution.
+
+### Last Worker Time
+CPU time, in microseconds, that was consumed the last time the stored procedure was executed.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
