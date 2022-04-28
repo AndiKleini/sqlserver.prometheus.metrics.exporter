@@ -89,9 +89,9 @@ https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-managem
 Some of the above mentioned metrics are similar to those provided by sys.dm_exec_procedure_stats, but there are slight customizations one should be aware of. 
 
 ## Architecture
-The app has to run with some prometheus instance.
+The app has to run in combination with some prometheus instance. Additionally required XEvent session has to be configured and started. The figure below shows the main building blocks of this system.
 
-TODO: Insert picture here
+![OverallOverview](https://user-images.githubusercontent.com/10832740/165820835-131b81de-3b2a-425e-a867-b3cb0dec53ee.PNG)
 
 ### Datasource
 Basically all required information is already provided by the SQL Server, so that all metrics can be calculated from two basic sources:
