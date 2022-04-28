@@ -46,17 +46,97 @@ namespace SqlServer.Metrics.Provider
                     }
                     case BuilderTypes.MinPhysicalReadsMetricsBuilder:
                     {
-                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsMin", s => s.ExecutionStatistics.PhysicalReads.Min));
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("PhysicalReadsMin", s => s.ExecutionStatistics.PhysicalReads.Min));
                         break;
                     }
                     case BuilderTypes.LastPhysicalReadsMetricsBuilder:
                     {
-                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsLast", s => s.ExecutionStatistics.PhysicalReads.Last));
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("PhysicalReadsLast", s => s.ExecutionStatistics.PhysicalReads.Last));
                         break;
                     }
                     case BuilderTypes.AveragePhysicalRreadsMetricsBuilder:
                     {
-                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsAverage", s => s.ExecutionStatistics.PhysicalReads.Total));
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("PhysicalReadsAverage", s => s.ExecutionStatistics.PhysicalReads.Total));
+                        break;
+                    }
+                    case BuilderTypes.MaxLogicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("LogicalReadsMax", s => s.ExecutionStatistics.LogicalReads.Max));
+                        break;
+                    }
+                    case BuilderTypes.MinLogicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("LogicalReadsMin", s => s.ExecutionStatistics.LogicalReads.Min));
+                        break;
+                    }
+                    case BuilderTypes.LastLogicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("LogicalReadsLast", s => s.ExecutionStatistics.LogicalReads.Last));
+                        break;
+                    }
+                    case BuilderTypes.AverageLogicalRreadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("LogicalReadsAverage", s => s.ExecutionStatistics.LogicalReads.Total));
+                        break;
+                    }
+                    case BuilderTypes.MaxPageServerReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PageServerReadsMax", s => s.ExecutionStatistics.PageServerReads.Max));
+                        break;
+                    }
+                    case BuilderTypes.MinPageServerReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("PageServerReadsMin", s => s.ExecutionStatistics.PageServerReads.Min));
+                        break;
+                    }
+                    case BuilderTypes.LastPageServerReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("PageServerReadsLast", s => s.ExecutionStatistics.PageServerReads.Last));
+                        break;
+                    }
+                    case BuilderTypes.AveragePageServerReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("PageServerReadsAverage", s => s.ExecutionStatistics.PageServerReads.Total));
+                        break;
+                    }
+                    case BuilderTypes.MaxLogicalWritesMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("LogicalWritesMax", s => s.ExecutionStatistics.LogicalWrites.Max));
+                        break;
+                    }
+                    case BuilderTypes.MinLogicalWritesMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("LogicalWritesMin", s => s.ExecutionStatistics.LogicalWrites.Min));
+                        break;
+                    }
+                    case BuilderTypes.LastLogicalWritesMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("LogicalWritesLast", s => s.ExecutionStatistics.LogicalWrites.Last));
+                        break;
+                    }
+                    case BuilderTypes.AverageLogicalWritesMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("LogicalWritesAverage", s => s.ExecutionStatistics.LogicalWrites.Total));
+                        break;
+                    }
+                    case BuilderTypes.MaxWorkerTimeMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("WorkerTimeMax", s => s.ExecutionStatistics.WorkerTime.Max));
+                        break;
+                    }
+                    case BuilderTypes.MinWorkerTimeMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("WorkerTimeMin", s => s.ExecutionStatistics.WorkerTime.Min));
+                        break;
+                    }
+                    case BuilderTypes.LastWorkerTimeMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("WorkerTimeLast", s => s.ExecutionStatistics.WorkerTime.Last));
+                        break;
+                    }
+                    case BuilderTypes.AverageWorkerTimeMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("WorkerTimeAverage", s => s.ExecutionStatistics.WorkerTime.Total));
                         break;
                     }
                 }

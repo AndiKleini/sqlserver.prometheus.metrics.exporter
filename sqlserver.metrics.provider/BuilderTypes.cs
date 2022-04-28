@@ -10,6 +10,26 @@
         MaxPhysicalReadsMetricsBuilder,
         MinPhysicalReadsMetricsBuilder,
         LastPhysicalReadsMetricsBuilder,
-        AveragePhysicalRreadsMetricsBuilder
+        AveragePhysicalRreadsMetricsBuilder,
+        MaxLogicalReadsMetricsBuilder,
+        MinLogicalReadsMetricsBuilder,
+        LastLogicalReadsMetricsBuilder,
+        AverageLogicalRreadsMetricsBuilder,
+        MaxPageServerReadsMetricsBuilder,
+        MinPageServerReadsMetricsBuilder,
+        LastPageServerReadsMetricsBuilder,
+        AveragePageServerReadsMetricsBuilder,
+        MaxLogicalWritesMetricsBuilder,
+        MinLogicalWritesMetricsBuilder,
+        LastLogicalWritesMetricsBuilder,
+        AverageLogicalWritesMetricsBuilder,
+        MaxWorkerTimeMetricsBuilder,
+        MinWorkerTimeMetricsBuilder,
+        LastWorkerTimeMetricsBuilder,
+        AverageWorkerTimeMetricsBuilder,
+        MaxPageSpillsMetricsBuilder,
+        MinPageSpillsMetricsBuilder,
+        LastPageSpillsMetricsBuilder,
+        AveragePageSpillsMetricsBuilder
     }
 }

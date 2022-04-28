@@ -1,11 +1,12 @@
 ﻿using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class GenericLastMetricsBuilder
+    public class GenericLastMetricsBuilder : IMetricsBuilder
     {
         private Func<PlanCacheItem, long> selector;
         public string MetricsName { get; private set; }
