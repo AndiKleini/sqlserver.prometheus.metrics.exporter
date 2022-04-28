@@ -24,6 +24,9 @@ The minimum elapsed time, in microseconds, for completed executions of this stor
 ### Average Elapsed Time
 The average elapsed time, in microseconds, for completed executions of this stored procedure.
 
+### Average Elapsed Time
+The last (youngest) elapsed time, in microseconds, of completed execution of this stored procedure.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
@@ -31,6 +34,8 @@ Please compare documentation about managed view sys.dm_exec_procedure_stats:
 https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql?view=sql-server-ver15
 
 ## Architecture
+
+
 
 ### Datasource
 Basically all required information is already provided by the SQL Server, so that all metrics can be calculated from two basic sources:
@@ -47,6 +52,7 @@ The entry point of the application is a prometheus compatible https://myapipath/
 
 ### State
 Please be aware that the application is not stateless. It has to store some characteristics (e.g.: timestamp, execution count) of the previous fetch avoiding unwanted multiple consideration of items. As a consequence you can not scale up the instance anyway. Additionally you have to avoid setting up any calls at the metrics endpoint except those comming from prometheus job.
+
 ## Repository structure
 
 ## Testing
