@@ -63,6 +63,18 @@ The average number of logical writes that this stored procedure has performed du
 ### Last Logical Writes
 The number of buffer pool pages dirtied the last time the plan was executed. If a page is already dirty (modified) no writes are counted.
 
+### Max Page Server Reads
+The maximum number of page server reads that this stored procedure has ever performed during a single execution.
+
+### Min Page Server Reads
+The minimum number of page server reads that this stored procedure has ever performed during a single execution.
+
+### Average Page Server Reads
+The average number of page server reads that this stored procedure has performed during a single execution.
+
+### Last Page Server Reads
+The number of buffer pool pages dirtied the last time the plan was executed. If a page is already dirty (modified) no writes are counted.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
