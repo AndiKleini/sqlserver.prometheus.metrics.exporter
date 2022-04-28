@@ -39,6 +39,18 @@ The average number of physical reads that this stored procedure has performed du
 ### Last Physical Reads
 The number of physical reads performed the last time the stored procedure was executed.
 
+### Max Logical Reads
+The minimum number of logical reads that this stored procedure has ever performed during a single execution.
+
+### Min Logical Reads
+The minimum number of logical reads that this stored procedure has ever performed during a single execution.
+
+### Average Logical Reads
+The average number of logical reads that this stored procedure has performed during a single execution.
+
+### Last Logical Reads
+The number of logical reads performed the last time the stored procedure was executed.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
