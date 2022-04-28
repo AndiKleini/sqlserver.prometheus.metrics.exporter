@@ -89,8 +89,9 @@ https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-managem
 Some of the above mentioned metrics are similar to those provided by sys.dm_exec_procedure_stats, but there are slight customizations one should be aware of. 
 
 ## Architecture
+The app has to run with some prometheus instance.
 
-
+TODO: Insert picture here
 
 ### Datasource
 Basically all required information is already provided by the SQL Server, so that all metrics can be calculated from two basic sources:
@@ -109,6 +110,16 @@ The entry point of the application is a prometheus compatible https://myapipath/
 Please be aware that the application is not stateless. It has to store some characteristics (e.g.: timestamp, execution count) of the previous fetch avoiding unwanted multiple consideration of items. As a consequence you can not scale up the instance anyway. Additionally you have to avoid setting up any calls at the metrics endpoint except those comming from prometheus job.
 
 ## Repository structure
+
+- TEST
+  -- SqlServer.Metrics.Exporter.Integration.Tests
+  -- SqlServer.MetricsExporter.Tests
+  -- SqlServer.MetricsProvider.Tests
+- SqlServer.MetricsProvider (Business Logic)
+- SqlServer.MetricsExporter (REST API)
+- SqlServer.Monitoring (DataBase Project)
+
+Picture of hexagonal architecture here
 
 ## Testing
 
