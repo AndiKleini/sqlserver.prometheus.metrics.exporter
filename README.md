@@ -51,6 +51,18 @@ The average number of logical reads that this stored procedure has performed dur
 ### Last Logical Reads
 The number of logical reads performed the last time the stored procedure was executed.
 
+### Max Logical Writes
+The minimum number of logical writes that this stored procedure has ever performed during a single execution.
+
+### Min Logical Writes
+The minimum number of logical writes that this stored procedure has ever performed during a single execution.
+
+### Average Logical Writes
+The average number of logical writes that this stored procedure has performed during a single execution.
+
+### Last Logical Writes
+The number of buffer pool pages dirtied the last time the plan was executed. If a page is already dirty (modified) no writes are counted.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
