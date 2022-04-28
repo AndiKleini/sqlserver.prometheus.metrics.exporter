@@ -110,20 +110,34 @@ The entry point of the application is a prometheus compatible https://myapipath/
 Please be aware that the application is not stateless. It has to store some characteristics (e.g.: timestamp, execution count) of the previous fetch avoiding unwanted multiple consideration of items. As a consequence you can not scale up the instance anyway. Additionally you have to avoid setting up any calls at the metrics endpoint except those comming from prometheus job.
 
 ## Repository structure
-
+The folder structur of the respository is given by:
 - TEST
-  -- SqlServer.Metrics.Exporter.Integration.Tests
-  -- SqlServer.MetricsExporter.Tests
-  -- SqlServer.MetricsProvider.Tests
-- SqlServer.MetricsProvider (Business Logic)
-- SqlServer.MetricsExporter (REST API)
+    - SqlServer.Metrics.Exporter.Integration.Tests
+    - SqlServer.Metrics.Exporter.Tests
+    - SqlServer.Metrics.Provider.Tests
+- SqlServer.Metrics.Provider (Business Logic)
+- SqlServer.Metrics.Exporter (REST API)
 - SqlServer.Monitoring (DataBase Project)
 
-Picture of hexagonal architecture here
+Choosen architecture style was hexagonal, where SqlServer.Metrics.Provider implements the CORE business logic. SqlServer.Metrics.Exporter, that also contains the hosting logic for the REST API, implements proper in/out- adapters. This clear separation from business and infrastructure was mainly influenced by TDD aspects and potential scenarios of reusability in differnt environments.
+
+TODO: Picture of hexagonal architecture here
 
 ## Testing
 
+The project SqlServer.Metrics.Exporter.Integration.Tests provides fully automated test runs against some sql server instance. 
+For each test run a dedicated database will be created and dropped afterwards.
+
+You only need proper rights for the accessing user in order to:
+* View server state
+* Run DDL
+* Execute schema 
+
+If you can read C# Code going through this integration test project give you a good insight into the architectural flows.
+
 ## Configuration
+
+
 
 ## Deployment
 Scalability
