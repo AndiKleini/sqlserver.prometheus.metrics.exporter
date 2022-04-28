@@ -160,10 +160,12 @@ By appsettings.json you can provide proper configuration settings:
 
 ## Deployment
 
-### Scalability (number of instances)
+### Scalability
+
+#### Scalability (number of instances)
 As the metrics are based on delta calucations, the app contains state regarding execution counts and timestamps of the previous fetch. Therefore it is not possible to run multiple instances in parallel. You might run 2 instances in a fail over cluster for sake of avaiability, but in case of switching you will get wrong metrics for the first fetch.
 
-### Scalability (amount of data)
+#### Scalability (amount of data emitted by metrics endpoint)
 In general, the application will fetch data for all stored procedures in each database.
 
 You can reduce the amount of data by restricting the number of metrics, as each metric has to be enabled separatly by using StoredProcedureMetricsProviderFactoryMethod:
@@ -201,11 +203,13 @@ You can reduce the amount of data by restricting the number of metrics, as each 
                      }));
 ```
 
+#### Scalability (amount of data stored in prometheus database)
+
 Additionally you can configure the scrape job interval, which leads to less data in prometheus database.
 
-The user, that is used for querying the statistics, will only emit metrics for stored procedures it has permissions. This was not intended as a feature, but could be utilized for restricting the set of procedures for monitoring. Nonetheless in upcoming versions, better possibilities will be implemted for including/excluding particular stored procedures.
+The user, that is used for querying the statistics, will only emit metrics for stored procedures it has permissions to. This was not intended as a feature, but could be utilized for restricting the set of procedures for monitoring. Nonetheless in upcoming versions, better possibilities will be implemted for including/excluding particular stored procedures.
 
-### Extended Event Session
+#### Extended Event Session
 Following script deploys a proper event session to your SQL Server instance:
 
 ```SQL
@@ -234,3 +238,56 @@ GO
 
 ### Add a new metric
 
+In order to add some new metrics the interface IMetricsBuilder has to be implemented:
+
+``` C#
+	public interface IMetricsBuilder
+	{
+		IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> grouping);
+	}
+```
+
+Each Metric is listed by the enum BuilderTypes,
+
+``` C#
+	    public enum BuilderTypes
+	    {
+		AverageElapsedTimeMetricsBuilder,
+		ExecutionCountMetricsBuilder,
+		MaxElapsedTimeMetricsBuilder,
+		MinElapsedTimeMetricsBuilder,
+		LastElapsedTimeMetricsBuilder,
+		MaxPhysicalReadsMetricsBuilder,
+		MinPhysicalReadsMetricsBuilder,
+		LastPhysicalReadsMetricsBuilder,
+		AveragePhysicalRreadsMetricsBuilder,
+		MaxLogicalReadsMetricsBuilder,
+		MinLogicalReadsMetricsBuilder,
+		LastLogicalReadsMetricsBuilder,
+		AverageLogicalReadsMetricsBuilder,
+		MaxPageServerReadsMetricsBuilder,
+		MinPageServerReadsMetricsBuilder,
+		LastPageServerReadsMetricsBuilder,
+		AveragePageServerReadsMetricsBuilder,
+		MaxLogicalWritesMetricsBuilder,
+		MinLogicalWritesMetricsBuilder,
+		LastLogicalWritesMetricsBuilder,
+		AverageLogicalWritesMetricsBuilder,
+		MaxWorkerTimeMetricsBuilder,
+		MinWorkerTimeMetricsBuilder,
+		LastWorkerTimeMetricsBuilder,
+		AverageWorkerTimeMetricsBuilder,
+		MaxPageSpillsMetricsBuilder,
+		MinPageSpillsMetricsBuilder,
+		LastPageSpillsMetricsBuilder,
+		AveragePageSpillsMetricsBuilder
+	    }
+```
+
+and has to be generetable by StoredProcedureMetricsProviderFactoryMethod.
+
+For common approaches (average, max, min, last) generic implementations of IMetricBuilder are in place:
+For instances, if you want to compute some average value on a particular field of a PlanCacheItem you can use GenericAverageMetricsBuilder. Required arguments are the name of the metric an a property selector on PlanCacheItem.
+``` C#
+... = new GenericAverageMetricsBuilder("PhysicalReadsAverage", s => s.ExecutionStatistics.PhysicalReads.Total);
+```
