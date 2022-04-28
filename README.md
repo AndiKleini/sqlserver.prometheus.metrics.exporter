@@ -140,8 +140,8 @@ If you can read C# Code going through this integration test project give you a g
 By appsettings.json you can provide proper configuration settings:
 ```json
 {
-  "XEventPath": "MyXEventPath",
-  "XEventFileDispatchLatencySeconds": 30,
+  "XEventPath": "MyXEventPath", // specifies the path where XEvents are written by SQL Server instance, this value has to be aligned with the corresponding XEvent session
+  "XEventFileDispatchLatencySeconds": 30, // specifies the DispatchLatency for persisting XEvents into the file system, this values has to be aligned with the corresponding XEvent session
   "InitialFetchIntervalSeconds": 300,
   "ConnectionStrings": {
     "SqlServerToMonitor": "MySQLServerThatILoveMost"
