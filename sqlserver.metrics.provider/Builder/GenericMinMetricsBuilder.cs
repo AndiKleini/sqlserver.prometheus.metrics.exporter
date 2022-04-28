@@ -1,20 +1,21 @@
-﻿using System;
+﻿using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
-namespace SqlServer.Metrics.Provider.Builder
+namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class GenericMaxMetricsBuilder : IMetricsBuilder
+    public class GenericMinMetricsBuilder : IMetricsBuilder
     {
         private Func<PlanCacheItem, long> selector;
 
         public string MetricsName { get; private set; }
 
-        public GenericMaxMetricsBuilder(string metricsName, Expression<Func<PlanCacheItem, long>> selector)
+        public GenericMinMetricsBuilder(string metricsName, Func<PlanCacheItem, long> selector)
         {
             this.MetricsName = metricsName;
-            this.selector = selector.Compile();
+            this.selector = selector;
         }
 
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
@@ -22,7 +23,7 @@ namespace SqlServer.Metrics.Provider.Builder
             yield return new MetricItem()
             {
                 Name = $"{groupedPlanCacheItems.Key}_{this.MetricsName}",
-                Value = groupedPlanCacheItems.Max(this.selector)
+                Value = groupedPlanCacheItems.Min(this.selector)
             };
         }
     }

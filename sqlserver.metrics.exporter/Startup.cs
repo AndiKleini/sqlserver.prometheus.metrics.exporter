@@ -41,7 +41,8 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder,
                         BuilderTypes.LastElapsedTimeMetricsBuilder,
-                        BuilderTypes.MaxPhysicalReadsMetricsBuilder
+                        BuilderTypes.MaxPhysicalReadsMetricsBuilder,
+                        BuilderTypes.MinPhysicalReadsMetricsBuilder
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();

@@ -44,6 +44,11 @@ namespace SqlServer.Metrics.Provider
                         metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsMax", s => s.ExecutionStatistics.PhysicalReads.Max));
                         break;
                     }
+                    case BuilderTypes.MinPhysicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsMin", s => s.ExecutionStatistics.PhysicalReads.Min));
+                        break;
+                    }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);
