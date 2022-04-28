@@ -142,18 +142,18 @@ By appsettings.json you can provide proper configuration settings:
 {
   "XEventPath": "MyXEventPath", // specifies the path where XEvents are written by SQL Server instance, this value has to be aligned with the corresponding XEvent session
   "XEventFileDispatchLatencySeconds": 30, // specifies the DispatchLatency for persisting XEvents into the file system, this values has to be aligned with the corresponding XEvent session
-  "InitialFetchIntervalSeconds": 300,
+  "InitialFetchIntervalSeconds": 300, // specifies the size of the first fetch the application performs after it was launched
   "ConnectionStrings": {
-    "SqlServerToMonitor": "MySQLServerThatILoveMost"
+    "SqlServerToMonitor": "MySQLServerThatILoveMost" // connection string to the monitored SQL Server instance, selection of database (catalogue) is irrelevant
   },
-  "Logging": {
+  // ordinary serilog configuration 
+  "Logging": { 
     "LogLevel": {
       "Default": "Information",
       "Microsoft": "Warning",
       "Microsoft.Hosting.Lifetime": "Information"
     }
-  },
-  "AllowedHosts": "*"
+  }
 }
 ```
 
