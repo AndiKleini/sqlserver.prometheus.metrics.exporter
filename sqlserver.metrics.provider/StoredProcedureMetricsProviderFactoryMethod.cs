@@ -16,23 +16,23 @@ namespace SqlServer.Metrics.Provider
                 {
                     case BuilderTypes.AverageElapsedTimeMetricsBuilder:
                     {
-                            metricsBuilder.Include(new AverageElapsedTimeMetricsBuilder());
-                            break;
+                        metricsBuilder.Include(new AverageElapsedTimeMetricsBuilder());
+                        break;
                     }
                     case BuilderTypes.MaxElapsedTimeMetricsBuilder:
                     {
-                            metricsBuilder.Include(new MaxElapsedTimeMetricsBuilder());
-                            break;
+                        metricsBuilder.Include(new MaxElapsedTimeMetricsBuilder());
+                        break;
                     }
                     case BuilderTypes.MinElapsedTimeMetricsBuilder:
                     {
-                            metricsBuilder.Include(new MinElapsedTimeMetricsBuilder());
-                            break;
+                        metricsBuilder.Include(new MinElapsedTimeMetricsBuilder());
+                        break;
                     }
                     case BuilderTypes.ExecutionCountMetricsBuilder:
                     {
-                            metricsBuilder.Include(new ExecutionCountMetricsBuilder(@object));
-                            break;
+                        metricsBuilder.Include(new ExecutionCountMetricsBuilder(@object));
+                        break;
                     }
                     case BuilderTypes.LastElapsedTimeMetricsBuilder:
                     {
@@ -47,6 +47,11 @@ namespace SqlServer.Metrics.Provider
                     case BuilderTypes.MinPhysicalReadsMetricsBuilder:
                     {
                         metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsMin", s => s.ExecutionStatistics.PhysicalReads.Min));
+                        break;
+                    }
+                    case BuilderTypes.LastPhysicalReadsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PhysicalReadsLast", s => s.ExecutionStatistics.PhysicalReads.Last));
                         break;
                     }
                 }
