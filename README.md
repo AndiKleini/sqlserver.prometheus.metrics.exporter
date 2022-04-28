@@ -27,6 +27,18 @@ The average elapsed time, in microseconds, for completed executions of this stor
 ### Average Elapsed Time
 The last (youngest) elapsed time, in microseconds, of completed execution of this stored procedure.
 
+### Max Physical Reads
+The minimum number of physical reads that this stored procedure has ever performed during a single execution.
+
+### Min Physical Reads
+The minimum number of physical reads that this stored procedure has ever performed during a single execution.
+
+### Average Physical Reads
+The average number of physical reads that this stored procedure has performed during a single execution.
+
+### Last Physical Reads
+The number of physical reads performed the last time the stored procedure was executed.
+
 ### Execution Count
 Counts the number of executions between now an the last fetch.
 
