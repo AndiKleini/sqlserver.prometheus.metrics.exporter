@@ -120,8 +120,9 @@ The folder structur of the respository is given by:
 - SqlServer.Monitoring (DataBase Project)
 
 Choosen architecture style was hexagonal, where SqlServer.Metrics.Provider implements the CORE business logic. SqlServer.Metrics.Exporter, that also contains the hosting logic for the REST API, implements proper in/out- adapters. This clear separation from business and infrastructure was mainly influenced by TDD aspects and potential scenarios of reusability in differnt environments.
+Following figure illustrates it's hexagonal aspect.
 
-TODO: Picture of hexagonal architecture here
+![HaxagonalArchitecture](https://user-images.githubusercontent.com/10832740/165821223-791ae3c7-1f52-42ae-b474-24d233ab2234.PNG)
 
 ## Automated Integration Testing
 
