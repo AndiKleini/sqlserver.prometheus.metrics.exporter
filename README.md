@@ -123,7 +123,7 @@ Choosen architecture style was hexagonal, where SqlServer.Metrics.Provider imple
 
 TODO: Picture of hexagonal architecture here
 
-## Testing
+## Automated Integration Testing
 
 The project SqlServer.Metrics.Exporter.Integration.Tests provides fully automated test runs against some sql server instance. 
 For each test run a dedicated database will be created and dropped afterwards.
@@ -137,6 +137,25 @@ If you can read C# Code going through this integration test project give you a g
 
 ## Configuration
 
+By appsettings.json you can provide proper configuration settings:
+```json
+{
+  "XEventPath": "MyXEventPath",
+  "XEventFileDispatchLatencySeconds": 30,
+  "InitialFetchIntervalSeconds": 300,
+  "ConnectionStrings": {
+    "SqlServerToMonitor": "MySQLServerThatILoveMost"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}
+```
 
 
 ## Deployment
