@@ -86,7 +86,7 @@ Counts the number of executions between now an the last fetch.
 
 Please consider also documentation about managed view sys.dm_exec_procedure_stats
 https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql?view=sql-server-ver15.
-Some of the above mentioned metrics are similar to those provided by sys.dm_exec_procedure_stats, but there are slight differences one should be aware of. 
+Some of the above mentioned metrics are similar to those provided by sys.dm_exec_procedure_stats, but there are slight customizations one should be aware of. 
 
 ## Architecture
 
