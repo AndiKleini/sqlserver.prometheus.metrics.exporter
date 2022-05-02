@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SqlServer.metrics.provider\SqlServer.Metrics.Provider.csproj" />
+    <ProjectReference Include="..\sqlServer.metrics.provider\SqlServer.Metrics.Provider.csproj" />
   </ItemGroup>
 
 </Project>
