@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServer.Metrics.Provider"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BEC1146F-1E6B-4B11-8964-46BCF5F6594E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServer.Metrics.Exporter.Integration.Tests", "Sqlserver.Metrics.Exporter.Integration.Tests\SqlServer.Metrics.Exporter.Integration.Tests.csproj", "{3E8F943D-3757-4350-B4C1-933994F26576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServer.Metrics.Exporter.Integration.Tests", "sqlserver.metrics.exporter.integration.tests\SqlServer.Metrics.Exporter.Integration.Tests.csproj", "{3E8F943D-3757-4350-B4C1-933994F26576}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServer.Metrics.Exporter.Tests", "Sqlserver.Metrics.Exporter.Tests\SqlServer.Metrics.Exporter.Tests.csproj", "{6C39A630-8E21-4749-9B07-4D1E93CF8CB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServer.Metrics.Exporter.Tests", "sqlserver.metrics.exporter.tests\SqlServer.Metrics.Exporter.Tests.csproj", "{6C39A630-8E21-4749-9B07-4D1E93CF8CB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE4D0501-6A8C-4FA3-9984-5EE7519DF6D6}"
 	ProjectSection(SolutionItems) = preProject
