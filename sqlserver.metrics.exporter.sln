@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30803.129
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Exporter", "sqlserver.metrics.exporter\Sqlserver.Metrics.Exporter.csproj", "{7EDFB599-CD78-44F1-AE52-07444ED98AA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Provider", "sqlserver.metrics.provider\Sqlserver.Metrics.Provider.csproj", "{42D61FCE-EE4B-41A4-844E-01E9E4BBA3AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Provider", "sqlserver.metrics.provider\SqlServer.Metrics.Provider.csproj", "{42D61FCE-EE4B-41A4-844E-01E9E4BBA3AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BEC1146F-1E6B-4B11-8964-46BCF5F6594E}"
 EndProject
