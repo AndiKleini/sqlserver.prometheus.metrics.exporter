@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30803.129
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Exporter", "sqlserver.metrics.exporter\Sqlserver.Metrics.Exporter.csproj", "{7EDFB599-CD78-44F1-AE52-07444ED98AA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Exporter", "sqlserver.metrics.exporter\SqlServer.Metrics.Exporter.csproj", "{7EDFB599-CD78-44F1-AE52-07444ED98AA6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sqlserver.Metrics.Provider", "sqlserver.metrics.provider\SqlServer.Metrics.Provider.csproj", "{42D61FCE-EE4B-41A4-844E-01E9E4BBA3AC}"
 EndProject
