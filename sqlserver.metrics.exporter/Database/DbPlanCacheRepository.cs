@@ -4,10 +4,10 @@ using SqlServer.Metrics.Exporter.Database.Entities;
 using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace SqlServer.Metrics.Exporter.Database
 {
