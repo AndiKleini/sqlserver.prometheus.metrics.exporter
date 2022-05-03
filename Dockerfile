@@ -1,4 +1,8 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine as build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine as build
+ 
+RUN apk add icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ 
 WORKDIR /app
 COPY "sqlserver.metrics.exporter/SqlServer.Metrics.Exporter.csproj" "sqlserver.metrics.exporter/SqlServer.Metrics.Exporter.csproj"
 COPY "sqlserver.metrics.provider/SqlServer.Metrics.Provider.csproj" "sqlserver.metrics.provider/SqlServer.Metrics.Provider.csproj"
