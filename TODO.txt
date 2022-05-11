@@ -1,5 +1,7 @@
 Next Step: 
-
+	
+	Upgrade top .Net 6
+	Enable loading additional configuration from config folder (satisfy standard deployment)
 	Deliver no metrics at the first fetch
 	Logging
 	ExceptionHandling
