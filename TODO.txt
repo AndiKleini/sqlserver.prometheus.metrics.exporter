@@ -9,6 +9,7 @@ Next Step:
 	Verify the benefit of yield as there is only one occurance in a method.
 	PreviousPlanCacheItemStore could only store the execution count.
 	Handle Last execution Count in provider
+	Remove TrustServerCertificate=True from connection string for local host (https://docs.microsoft.com/en-us/answers/questions/663116/a-connection-was-successfully-established-with-the-1.html)
 	Fix TODOs in PlanCacheRepositoryAdapter.
 	Optimize script for extracting historical data so that DateAdd function is not calles in where clause
 	Fix issue: 
