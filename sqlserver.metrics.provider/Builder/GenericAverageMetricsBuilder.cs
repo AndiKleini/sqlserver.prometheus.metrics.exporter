@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Sqlserver.Metrics.Provider.Builder
 {
-    public class GenericAverageMetricsBuilder : IMetricsBuilder
+    public class GenericAverageMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         private Func<PlanCacheItem, long> selector;
 
@@ -22,7 +22,7 @@ namespace Sqlserver.Metrics.Provider.Builder
         {
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_{this.MetricsName}",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, this.MetricsName),
                 Value = groupedPlanCacheItems.Sum(this.selector)
                        /
                        groupedPlanCacheItems.Sum(p => p.ExecutionStatistics.GeneralStats.ExecutionCount)

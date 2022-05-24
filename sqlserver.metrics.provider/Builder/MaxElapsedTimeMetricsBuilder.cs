@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace SqlServer.Metrics.Provider.Builder
 {
-    public class MaxElapsedTimeMetricsBuilder : IMetricsBuilder
+    public class MaxElapsedTimeMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
         {
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_ElapsedTimeMax",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, "ElapsedTimeMax"),
                 Value = groupedPlanCacheItems.Max(p => p.ExecutionStatistics.ElapsedTime.Max)
             };
         }

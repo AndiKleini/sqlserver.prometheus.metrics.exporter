@@ -19,11 +19,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMax", maxElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {
@@ -55,11 +51,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeMax",
-                        Value = maxElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMax", maxElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {

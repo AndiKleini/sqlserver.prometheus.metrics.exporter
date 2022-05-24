@@ -1,12 +1,10 @@
-﻿using SqlServer.Metrics.Provider;
-using SqlServer.Metrics.Provider.Builder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Builder
+namespace SqlServer.Metrics.Provider.Builder
 {
-    public class GenericMinMetricsBuilder : IMetricsBuilder
+    public class GenericMinMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         private Func<PlanCacheItem, long> selector;
 
@@ -22,7 +20,7 @@ namespace Sqlserver.Metrics.Provider.Builder
         {
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_{this.MetricsName}",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, this.MetricsName),
                 Value = groupedPlanCacheItems.Min(this.selector)
             };
         }

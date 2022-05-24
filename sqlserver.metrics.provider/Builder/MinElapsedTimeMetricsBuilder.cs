@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace SqlServer.Metrics.Provider.Builder
 {
-    public class MinElapsedTimeMetricsBuilder : IMetricsBuilder
+    public class MinElapsedTimeMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         public IEnumerable<MetricItem> Build(IGrouping<string, PlanCacheItem> groupedPlanCacheItems)
         {
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_ElapsedTimeMin",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, "ElapsedTimeMin"),
                 Value = groupedPlanCacheItems.Min(p => p.ExecutionStatistics.ElapsedTime.Min)
             };
         }

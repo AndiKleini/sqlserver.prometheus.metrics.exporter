@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SqlServer.Metrics.Provider.Builder
 {
-    public class ExecutionCountMetricsBuilder : IMetricsBuilder
+    public class ExecutionCountMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         private IPreviousItemCache previousItemCache;
 
@@ -31,7 +31,7 @@ namespace SqlServer.Metrics.Provider.Builder
 
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_ExecutionCount",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, "ExecutionCount"),
                 Value = currentExecutionCount
             };
             previousItemCache.StorePreviousCacheItem(

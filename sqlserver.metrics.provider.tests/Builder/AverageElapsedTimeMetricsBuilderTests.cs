@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using SqlServer.Metrics.Provider.Builder;
-using SqlServer.Metrics.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,8 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
     [TestFixture]
     public class AverageElapsedTimeMetricsBuilderTests
     {
+        private const string METRIC_NAME = "AverageElapsedTime";
+
         [Test]
         public void Build_HistoricalAndCachedFiguresForElapsedTimeSupplied_ReturnsAverageElapsedTimeMetricItems()
         {
@@ -28,7 +29,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
                     elapsedTimeOfHistoricalItem1 +
                     elapsedTimeOfItemInCache +
                     elapsedTimeOfHistoricalItem2
-                ) 
+                )
                 /
                 (
                     executionCountHistorical1 +
@@ -38,11 +39,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_AverageElapsedTime",
-                        Value = averageElapsed
-                    }
+                  MetricItemFactoryMethod.GetMetricItem(storedProcedureName, METRIC_NAME, averageElapsed)
               };
 
             var groupedPlanCacheItems =
@@ -83,7 +80,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
 
             var result = instanceUnderTest.Build(groupedPlanCacheItems);
 
-            result.Should().BeEquivalentTo(expectedItems);
+            result.Should().BeEquivalentTo(expectedItems, options => options.Excluding(m => m.Name));
         }
     }
 }

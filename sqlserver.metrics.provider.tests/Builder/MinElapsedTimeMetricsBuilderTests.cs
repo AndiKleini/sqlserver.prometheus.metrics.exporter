@@ -19,11 +19,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeMin",
-                        Value = minElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMin", minElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {
@@ -55,11 +51,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeMin",
-                        Value = minElapsedTime
-                    }
+                   MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMin", minElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {

@@ -14,23 +14,13 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
         public void Build_WithRegisteredMetricsBuilder_Executed()
         {
             string storedProcedureName = "MySp";
-            int maxElapsedTime = 150;
-            int minElapsedTime = 10;
-            MetricItem maxMetricItem = new MetricItem()
-            {
-                Name = $"{storedProcedureName}_ElapsedTimeMax",
-                Value = maxElapsedTime
-            };
-            MetricItem minMetricItem = new MetricItem()
-            {
-                Name = $"{storedProcedureName}_ElapsedTimeMin",
-                Value = minElapsedTime
-            };
-            MetricItem executionCountMetricItem = new MetricItem() 
-            { 
-                Name = $"{storedProcedureName}_ExecutionCount",
-                Value = 23 
-            };
+            const int maxElapsedTime = 150;
+            const int minElapsedTime = 10;
+            const int executionCount = 23;
+            MetricItem maxMetricItem = MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMax", maxElapsedTime);
+            MetricItem minMetricItem = MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeMin", minElapsedTime);
+            MetricItem executionCountMetricItem = MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ExecutionCount", executionCount);
+            
             var elapsedTimeMayMockery = new Mock<IMetricsBuilder>();
             elapsedTimeMayMockery.Setup(s => s.Build(It.IsAny<IGrouping<string, PlanCacheItem>>()))
                 .Returns(new[] { maxMetricItem });

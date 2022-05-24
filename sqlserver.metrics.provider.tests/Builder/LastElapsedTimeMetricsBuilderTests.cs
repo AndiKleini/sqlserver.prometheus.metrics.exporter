@@ -2,11 +2,12 @@
 using NUnit.Framework;
 using Sqlserver.Metrics.Provider.Builder;
 using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Tests.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests.Builder
+namespace SqlServer.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
     public class LastElapsedTimeMetricsBuilderTests
@@ -19,11 +20,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeLast",
-                        Value = lastElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeLast", lastElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {
@@ -55,11 +52,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ElapsedTimeLast",
-                        Value = lastElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ElapsedTimeLast", lastElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {

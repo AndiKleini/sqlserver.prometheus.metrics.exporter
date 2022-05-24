@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace SqlServer.Metrics.Provider.Builder
 {
-    public class GenericMaxMetricsBuilder : IMetricsBuilder
+    public class GenericMaxMetricsBuilder : MetricsBuilderBase, IMetricsBuilder
     {
         private Func<PlanCacheItem, long> selector;
 
@@ -21,7 +21,7 @@ namespace SqlServer.Metrics.Provider.Builder
         {
             yield return new MetricItem()
             {
-                Name = $"{groupedPlanCacheItems.Key}_{this.MetricsName}",
+                Name = this.GetMetricsName(groupedPlanCacheItems.Key, this.MetricsName),
                 Value = groupedPlanCacheItems.Max(this.selector)
             };
         }

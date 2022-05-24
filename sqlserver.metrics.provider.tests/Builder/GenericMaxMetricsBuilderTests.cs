@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests.Builder
+namespace SqlServer.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
     public class GenericMaxMetricsBuilderTests
@@ -23,11 +23,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_{metricsName}",
-                        Value = maxElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, metricsName, maxElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {

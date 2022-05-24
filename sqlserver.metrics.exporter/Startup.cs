@@ -37,14 +37,23 @@ namespace SqlServer.metrics.exporter
                     new BuilderTypes[]
                     {
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,
-                        // BuilderTypes.ExecutionCountMetricsBuilder,
+                        BuilderTypes.ExecutionCountMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder,
                         BuilderTypes.LastElapsedTimeMetricsBuilder,
                         BuilderTypes.MaxPhysicalReadsMetricsBuilder,
                         BuilderTypes.MinPhysicalReadsMetricsBuilder,
                         BuilderTypes.LastPhysicalReadsMetricsBuilder,
-                        BuilderTypes.AveragePhysicalRreadsMetricsBuilder
+                        BuilderTypes.AveragePhysicalRreadsMetricsBuilder,
+                        BuilderTypes.AverageWorkerTimeMetricsBuilder,
+                        BuilderTypes.MaxWorkerTimeMetricsBuilder,
+                        BuilderTypes.MinWorkerTimeMetricsBuilder,
+                        BuilderTypes.MinPageServerReadsMetricsBuilder,
+                        BuilderTypes.MaxPageServerReadsMetricsBuilder,
+                        BuilderTypes.AveragePageServerReadsMetricsBuilder,
+                        BuilderTypes.MaxLogicalReadsMetricsBuilder,
+                        BuilderTypes.MinLogicalReadsMetricsBuilder,
+                        BuilderTypes.AverageLogicalRreadsMetricsBuilder,
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();

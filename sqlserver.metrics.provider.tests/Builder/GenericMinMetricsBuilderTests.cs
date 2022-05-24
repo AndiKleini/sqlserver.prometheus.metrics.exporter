@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Sqlserver.Metrics.Provider.Builder;
-using SqlServer.Metrics.Provider;
+using SqlServer.Metrics.Provider.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sqlserver.Metrics.Provider.Tests.Builder
+namespace SqlServer.Metrics.Provider.Tests.Builder
 {
     [TestFixture]
     public class GenericMinMetricsBuilderTests
@@ -23,11 +22,7 @@ namespace Sqlserver.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_{metricsName}",
-                        Value = minElapsedTime
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, metricsName, minElapsedTime)
               };
             var groupedPlanCacheItems =
                 (new List<PlanCacheItem>() {

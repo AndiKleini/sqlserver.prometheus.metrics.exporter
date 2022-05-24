@@ -46,11 +46,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ExecutionCount",
-                        Value = overallExecutions
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ExecutionCount", overallExecutions)
               };
 
             IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
@@ -134,11 +130,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             List<MetricItem> expectedItems =
               new List<MetricItem>()
               {
-                    new MetricItem()
-                    {
-                        Name = $"{storedProcedureName}_ExecutionCount",
-                        Value = overallExecutions
-                    }
+                    MetricItemFactoryMethod.GetMetricItem(storedProcedureName, "ExecutionCount", overallExecutions)
               };
 
             IEnumerable<MetricItem> result = instanceUnderTest.Build(groupedPlanCacheItems);
