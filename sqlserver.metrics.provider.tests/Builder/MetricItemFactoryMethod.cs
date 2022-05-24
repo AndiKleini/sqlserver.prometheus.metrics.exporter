@@ -1,4 +1,6 @@
-﻿namespace SqlServer.Metrics.Provider.Tests.Builder
+﻿using SqlServer.Metrics.Provider.Tests.Builder.Exposals;
+
+namespace SqlServer.Metrics.Provider.Tests.Builder
 {
     internal class MetricItemFactoryMethod
     {
@@ -6,7 +8,7 @@
         {
             return new MetricItem()
             {
-                Name = $"MSSQL_{metricName}{{\"storedprocedure={storedProcedureName}\"}}",
+                Name = new MetricBuilderBaseExposal().GetMetricsName(storedProcedureName, metricName),
                 Value = averageElapsed
             };
         }
