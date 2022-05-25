@@ -13,7 +13,7 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             const string ProcedureName = "myProc";
             const string MetricsName = "myMetrics";
             string metricsName = new MetricBuilderBaseExposal().GetMetricsName(ProcedureName, MetricsName);
-            metricsName.Should().Be($"MSSQL_{MetricsName}{{\"storedprocedure={ProcedureName}\"}}");
+            metricsName.Should().Be($"MSSQL_{MetricsName}{{storedprocedure=\"{ProcedureName}\"}}");
         }
     }
 }

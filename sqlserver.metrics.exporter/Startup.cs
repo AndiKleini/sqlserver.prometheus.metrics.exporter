@@ -37,7 +37,7 @@ namespace SqlServer.metrics.exporter
                     new BuilderTypes[]
                     {
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,
-                        BuilderTypes.ExecutionCountMetricsBuilder,
+                        //BuilderTypes.ExecutionCountMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder,
                         BuilderTypes.LastElapsedTimeMetricsBuilder,
