@@ -48,6 +48,7 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.AverageWorkerTimeMetricsBuilder,
                         BuilderTypes.MaxWorkerTimeMetricsBuilder,
                         BuilderTypes.MinWorkerTimeMetricsBuilder,
+                        BuilderTypes.LastWorkerTimeMetricsBuilder,
                         BuilderTypes.MinPageServerReadsMetricsBuilder,
                         BuilderTypes.MaxPageServerReadsMetricsBuilder,
                         BuilderTypes.AveragePageServerReadsMetricsBuilder,
