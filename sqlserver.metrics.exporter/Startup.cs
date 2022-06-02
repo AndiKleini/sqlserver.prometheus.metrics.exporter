@@ -36,25 +36,37 @@ namespace SqlServer.metrics.exporter
                     s.GetService<IPreviousItemCache>(),
                     new BuilderTypes[]
                     {
-                        BuilderTypes.AverageElapsedTimeMetricsBuilder,
                         //BuilderTypes.ExecutionCountMetricsBuilder,
+                        // Elapsed Time
+                        BuilderTypes.AverageElapsedTimeMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,
                         BuilderTypes.MinElapsedTimeMetricsBuilder,
                         BuilderTypes.LastElapsedTimeMetricsBuilder,
+                        // physical reads
                         BuilderTypes.MaxPhysicalReadsMetricsBuilder,
                         BuilderTypes.MinPhysicalReadsMetricsBuilder,
                         BuilderTypes.LastPhysicalReadsMetricsBuilder,
                         BuilderTypes.AveragePhysicalRreadsMetricsBuilder,
+                        // worker time
                         BuilderTypes.AverageWorkerTimeMetricsBuilder,
                         BuilderTypes.MaxWorkerTimeMetricsBuilder,
                         BuilderTypes.MinWorkerTimeMetricsBuilder,
                         BuilderTypes.LastWorkerTimeMetricsBuilder,
+                        // page server reads
                         BuilderTypes.MinPageServerReadsMetricsBuilder,
                         BuilderTypes.MaxPageServerReadsMetricsBuilder,
                         BuilderTypes.AveragePageServerReadsMetricsBuilder,
+                        BuilderTypes.LastPageServerReadsMetricsBuilder,
+                        // logical reads
                         BuilderTypes.MaxLogicalReadsMetricsBuilder,
                         BuilderTypes.MinLogicalReadsMetricsBuilder,
                         BuilderTypes.AverageLogicalRreadsMetricsBuilder,
+                        BuilderTypes.LastLogicalReadsMetricsBuilder,
+                        // logical writes
+                        BuilderTypes.MaxLogicalWritesMetricsBuilder,
+                        BuilderTypes.MinLogicalWritesMetricsBuilder,
+                        BuilderTypes.AverageLogicalWritesMetricsBuilder,
+                        BuilderTypes.LastLogicalWritesMetricsBuilder
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();
