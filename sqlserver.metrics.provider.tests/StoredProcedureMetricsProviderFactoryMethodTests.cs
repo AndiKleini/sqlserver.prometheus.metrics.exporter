@@ -48,12 +48,11 @@ namespace SqlServer.Metrics.Provider.Tests
                     BuilderTypes.MaxWorkerTimeMetricsBuilder,
                     BuilderTypes.MinWorkerTimeMetricsBuilder,
                     BuilderTypes.LastWorkerTimeMetricsBuilder,
-                    BuilderTypes.AverageWorkerTimeMetricsBuilder/*,
+                    BuilderTypes.AverageWorkerTimeMetricsBuilder,
                     BuilderTypes.MaxPageSpillsMetricsBuilder,
                     BuilderTypes.MinPageSpillsMetricsBuilder,
                     BuilderTypes.LastPageSpillsMetricsBuilder,
                     BuilderTypes.AveragePageSpillsMetricsBuilder
-                    */
                 };
             var repositoryCache = new Mock<IPlanCacheRepository>();
             var previousItemCache = new Mock<IPreviousItemCache>();
@@ -88,11 +87,11 @@ namespace SqlServer.Metrics.Provider.Tests
                     And.Contain(s => s.GetType() == typeof(GenericMaxMetricsBuilder) && ((GenericMaxMetricsBuilder)s).MetricsName == "WorkerTimeMax").
                     And.Contain(s => s.GetType() == typeof(GenericMinMetricsBuilder) && ((GenericMinMetricsBuilder)s).MetricsName == "WorkerTimeMin").
                     And.Contain(s => s.GetType() == typeof(GenericLastMetricsBuilder) && ((GenericLastMetricsBuilder)s).MetricsName == "WorkerTimeLast").
-                    And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "WorkerTimeAverage");
-                    //And.Contain(s => s.GetType() == typeof(GenericMaxMetricsBuilder) && ((GenericMaxMetricsBuilder)s).MetricsName == "PageSpillsMax").
-                    //And.Contain(s => s.GetType() == typeof(GenericMinMetricsBuilder) && ((GenericMinMetricsBuilder)s).MetricsName == "PageSpillsMin").
-                    //And.Contain(s => s.GetType() == typeof(GenericLastMetricsBuilder) && ((GenericLastMetricsBuilder)s).MetricsName == "PageSpillsLast").
-                    //And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "PageSpillsAverage");
+                    And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "WorkerTimeAverage").
+                    And.Contain(s => s.GetType() == typeof(GenericMaxMetricsBuilder) && ((GenericMaxMetricsBuilder)s).MetricsName == "PageSpillsMax").
+                    And.Contain(s => s.GetType() == typeof(GenericMinMetricsBuilder) && ((GenericMinMetricsBuilder)s).MetricsName == "PageSpillsMin").
+                    And.Contain(s => s.GetType() == typeof(GenericLastMetricsBuilder) && ((GenericLastMetricsBuilder)s).MetricsName == "PageSpillsLast").
+                    And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "PageSpillsAverage");
             }
         }
     }

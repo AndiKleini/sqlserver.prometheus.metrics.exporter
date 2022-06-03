@@ -17,7 +17,8 @@ namespace SqlServer.Metrics.Provider
 		public PhysicalReads PhysicalReads { get; set; }
 
 		public LogicalReads LogicalReads { get; set; }
-	}
+        public PageSpills PageSpills { get; set; }
+    }
 
 	public class GeneralStats
 	{
@@ -92,5 +93,13 @@ namespace SqlServer.Metrics.Provider
 		public long Min { get; set; }
 
 		public long Max { get; set; }
+	}
+
+	public class PageSpills
+	{
+		public long Last { get; set; }
+		public long Max { get; set; }
+		public long Min { get; set; }
+		public long Total { get; set; }
 	}
 }

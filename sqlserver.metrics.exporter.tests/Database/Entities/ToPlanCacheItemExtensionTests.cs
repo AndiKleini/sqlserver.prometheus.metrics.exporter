@@ -12,7 +12,7 @@ namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
     [TestFixture]
     public class ToPlanCacheItemExtensionTests
     {
-		[Test]
+        [Test]
         public void ToPlancCacheItem_GivenDbCacheItem_ReturnsCorrepondingPlanCacheItem()
         {
             DateTime cachedTime = DateTime.Now;
@@ -42,8 +42,13 @@ namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
 			const long maxWorkerTime = 56;
 			const long minWorkerTime = 23;
 			const long lastWorkerTime = 231;
-            const int objecId = 1234;
-			DbCacheItem dbCacheItem = 
+			const int totalPageSpills = 213;
+			const int lastPageSpills = 143;
+			const int minPageSpills = 567;
+			const int maxPageSpills = 897;
+			const int objecId = 1234;
+
+            DbCacheItem dbCacheItem = 
                 new DbCacheItem()
                 {
 					object_Id = objecId,
@@ -70,10 +75,10 @@ namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
 					last_logical_writes= lastLogicalWrites,
 					min_logical_writes= minLogicalWrites,
 					max_logical_writes= maxLogicalWrites,
-					total_spills= 123,
-					last_spills= 143,
-					min_spills= 567,
-					max_spills= 897,
+					total_spills= totalPageSpills,
+					last_spills= lastPageSpills,
+					min_spills= minPageSpills,
+					max_spills= maxPageSpills,
 					total_page_server_reads= totalPageReads,
 					last_page_server_reads= lastPageReads,
 					min_page_server_reads= minPageReads,
@@ -131,6 +136,13 @@ namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
 						Max = maxWorkerTime,
 						Min = minWorkerTime,
 						Total = totalWorkerTime
+					},
+					PageSpills = new Provider.PageSpills() 
+					{
+						Last = lastPageSpills,
+						Max = maxPageSpills,
+						Min = minPageSpills,
+						Total = totalPageSpills
 					}
 				}
 			};

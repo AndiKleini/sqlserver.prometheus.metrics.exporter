@@ -139,6 +139,26 @@ namespace SqlServer.Metrics.Provider
                         metricsBuilder.Include(new GenericAverageMetricsBuilder("WorkerTimeAverage", s => s.ExecutionStatistics.WorkerTime.Total));
                         break;
                     }
+                    case BuilderTypes.LastPageSpillsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericLastMetricsBuilder("PageSpillsLast", s => s.ExecutionStatistics.PageSpills.Last));
+                        break;
+                    }
+                    case BuilderTypes.MaxPageSpillsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMaxMetricsBuilder("PageSpillsMax", s => s.ExecutionStatistics.PageSpills.Max));
+                        break;
+                    }
+                    case BuilderTypes.MinPageSpillsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericMinMetricsBuilder("PageSpillsMin", s => s.ExecutionStatistics.PageSpills.Min));
+                        break;
+                    }
+                    case BuilderTypes.AveragePageSpillsMetricsBuilder:
+                    {
+                        metricsBuilder.Include(new GenericAverageMetricsBuilder("PageSpillsAverage", s => s.ExecutionStatistics.PageSpills.Total));
+                        break;
+                    }
                 }
             });
             return new StoredProcedureMetricsProvider(planCacheRepository, metricsBuilder);

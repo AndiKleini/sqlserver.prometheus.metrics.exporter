@@ -66,7 +66,12 @@ namespace SqlServer.metrics.exporter
                         BuilderTypes.MaxLogicalWritesMetricsBuilder,
                         BuilderTypes.MinLogicalWritesMetricsBuilder,
                         BuilderTypes.AverageLogicalWritesMetricsBuilder,
-                        BuilderTypes.LastLogicalWritesMetricsBuilder
+                        BuilderTypes.LastLogicalWritesMetricsBuilder,
+                        // page spills
+                        BuilderTypes.LastPageSpillsMetricsBuilder,
+                        BuilderTypes.MaxPageSpillsMetricsBuilder,
+                        BuilderTypes.MinPageSpillsMetricsBuilder,
+                        BuilderTypes.AveragePageSpillsMetricsBuilder
                      }));
             services.AddSingleton<ILogger>(s => new LoggerConfiguration().WriteTo.Console().CreateLogger());
             services.AddControllers();

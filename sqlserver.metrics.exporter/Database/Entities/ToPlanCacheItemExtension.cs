@@ -61,6 +61,13 @@ namespace SqlServer.Metrics.Exporter.Database.Entities
 						Max = dbCacheItem.max_worker_time,
 						Min = dbCacheItem.min_worker_time,
 						Total = dbCacheItem.total_worker_time
+					},
+					PageSpills = new Provider.PageSpills()
+                    {
+						Last = dbCacheItem.last_spills,
+						Max = dbCacheItem.max_spills,
+						Min = dbCacheItem.min_spills,
+						Total = dbCacheItem.total_spills
 					}
 				}
 			};
