@@ -158,7 +158,8 @@ namespace SqlServer.Metrics.Exporter.Database.Entities
 					Max = executionStatisticsXml.WorkerTime.Max,
 					Min = executionStatisticsXml.WorkerTime.Min,
 					Total = executionStatisticsXml.WorkerTime.Total
-				}
+				},
+				PageSpills = new Provider.PageSpills()
 			};
 		}
 	}

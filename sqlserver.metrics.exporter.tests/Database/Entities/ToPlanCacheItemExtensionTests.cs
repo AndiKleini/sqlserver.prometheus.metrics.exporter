@@ -283,7 +283,8 @@ namespace SqlServer.Metrics.Exporter.Tests.Database.Entities
 						Max = maxWorkerTime,
 						Min = minWorkerTime,
 						Total = totalWorkerTime
-					}
+					},
+					PageSpills = new PageSpills() { /* Page Spills will always be empty as these values are not included by the Extended Events XML.*/ }
 				}
 			};
 
