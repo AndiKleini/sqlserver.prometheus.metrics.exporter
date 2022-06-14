@@ -16,7 +16,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Controller
             DateTime includedHistoricalItemsUntil = DateTime.Now;
             string expected = $"CollectionRange: LastFetchTime {lastFetchTime}, IncludedHistoricalItemsUntil = {includedHistoricalItemsUntil}";
 
-            string stringifiedInstance = (new CollectionRange() { LastFetchTime = lastFetchTime, IncludedHistoricalItemsUntil = includedHistoricalItemsUntil }).ToString();
+            string stringifiedInstance = (new CollectionRange() { LastFetchTime = lastFetchTime, IncludedHistoricalItemsFrom = includedHistoricalItemsUntil }).ToString();
 
             stringifiedInstance.Should().Be(expected);
         }

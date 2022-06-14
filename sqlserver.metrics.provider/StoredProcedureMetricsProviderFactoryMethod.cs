@@ -7,7 +7,7 @@ namespace SqlServer.Metrics.Provider
 {
     public class StoredProcedureMetricsProviderFactoryMethod
     {
-        public static IStoredProcedureMetricsProvider Create(IPlanCacheRepository planCacheRepository, IPreviousItemCache @object, params BuilderTypes[] buildersInUse)
+        public static IStoredProcedureMetricsProvider Create(IPlanCacheRepository planCacheRepository, IPreviousItemCache previousItemCache, params BuilderTypes[] buildersInUse)
         {
             var metricsBuilder = new StandardMetricsBuilder();
             Array.ForEach(buildersInUse, b =>
@@ -31,7 +31,7 @@ namespace SqlServer.Metrics.Provider
                     }
                     case BuilderTypes.ExecutionCountMetricsBuilder:
                     {
-                        metricsBuilder.Include(new ExecutionCountMetricsBuilder(@object));
+                        metricsBuilder.Include(new ExecutionCountMetricsBuilder(previousItemCache));
                         break;
                     }
                     case BuilderTypes.LastElapsedTimeMetricsBuilder:
@@ -157,6 +157,11 @@ namespace SqlServer.Metrics.Provider
                     case BuilderTypes.AveragePageSpillsMetricsBuilder:
                     {
                         metricsBuilder.Include(new GenericAverageMetricsBuilder("PageSpillsAverage", s => s.ExecutionStatistics.PageSpills.Total));
+                        break;
+                    }
+                    case BuilderTypes.EstimatedExecutionCountBuilder:
+                    {
+                        metricsBuilder.Include(new EstimatedExecutionCountMetricsBuilder(previousItemCache));
                         break;
                     }
                 }

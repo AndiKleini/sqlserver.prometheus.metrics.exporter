@@ -30,6 +30,7 @@
         MaxPageSpillsMetricsBuilder,
         MinPageSpillsMetricsBuilder,
         LastPageSpillsMetricsBuilder,
-        AveragePageSpillsMetricsBuilder
+        AveragePageSpillsMetricsBuilder,
+        EstimatedExecutionCountBuilder
     }
 }

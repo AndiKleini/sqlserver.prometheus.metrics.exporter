@@ -25,6 +25,7 @@ namespace SqlServer.metrics.exporter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
+            services.AddSingleton<IPreviousItemCache>(new InMemoryPreviousItemCacheAdapter());
             services.AddSingleton<ILastFetchHistory>(new InMemoryLastFetchHistory());
             services.AddSingleton<IDbPlanCacheRepository>(s => new DbPlanCacheRepository(
                 s.GetService<IConfiguration>().GetConnectionString("SqlServerToMonitor"),
@@ -36,7 +37,8 @@ namespace SqlServer.metrics.exporter
                     s.GetService<IPreviousItemCache>(),
                     new BuilderTypes[]
                     {
-                        //BuilderTypes.ExecutionCountMetricsBuilder,
+                        BuilderTypes.EstimatedExecutionCountBuilder,
+                        // BuilderTypes.ExecutionCountMetricsBuilder,
                         // Elapsed Time
                         BuilderTypes.AverageElapsedTimeMetricsBuilder,
                         BuilderTypes.MaxElapsedTimeMetricsBuilder,

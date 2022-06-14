@@ -34,12 +34,12 @@ namespace SqlServer.Metrics.Exporter.Controllers
             var previousFetch = history.GetPreviousFetch();
             var collectRange = GetCollectionRangeFrom(previousFetch);
             this.logger.Information(collectRange.ToString());
-            var metricsResult = await this.metricsProvider.Collect(collectRange.LastFetchTime, collectRange.IncludedHistoricalItemsUntil);
+            var metricsResult = await this.metricsProvider.Collect(collectRange.LastFetchTime, collectRange.IncludedHistoricalItemsFrom);
             this.history.SetPreviousFetchTo(
                 new HistoricalFetch()
                 {
                     LastFetchTime = DateTime.Now,
-                    IncludedHistoricalItemsUntil = metricsResult.NewestHistoricalItemConsidered.GetValueOrDefault(DateTime.Now.AddSeconds(-30))
+                    IncludedHistoricalItemsFrom = metricsResult.NewestHistoricalItemConsidered.GetValueOrDefault(DateTime.Now.AddSeconds(-30))
                 });
             return previousFetch == null ?
                 String.Empty :
@@ -54,7 +54,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
                     return new CollectionRange()
                     {
                         LastFetchTime = DateTime.Now.AddMinutes(-5),
-                        IncludedHistoricalItemsUntil = DateTime.Now.AddMinutes(-5).AddSeconds(-30)
+                        IncludedHistoricalItemsFrom = DateTime.Now.AddMinutes(-5).AddSeconds(-30)
                     };
                 } 
                 else
@@ -62,7 +62,7 @@ namespace SqlServer.Metrics.Exporter.Controllers
                     return new CollectionRange()
                     {
                         LastFetchTime = previousFetch.LastFetchTime.Value,
-                        IncludedHistoricalItemsUntil = previousFetch.IncludedHistoricalItemsUntil.Value
+                        IncludedHistoricalItemsFrom = previousFetch.IncludedHistoricalItemsFrom.Value
                     };
                 }
             }

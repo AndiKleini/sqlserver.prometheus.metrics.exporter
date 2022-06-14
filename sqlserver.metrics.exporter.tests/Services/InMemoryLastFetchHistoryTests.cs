@@ -17,7 +17,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Services
         [Test]
         public void GetPreviousFetch_SetPreviousFetchToWasCalledBefore_ReturnsPreviousValues()
         {
-            HistoricalFetch previousFetch = new HistoricalFetch() { IncludedHistoricalItemsUntil = DateTime.Now, LastFetchTime = DateTime.Now };
+            HistoricalFetch previousFetch = new HistoricalFetch() { IncludedHistoricalItemsFrom = DateTime.Now, LastFetchTime = DateTime.Now };
             var instanceUnderTest = new InMemoryLastFetchHistory();
 
             instanceUnderTest.SetPreviousFetchTo(previousFetch);

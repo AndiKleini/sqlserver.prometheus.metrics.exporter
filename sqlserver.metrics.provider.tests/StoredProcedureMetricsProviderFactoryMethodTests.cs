@@ -52,7 +52,8 @@ namespace SqlServer.Metrics.Provider.Tests
                     BuilderTypes.MaxPageSpillsMetricsBuilder,
                     BuilderTypes.MinPageSpillsMetricsBuilder,
                     BuilderTypes.LastPageSpillsMetricsBuilder,
-                    BuilderTypes.AveragePageSpillsMetricsBuilder
+                    BuilderTypes.AveragePageSpillsMetricsBuilder,
+                    BuilderTypes.EstimatedExecutionCountBuilder
                 };
             var repositoryCache = new Mock<IPlanCacheRepository>();
             var previousItemCache = new Mock<IPreviousItemCache>();
@@ -91,7 +92,8 @@ namespace SqlServer.Metrics.Provider.Tests
                     And.Contain(s => s.GetType() == typeof(GenericMaxMetricsBuilder) && ((GenericMaxMetricsBuilder)s).MetricsName == "PageSpillsMax").
                     And.Contain(s => s.GetType() == typeof(GenericMinMetricsBuilder) && ((GenericMinMetricsBuilder)s).MetricsName == "PageSpillsMin").
                     And.Contain(s => s.GetType() == typeof(GenericLastMetricsBuilder) && ((GenericLastMetricsBuilder)s).MetricsName == "PageSpillsLast").
-                    And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "PageSpillsAverage");
+                    And.Contain(s => s.GetType() == typeof(GenericAverageMetricsBuilder) && ((GenericAverageMetricsBuilder)s).MetricsName == "PageSpillsAverage").
+                    And.Contain(s => s.GetType() == typeof(EstimatedExecutionCountMetricsBuilder));
             }
         }
     }
