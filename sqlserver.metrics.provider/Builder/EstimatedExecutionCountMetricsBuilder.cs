@@ -19,17 +19,17 @@ namespace SqlServer.Metrics.Provider
             PlanCacheItem previousCacheItem = this.previousItemCache.GetPreviousCacheItem(groupedPlanCacheItems.Key);
             PlanCacheItem currentPlanCacheItem = groupedPlanCacheItems.First();
             this.previousItemCache.StorePreviousCacheItem(groupedPlanCacheItems.Key, currentPlanCacheItem);
-            if (previousCacheItem == null)
+            if (IsFirstAttemptOrNoChangesOfExecutionCount(previousCacheItem, currentPlanCacheItem))
             {
                 yield break;
-            } 
+            }
             else
             {
                 yield return new MetricItem()
                 {
                     Name = this.GetMetricsName(groupedPlanCacheItems.Key, "EstimatedExecutionCount"),
                     Value = GetDifferenceIfPositiveOtherwiseCurrentValue(
-                        currentPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount, 
+                        currentPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount,
                         previousCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount)
                 };
             }
@@ -37,6 +37,11 @@ namespace SqlServer.Metrics.Provider
             long GetDifferenceIfPositiveOtherwiseCurrentValue(long currentExecutionCount, long previousExecutionCount)
             {
                 return currentExecutionCount > previousExecutionCount ? currentExecutionCount - previousExecutionCount : currentExecutionCount;
+            }
+
+            static bool IsFirstAttemptOrNoChangesOfExecutionCount(PlanCacheItem previousCacheItem, PlanCacheItem currentPlanCacheItem)
+            {
+                return previousCacheItem == null || currentPlanCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount == previousCacheItem.ExecutionStatistics.GeneralStats.ExecutionCount;
             }
         }
     }

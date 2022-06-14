@@ -114,5 +114,42 @@ namespace SqlServer.Metrics.Provider.Tests.Builder
             yield.Should().ContainEquivalentOf(expectedMetricItem);
             mockery.VerifyAll();
         }
+
+        [Test]
+        public void Build_PreviousPlanCacheItemSetAndCurrentPlanCacheItemWithEqualExecutionCount_EmitsNotMetrics()
+        {
+            const string spName = "somesp";
+            const int executionCount = 4;
+            PlanCacheItem planCacheItem = new PlanCacheItem()
+            {
+                RemovedFromCacheAt = null,
+                SpName = spName,
+                ExecutionStatistics = new ProcedureExecutionStatistics()
+                {
+                    GeneralStats = new GeneralStats() { ExecutionCount = executionCount }
+                }
+            };
+            PlanCacheItem previousPlanCacheItem = new PlanCacheItem()
+            {
+                RemovedFromCacheAt = null,
+                SpName = spName,
+                ExecutionStatistics = new ProcedureExecutionStatistics()
+                {
+                    GeneralStats = new GeneralStats() { ExecutionCount = executionCount }
+                }
+            };
+            Mock<IPreviousItemCache> mockery = new Mock<IPreviousItemCache>();
+            mockery.Setup(s => s.GetPreviousCacheItem(spName)).Returns(previousPlanCacheItem);
+            mockery.Setup(s => s.StorePreviousCacheItem(spName, planCacheItem));
+            IMetricsBuilder instanceUnderTest = new EstimatedExecutionCountMetricsBuilder(mockery.Object);
+
+            IGrouping<string, PlanCacheItem> groupedPlanCacheItem =
+                new List<PlanCacheItem>() { planCacheItem }.GroupBy(s => s.SpName).First();
+
+            var yield = instanceUnderTest.Build(groupedPlanCacheItem);
+
+            yield.Should().BeEmpty();
+            mockery.VerifyAll();
+        }
     }
 }
