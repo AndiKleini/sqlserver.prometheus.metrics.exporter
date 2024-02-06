@@ -18,7 +18,7 @@ The minimum elapsed time, in microseconds, for completed executions of this stor
 ### Average Elapsed Time
 The average elapsed time, in microseconds, for completed executions of this stored procedure.
 
-### Average Elapsed Time
+### Last Elapsed Time
 The last (youngest) elapsed time, in microseconds, of completed execution of this stored procedure.
 
 ### Max Physical Reads
