@@ -7,6 +7,34 @@ namespace SqlServer.Metrics.Exporter.Database.Entities
 {
     public static class ToPlanCacheItemExtension
     {
+	    private static readonly XmlSerializer SerializerRemovalStats;
+	    private static readonly XmlSerializer SerializerExecutionStats;
+
+	    static ToPlanCacheItemExtension()
+	    {
+		    var attributes = new XmlAttributes();
+		    attributes.Xmlns = false;
+		    var attributesOverrides = new XmlAttributeOverrides();
+		    attributesOverrides.Add(typeof(QueryCacheRemovalStatisticsXmlItem), attributes);
+		    SerializerRemovalStats = 
+			    new XmlSerializer(
+				    typeof(QueryCacheRemovalStatisticsXmlItem),
+				    attributesOverrides,
+				    null,
+				    new XmlRootAttribute("event"),
+				    null);
+		    
+		    var attributesOverridesExecutionStats = new XmlAttributeOverrides();
+		    attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatisticsXmlItem), attributes);
+		    SerializerExecutionStats = 
+			    new XmlSerializer(
+				    typeof(ProcedureExecutionStatisticsXmlItem),
+				    attributesOverridesExecutionStats,
+				    null,
+				    new XmlRootAttribute("ProcedureExecutionStats"),
+				    null);
+	    }
+	    
         public static PlanCacheItem ToPlanCacheItem(this DbCacheItem dbCacheItem)
         {
 			return new PlanCacheItem()
@@ -75,30 +103,12 @@ namespace SqlServer.Metrics.Exporter.Database.Entities
 
         public static PlanCacheItem ToPlanCacheItem(this DbHistoricalCacheItem dbHistoricalCacheItem)
         {
-			var attributes = new XmlAttributes();
-			attributes.Xmlns = false;
-			var attributesOverrides = new XmlAttributeOverrides();
-			attributesOverrides.Add(typeof(QueryCacheRemovalStatisticsXmlItem), attributes);
-			var serializerRemovalStats = 
-				new XmlSerializer(
-					typeof(QueryCacheRemovalStatisticsXmlItem),
-					attributesOverrides,
-					null,
-					new XmlRootAttribute("event"),
-					null);
+			
 			using var textReaderRemovalStats = new StringReader(dbHistoricalCacheItem.event_data);
-			var removalStatistics = (QueryCacheRemovalStatisticsXmlItem)serializerRemovalStats.Deserialize(textReaderRemovalStats);
-			var attributesOverridesExecutionStats = new XmlAttributeOverrides();
-			attributesOverridesExecutionStats.Add(typeof(ProcedureExecutionStatisticsXmlItem), attributes);
-			var serializerExecutionStats = 
-				new XmlSerializer(
-					typeof(ProcedureExecutionStatisticsXmlItem),
-					attributesOverridesExecutionStats,
-					null,
-					new XmlRootAttribute("ProcedureExecutionStats"),
-					null);
+			var removalStatistics = (QueryCacheRemovalStatisticsXmlItem)SerializerRemovalStats.Deserialize(textReaderRemovalStats);
+			
 			using var textReaderExecutionStats = new StringReader(removalStatistics.Data[7].Value);
-			var executionStatisticsXml = (ProcedureExecutionStatisticsXmlItem)serializerExecutionStats.Deserialize(textReaderExecutionStats);
+			var executionStatisticsXml = (ProcedureExecutionStatisticsXmlItem)SerializerExecutionStats.Deserialize(textReaderExecutionStats);
 			return new PlanCacheItem()
 			{
 				ExecutionStatistics = executionStatisticsXml.ToExecutionStatistics(),

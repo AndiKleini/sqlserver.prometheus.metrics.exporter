@@ -11,7 +11,7 @@ namespace Sqlserver.Metrics.Exporter.Tests.Services
         [Test]
         public void GetPreviousFetch_SetPreviousFetchToWasNotCalledBefore_ReturnsNull()
         {
-            Assert.IsNull(new InMemoryLastFetchHistory().GetPreviousFetch());
+            new InMemoryLastFetchHistory().GetPreviousFetch().Should().BeNull();
         }
 
         [Test]
