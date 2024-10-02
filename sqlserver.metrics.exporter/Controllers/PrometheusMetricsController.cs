@@ -38,8 +38,8 @@ namespace SqlServer.Metrics.Exporter.Controllers
             this.history.SetPreviousFetchTo(
                 new HistoricalFetch()
                 {
-                    LastFetchTime = DateTime.Now,
-                    IncludedHistoricalItemsFrom = metricsResult.NewestHistoricalItemConsidered.GetValueOrDefault(DateTime.Now.AddSeconds(-30))
+                    LastFetchTime = DateTime.UtcNow,
+                    IncludedHistoricalItemsFrom = metricsResult.NewestHistoricalItemConsidered.GetValueOrDefault(DateTime.UtcNow.AddSeconds(-30))
                 });
             return previousFetch == null ?
                 String.Empty :
@@ -53,8 +53,8 @@ namespace SqlServer.Metrics.Exporter.Controllers
                 {
                     return new CollectionRange()
                     {
-                        LastFetchTime = DateTime.Now.AddMinutes(-5),
-                        IncludedHistoricalItemsFrom = DateTime.Now.AddMinutes(-5).AddSeconds(-30)
+                        LastFetchTime = DateTime.UtcNow.AddMinutes(-5),
+                        IncludedHistoricalItemsFrom = DateTime.UtcNow.AddMinutes(-5).AddSeconds(-30)
                     };
                 } 
                 else

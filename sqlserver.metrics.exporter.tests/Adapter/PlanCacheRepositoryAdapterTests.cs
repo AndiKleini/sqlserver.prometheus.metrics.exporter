@@ -21,8 +21,8 @@ namespace Sqlserver.Metrics.Exporter.Tests.Adapter
             Mock<IDbPlanCacheRepository> planCacheRepositoryMockery = new Mock<IDbPlanCacheRepository>();
             const int objectIdSp1 = 1234;
             const int objectIdSp2 = 3456;
-            const string sp1Name = "myProcedure1";
-            const string sp2Name = "myProcedure2";
+            const string sp1Name = "myschema1.myProcedure1";
+            const string sp2Name = "myschema2.myProcedure2";
             DateTime includeHistoricalItemsFrom = DateTime.Now;
             DateTime collectMetricsFrom = DateTime.Now;
             Dictionary<int, string> lookup

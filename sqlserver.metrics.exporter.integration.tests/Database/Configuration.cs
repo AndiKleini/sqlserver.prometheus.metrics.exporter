@@ -2,8 +2,10 @@
 {
     public static class Configuration
     {
-        public const string ConnectionString = "Data Source=.;Initial Catalog=monitoringtesting;Integrated Security=True; Encrypt=false;";
-        public const string XEventPath = "C:\\temp\\*.xel";
+        public const string MasterDbConnectionString =
+            "Server=localhost;Database=master;User Id=<your user>;Password=<your password>; TrustServerCertificate=True;";
+        public const string ConnectionString = "Server=localhost;Database=monitoringtesting;Id=<your user>;Password=<your password>; TrustServerCertificate=True; ";
+        public const string XEventPath = "/tmp/*.xel*";
         public const string TestProcedureSchema = "metrics";
         public const string TestProcedureName = "doSomething1";
         public const string ScriptPath = "./Database/Scripts/";

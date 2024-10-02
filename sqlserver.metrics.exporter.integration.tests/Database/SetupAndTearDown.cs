@@ -21,7 +21,7 @@ namespace Sqlserver.Metrics.Exporter.Integration.Tests.Database
         private async Task ExecuteScript(string scriptFile)
         {
             string script = File.ReadAllText($"{Configuration.ScriptPath}{scriptFile}");
-            using var connection = new SqlConnection(TestConfig.MasterDbConnectionString);
+            using var connection = new SqlConnection(Configuration.MasterDbConnectionString);
             connection.Open();
             SqlCommand command = connection.CreateCommand();
             foreach (var batch in script.Split(new string[] { "GO", "go", "Go" }, System.StringSplitOptions.RemoveEmptyEntries))

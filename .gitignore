@@ -8,6 +8,9 @@
 *.exe
 *.jfm
 
+# Idea Rider
+.idea/
+
 # Build results
 
 [Dd]ebug/

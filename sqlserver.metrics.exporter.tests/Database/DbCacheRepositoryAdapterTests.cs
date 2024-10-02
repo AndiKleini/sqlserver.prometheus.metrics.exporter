@@ -17,8 +17,8 @@ namespace SqlServer.Metrics.Exporter.Tests.Database
     {
         private const int ObjectID_A = 1234;
         private const int ObjectID_B = 123434567;
-        private const string ProcedureName_A = "MySp_A";
-        private const string procedureName_B = "MySp_B";
+        private const string ProcedureName_A = "myschemaA.MySp_A";
+        private const string procedureName_B = "myschemaB.MySp_B";
         const int executionCount = 12;
         const int totalElapsed = 7867;
         const int lastElapsed = 71;

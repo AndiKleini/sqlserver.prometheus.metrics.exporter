@@ -36,7 +36,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
         public async Task GetCurrentPlanCache()
         {
             var instanceUnderTest = new DbPlanCacheRepository(Configuration.ConnectionString, Configuration.XEventPath);
-            DateTime from = DateTime.Now;
+            DateTime from = DateTime.UtcNow;
             CancellationTokenSource cancelTestProcedureExecutions = new CancellationTokenSource();
             var executeTestProcedureInBackground = 
                 new TaskFactory().StartNew(
@@ -48,7 +48,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
                         };
                     }, 
                     cancelTestProcedureExecutions.Token);
-
+            
             List<PlanCacheItem> items = await instanceUnderTest.GetCurrentPlanCache(from);
 
             cancelTestProcedureExecutions.Cancel();
@@ -62,7 +62,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
             await this.ExecuteStoredProceduresToFillUpCache();
             await ClearAndWaitForCacheRemoveXEvent(MaxDispatchLatency);
             const int DispatchLatencyOffset = 2;
-            DateTime from = DateTime.Now.AddSeconds(- MaxDispatchLatency - DispatchLatencyOffset);
+            DateTime from = DateTime.UtcNow.AddSeconds(- MaxDispatchLatency - DispatchLatencyOffset);
 
             List<PlanCacheItem> items = await instanceUnderTest.GetHistoricalPlanCache(from);
 
@@ -76,7 +76,7 @@ namespace SqlServer.Metrics.Exporter.Integration.Tests.Database
 
             var items = await instanceUnderTest.GetObjectIdAndProcedureNames();
 
-            items.Should().ContainValue(Configuration.TestProcedureName);
+            items.Should().ContainValue($"{Configuration.TestProcedureSchema}.{Configuration.TestProcedureName}");
         }
 
         private async Task ExecuteStoredProceduresToFillUpCache()

@@ -87,12 +87,12 @@ namespace SqlServer.Metrics.Exporter.Tests.Controller
         [Test]
         public async Task GetMetrics_NewestHistoricalItemConsideredNull_SetsNewestHistoricalItemConsideredToMaxDispatchLatency()
         {
-            HistoricalFetch previousFetch = new HistoricalFetch() { LastFetchTime = DateTime.Now.AddMinutes(-5), IncludedHistoricalItemsFrom = DateTime.Now.AddMinutes(-6) };
+            HistoricalFetch previousFetch = new HistoricalFetch() { LastFetchTime = DateTime.UtcNow.AddMinutes(-5), IncludedHistoricalItemsFrom = DateTime.UtcNow.AddMinutes(-6) };
             var providerMock = new Mock<IStoredProcedureMetricsProvider>();
             List<MetricItem> yieldMetricItems = new List<MetricItem>();
             DateTime? includedHistoricalItemUntilReturned = null;
             const int maximumDispatchLatency = -30;
-            DateTime? includedHistoricalItemUntilCalculated = DateTime.Now.AddSeconds(maximumDispatchLatency);
+            DateTime? includedHistoricalItemUntilCalculated = DateTime.UtcNow.AddSeconds(maximumDispatchLatency);
             HistoricalFetch historicalFetchSupplied = null;
             providerMock.Setup(
                 s => s.Collect(previousFetch.LastFetchTime.Value, previousFetch.IncludedHistoricalItemsFrom.Value)).

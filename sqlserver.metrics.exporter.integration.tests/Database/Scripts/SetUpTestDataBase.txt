@@ -38,7 +38,7 @@ GO
 create event session [RemovedFromPlanCache] on server
 add event sqlserver.query_cache_removal_statistics(
     where ([compiled_object_type]='Stored Procedure'))
-add target package0.event_file(SET filename=N'C:\temp\ExtendedEvents.xel, max_rollover_files=(0)')
+add target package0.event_file(SET filename=N'/tmp/ExtendedEvents.xel, max_rollover_files=(0)')
 WITH 
 (
 	MAX_MEMORY=4096 KB,
